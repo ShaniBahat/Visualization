@@ -68,7 +68,7 @@ else:
     
 
 
-data = pd.read_csv('survey lung cancer.csv')
+data = pd.read_csv('survey_lung_cancer.csv')
 
 # Check if the symptom columns exist
 symptom_columns = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FATIGUE ',
