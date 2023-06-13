@@ -66,36 +66,51 @@ else:
     
     
     
-# Define the symptom columns
-symptom_columns = [
-    'YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FATIGUE ', 'ALLERGY ', 'WHEEZING',
-    'COUGHING', 'SHORTNESS OF BREATH', 'SWALLOWING DIFFICULTY', 'CHEST PAIN'
-]
 
-# Map symptom values to appropriate labels
-symptom_labels = {
-    1: 'No',
-    2: 'Yes'
+    
+    
+    
+# Define the symptom columns and their corresponding values
+symptom_columns = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FATIGUE ', 'ALLERGY ', 'WHEEZING',
+                   'COUGHING', 'SHORTNESS OF BREATH', 'SWALLOWING DIFFICULTY', 'CHEST PAIN']
+
+symptom_values = {
+    'YELLOW_FINGERS': {1: 'No', 2: 'Yes'},
+    'ANXIETY': {1: 'No', 2: 'Yes'},
+    'PEER_PRESSURE': {1: 'No', 2: 'Yes'},
+    'CHRONIC DISEASE': {1: 'No', 2: 'Yes'},
+    'FATIGUE ': {1: 'No', 2: 'Yes'},
+    'ALLERGY ': {1: 'No', 2: 'Yes'},
+    'WHEEZING': {1: 'No', 2: 'Yes'},
+    'COUGHING': {1: 'No', 2: 'Yes'},
+    'SHORTNESS OF BREATH': {1: 'No', 2: 'Yes'},
+    'SWALLOWING DIFFICULTY': {1: 'No', 2: 'Yes'},
+    'CHEST PAIN': {1: 'No', 2: 'Yes'}
 }
-for column in symptom_columns:
-    data[column] = data[column].map(symptom_labels)
 
 # Prepare the data for the graph
-graph_data = data.melt(id_vars='SMOKING', value_vars=symptom_columns, var_name='Symptom', value_name='Symptom Value')
-graph_data['Symptom Count'] = graph_data.groupby(['SMOKING', 'Symptom'])['Symptom'].transform('count')
+graph_data = data[symptom_columns + ['SMOKING']].replace(symptom_values).melt(
+    id_vars='SMOKING',
+    value_vars=symptom_columns,
+    var_name='Symptom',
+    value_name='Symptom Status'
+).groupby(['Symptom', 'Symptom Status', 'SMOKING']).size().reset_index(name='Count')
 
 # Create the interactive graph
 st.title('Distribution of Symptom Counts by Smoking Status')
 
-color_scale = alt.Scale(domain=['No', 'Yes'], range=['#678282', '#23D1D1'])
+color_scale = alt.Scale(domain=['Non-Smoker', 'Smoker'], range=['#23D1D1', '#678282'])
 
 chart = alt.Chart(graph_data).mark_bar().encode(
-    x=alt.X('Symptom Count:Q', title='Symptom Count'),
-    y=alt.Y('count()', title='Number of Patients'),
+    x='Symptom Status:N',
+    y='Count:Q',
     color=alt.Color('SMOKING:N', scale=color_scale),
-    column='Symptom:N',
-    tooltip=['Symptom', 'SMOKING', 'Symptom Count', 'count()']
-).interactive()
+    column='Symptom:N'
+).properties(
+    width=200,
+    height=300
+)
 
 # Display the graph
 st.altair_chart(chart, use_container_width=True)
+
