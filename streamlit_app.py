@@ -76,8 +76,6 @@ symptom_columns = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEAS
                    'CHEST PAIN']
 missing_symptoms = [col for col in symptom_columns if col not in data.columns]
 
-data[symptom_columns] = data[symptom_columns].replace(symptom_labels)
-
 # Calculate the symptom count for each patient
 data['Symptom Count'] = data[symptom_columns].apply(lambda x: x.eq(2).sum(), axis=1)
 data['SMOKING'] = data['SMOKING'].map({1: 'Non-Smoker', 2: 'Smoker'})
