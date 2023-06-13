@@ -20,34 +20,51 @@ else:
 
     # Create the interactive graph
     st.title('Lung Cancer Cases')
-    show_both = st.checkbox('Show Smoker and Non-Smoker')
+    show_smoker = st.checkbox('Show Smoker Trend Line', value=True)
+    show_non_smoker = st.checkbox('Show Non-Smoker Trend Line', value=True)
 
-    if show_both:
-        chart = alt.Chart(graph_data).mark_circle().encode(
-            x='Age Group',
-            y='Number of Cases',
-            color='SMOKING:N',
-            tooltip=['Age Group', 'Number of Cases']
-        ).interactive()
-    else:
-        smoker_or_non_smoker = st.radio('Select Smoker or Non-Smoker:', ['Smoker', 'Non-Smoker'])
-        filtered_data = graph_data[graph_data['SMOKING'] == smoker_or_non_smoker]
-
-        chart = alt.Chart(filtered_data).mark_circle().encode(
-            x='Age Group',
-            y='Number of Cases',
-            tooltip=['Age Group', 'Number of Cases']
-        ).interactive()
-
-    # Add trend lines
-    trend_line = alt.Chart(graph_data).mark_line().encode(
+    chart = alt.Chart(graph_data).mark_circle().encode(
         x='Age Group',
         y='Number of Cases',
-        color='SMOKING:N'
-    )
+        color='SMOKING:N',
+        tooltip=['Age Group', 'Number of Cases']
+    ).interactive()
 
-    # Combine the chart and trend line
-    combined_chart = chart + trend_line
+    trend_line_smoker = alt.Chart(graph_data[graph_data['SMOKING'] == 'Smoker']).mark_line(color='red').encode(
+        x='Age Group',
+        y='Number of Cases',
+    ).transform_filter(
+        alt.FieldOneOfPredicate(field='SMOKING', oneOf=['Smoker'])
+    ).transform_window(
+        rolling_mean='mean(Number of Cases)',
+        frame=[-2, 2]
+    ).mark_line(color='red')
+
+    trend_line_non_smoker = alt.Chart(graph_data[graph_data['SMOKING'] == 'Non-Smoker']).mark_line(color='blue').encode(
+        x='Age Group',
+        y='Number of Cases',
+    ).transform_filter(
+        alt.FieldOneOfPredicate(field='SMOKING', oneOf=['Non-Smoker'])
+    ).transform_window(
+        rolling_mean='mean(Number of Cases)',
+        frame=[-2, 2]
+    ).mark_line(color='blue')
+
+    combined_chart = chart + \
+        alt.Chart(graph_data).transform_filter(
+            alt.FieldOneOfPredicate(field='SMOKING', oneOf=['Smoker'])
+        ).mark_line().encode(
+            x='Age Group',
+            y='Number of Cases',
+            color=alt.condition(show_smoker, alt.value('red'), alt.value('red', opacity=0))
+        ) + \
+        alt.Chart(graph_data).transform_filter(
+            alt.FieldOneOfPredicate(field='SMOKING', oneOf=['Non-Smoker'])
+        ).mark_line().encode(
+            x='Age Group',
+            y='Number of Cases',
+            color=alt.condition(show_non_smoker, alt.value('blue'), alt.value('blue', opacity=0))
+        )
 
     # Display the graph
     st.altair_chart(combined_chart, use_container_width=True)
