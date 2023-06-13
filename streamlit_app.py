@@ -69,7 +69,9 @@ else:
 
     
     
-    
+# Load the data
+data = pd.read_csv('survey_lung_cancer.csv')
+
 # Define the symptom columns and their corresponding values
 symptom_columns = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FATIGUE ', 'ALLERGY ', 'WHEEZING',
                    'COUGHING', 'SHORTNESS OF BREATH', 'SWALLOWING DIFFICULTY', 'CHEST PAIN']
@@ -88,13 +90,11 @@ symptom_values = {
     'CHEST PAIN': {1: 'No', 2: 'Yes'}
 }
 
+# Calculate the number of symptoms for each patient
+data['Num Symptoms'] = data[symptom_columns].apply(lambda x: x.value_counts()[2], axis=1)
+
 # Prepare the data for the graph
-graph_data = data[symptom_columns + ['SMOKING']].replace(symptom_values).melt(
-    id_vars='SMOKING',
-    value_vars=symptom_columns,
-    var_name='Symptom',
-    value_name='Symptom Status'
-).groupby(['Symptom', 'Symptom Status', 'SMOKING']).size().reset_index(name='Count')
+graph_data = data.groupby(['Num Symptoms', 'SMOKING']).size().reset_index(name='Count')
 
 # Create the interactive graph
 st.title('Distribution of Symptom Counts by Smoking Status')
@@ -102,15 +102,13 @@ st.title('Distribution of Symptom Counts by Smoking Status')
 color_scale = alt.Scale(domain=['Non-Smoker', 'Smoker'], range=['#23D1D1', '#678282'])
 
 chart = alt.Chart(graph_data).mark_bar().encode(
-    x='Symptom Status:N',
+    x='Num Symptoms:Q',
     y='Count:Q',
-    color=alt.Color('SMOKING:N', scale=color_scale),
-    column='Symptom:N'
+    color=alt.Color('SMOKING:N', scale=color_scale)
 ).properties(
-    width=200,
-    height=300
+    width=600,
+    height=400
 )
 
 # Display the graph
 st.altair_chart(chart, use_container_width=True)
-
