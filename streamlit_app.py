@@ -32,10 +32,9 @@ else:
         color='SMOKING:N',
         tooltip=['Age Group', 'Number of Cases'],
         opacity=alt.condition(
-            alt.FieldOneOfPredicate(field='SMOKING', oneOf=['Smoker']) & show_smoker |
-            alt.FieldOneOfPredicate(field='SMOKING', oneOf=['Non-Smoker']) & show_non_smoker,
-            alt.value(1),
-            alt.value(0)
+            alt.datum['SMOKING'] == 'Smoker',
+            alt.value(1) if show_smoker else alt.value(0),
+            alt.value(1) if show_non_smoker else alt.value(0)
         )
     ).interactive()
 
