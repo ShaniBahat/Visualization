@@ -49,9 +49,14 @@ else:
 
     # Add trend lines
     trend_data = pd.DataFrame({'x': range(len(counts)), 'y': counts.values})
-    trend_line = alt.Chart(trend_data).mark_line(opacity=alt.condition(show_smoker & show_non_smoker, 1.0, 0.0)).encode(
+    trend_line = alt.Chart(trend_data).mark_line().encode(
         x='x',
-        y='y'
+        y='y',
+        opacity=alt.condition(
+            alt.datum.y > 0,
+            alt.value(1.0),
+            alt.value(0.0)
+        )
     )
 
     # Combine the chart and trend line
