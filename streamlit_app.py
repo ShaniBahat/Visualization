@@ -3,7 +3,7 @@ import pandas as pd
 import altair as alt
 
 # Load the data
-data = pd.read_csv('lung_cancer_data.csv')
+data = pd.read_csv('survey_lung_cancer.csv')
 
 # Define the age bins
 age_bins = [30, 40, 50, 60, 70, 80, 90]
