@@ -107,8 +107,7 @@ chart = alt.Chart(graph_data).mark_bar().encode(
 ).properties(
     width=alt.Step(60)  # Adjust the width of each bar
 ).facet(
-    column='SMOKING:N',
-    header=alt.Header(title=None)
+    column='SMOKING:N'
 ).resolve_scale(x='independent')
 
 # Display the graph
