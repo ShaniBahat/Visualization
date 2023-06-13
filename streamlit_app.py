@@ -103,6 +103,5 @@ opacity=alt.condition(
     alt.value(1) if show_non_smoker else alt.value(0)
 )
 ).interactive()
-
-    # Display the graph
-    st.altair_chart(chart, use_container_width=True)
+# Display the graph
+st.altair_chart(chart, use_container_width=True)
