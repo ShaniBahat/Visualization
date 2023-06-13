@@ -93,8 +93,8 @@ symptom_values = {
 data['Num Symptoms'] = data[symptom_columns].apply(lambda x: x.value_counts().get(2, 0), axis=1)
 
 # Prepare the data for the graph
-graph_data = data.groupby(['Num Symptoms', 'SMOKING']).size().reset_index(name='Count')
-patient_data = data.groupby(['Num Symptoms', 'SMOKING'])['AGE'].nunique().reset_index(name='Num Patients')
+graph_data = data.groupby(['Num Symptoms', 'SMOKING']).agg({'LUNG_CANCER': 'count'}).reset_index()
+graph_data.rename(columns={'LUNG_CANCER': 'Patient Count'}, inplace=True)
 
 # Create the interactive graph
 st.title('Distribution of Symptom Counts by Smoking Status')
@@ -103,22 +103,13 @@ color_scale = alt.Scale(domain=['Non-Smoker', 'Smoker'], range=['#23D1D1', '#678
 
 chart = alt.Chart(graph_data).mark_bar().encode(
     x=alt.X('Num Symptoms:Q', title='Number of Symptoms'),
-    y=alt.Y('Count:Q', title='Count'),
+    y=alt.Y('Patient Count:Q', title='Patient Count'),
     color=alt.Color('SMOKING:N', scale=color_scale),
-    tooltip=['Count', 'Num Symptoms', 'SMOKING']
+    column='SMOKING:N'
 ).properties(
-    width=600,
+    width=250,
     height=400
 )
 
-patient_chart = alt.Chart(patient_data).mark_bar().encode(
-    x='Num Symptoms:Q',
-    y='Num Patients:Q',
-    color=alt.Color('SMOKING:N', scale=color_scale),
-    tooltip=['Num Patients', 'Num Symptoms', 'SMOKING']
-)
-
-combined_chart = alt.layer(chart, patient_chart).resolve_scale(y='independent')
-
 # Display the graph
-st.altair_chart(combined_chart, use_container_width=True)
+st.altair_chart(chart, use_container_width=True)
