@@ -56,14 +56,14 @@ else:
     combined_chart = chart + \
         alt.Chart(graph_data).transform_filter(
             alt.FieldOneOfPredicate(field='SMOKING', oneOf=['Smoker'])
-        ).mark_line(opacity=alt.condition(show_smoker, 1, 0)).encode(
+        ).mark_line(opacity=int(show_smoker)).encode(
             x='Age Group',
             y='Number of Cases',
             color='SMOKING:N'
         ) + \
         alt.Chart(graph_data).transform_filter(
             alt.FieldOneOfPredicate(field='SMOKING', oneOf=['Non-Smoker'])
-        ).mark_line(opacity=alt.condition(show_non_smoker, 1, 0)).encode(
+        ).mark_line(opacity=int(show_non_smoker)).encode(
             x='Age Group',
             y='Number of Cases',
             color='SMOKING:N'
