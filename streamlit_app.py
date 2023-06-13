@@ -70,7 +70,6 @@ else:
     
 
 
-
 # Load the data
 data = pd.read_csv('survey_lung_cancer.csv')
 
@@ -89,6 +88,7 @@ graph_data = data.groupby(['Symptom Count', 'SMOKING']).size().reset_index(name=
 
 # Create the interactive graph
 st.title('Distribution of Symptom Counts by Smoking Status')
+
 show_smoker = st.checkbox('Show Smoker', value=True, key='smoker_checkbox')
 show_non_smoker = st.checkbox('Show Non-Smoker', value=True, key='non_smoker_checkbox')
 
@@ -106,9 +106,9 @@ chart = alt.Chart(graph_data).mark_bar().encode(
     )
 ).properties(
     width=alt.Step(60)  # Adjust the width of each bar
-).facet(
-    column='SMOKING:N'
-).resolve_scale(x='independent')
+).transform_filter(
+    alt.datum['SMOKING'].isin(['Smoker', 'Non-Smoker'])
+)
 
 # Display the graph
 st.altair_chart(chart, use_container_width=True)
