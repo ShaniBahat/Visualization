@@ -5,7 +5,7 @@ import altair as alt
 st.title('Visualization of information - Final Project')
 
 # Load the data into a pandas DataFrame
-df = pd.read_csv('/content/survey_lung_cancer.csv')
+df = pd.read_csv('survey_lung_cancer.csv')
 
 # Filter data for lung cancer cases
 filtered_data = df[df['LUNG_CANCER'] == 'YES']
