@@ -59,3 +59,4 @@ else:
 
     # Display the graph
     st.altair_chart(combined_chart, use_container_width=True)
+    
