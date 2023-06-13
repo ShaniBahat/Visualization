@@ -26,7 +26,7 @@ else:
     show_smoker = st.checkbox('Smoker', value=True)
     show_non_smoker = st.checkbox('Non-Smoker', value=True)
 
-    color_scale = alt.Scale(domain=['Smoker', 'Non-Smoker'], range=['#678282', '#7EEAEA'])
+    color_scale = alt.Scale(domain=['Smoker', 'Non-Smoker'], range=['#678282', '#23D1D1'])
 
     chart = alt.Chart(graph_data).mark_circle().encode(
         x='Age Group',
@@ -49,14 +49,14 @@ else:
         frame=[-2, 2]
     ).mark_line(color='#678282')
 
-    trend_line_non_smoker = alt.Chart(graph_data[graph_data['SMOKING'] == 'Non-Smoker']).mark_line(color='#7EEAEA').encode(
+    trend_line_non_smoker = alt.Chart(graph_data[graph_data['SMOKING'] == 'Non-Smoker']).mark_line(color='#23D1D1').encode(
         x='Age Group',
         y='Number of Cases',
         opacity=alt.value(1) if show_non_smoker else alt.value(0)
     ).transform_window(
         rolling_mean='mean(Number of Cases)',
         frame=[-2, 2]
-    ).mark_line(color='#7EEAEA')
+    ).mark_line(color='23D1D1')
 
     combined_chart = chart + trend_line_smoker + trend_line_non_smoker
 
