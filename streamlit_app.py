@@ -66,50 +66,40 @@ else:
 
 
     
-    
-    
+
 # Load the data
 data = pd.read_csv('survey_lung_cancer.csv')
 
-# Define the symptom columns and their corresponding values
-symptom_columns = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FATIGUE ', 'ALLERGY ', 'WHEEZING',
-                   'COUGHING', 'SHORTNESS OF BREATH', 'SWALLOWING DIFFICULTY', 'CHEST PAIN']
+# Check if the symptom columns exist
+symptom_columns = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FATIGUE',
+                   'ALLERGY', 'WHEEZING', 'COUGHING', 'SHORTNESS OF BREATH', 'SWALLOWING DIFFICULTY', 'CHEST PAIN']
 
-symptom_values = {
-    'YELLOW_FINGERS': {1: 'No', 2: 'Yes'},
-    'ANXIETY': {1: 'No', 2: 'Yes'},
-    'PEER_PRESSURE': {1: 'No', 2: 'Yes'},
-    'CHRONIC DISEASE': {1: 'No', 2: 'Yes'},
-    'FATIGUE ': {1: 'No', 2: 'Yes'},
-    'ALLERGY ': {1: 'No', 2: 'Yes'},
-    'WHEEZING': {1: 'No', 2: 'Yes'},
-    'COUGHING': {1: 'No', 2: 'Yes'},
-    'SHORTNESS OF BREATH': {1: 'No', 2: 'Yes'},
-    'SWALLOWING DIFFICULTY': {1: 'No', 2: 'Yes'},
-    'CHEST PAIN': {1: 'No', 2: 'Yes'}
-}
+missing_columns = [col for col in symptom_columns if col not in data.columns]
+if missing_columns:
+    st.error(f"The following symptom columns are missing in the dataset: {', '.join(missing_columns)}")
+else:
+    # Map symptom values to appropriate labels
+    symptom_mapping = {1: 'No', 2: 'Yes'}
+    data[symptom_columns] = data[symptom_columns].replace(symptom_mapping)
 
-# Calculate the number of symptoms for each patient
-data['Num Symptoms'] = data[symptom_columns].apply(lambda x: x.value_counts().get(2, 0), axis=1)
+    # Calculate symptom counts per person
+    data['Symptom Count'] = data[symptom_columns].apply(lambda x: x.value_counts().get('Yes', 0), axis=1)
 
-# Prepare the data for the graph
-graph_data = data.groupby(['Num Symptoms', 'SMOKING']).agg({'LUNG_CANCER': 'count'}).reset_index()
-graph_data.rename(columns={'LUNG_CANCER': 'Patient Count'}, inplace=True)
+    # Group data by smoking status and symptom count
+    graph_data = data.groupby(['SMOKING', 'Symptom Count']).size().reset_index(name='Number of People')
 
-# Create the interactive graph
-st.title('Distribution of Symptom Counts by Smoking Status')
+    # Create the interactive graph
+    st.title('Distribution of Symptom Counts by Smoking Status')
 
-color_scale = alt.Scale(domain=['Non-Smoker', 'Smoker'], range=['#23D1D1', '#678282'])
+    color_scale = alt.Scale(domain=['Non-Smoker', 'Smoker'], range=['#23D1D1', '#678282'])
 
-chart = alt.Chart(graph_data).mark_bar().encode(
-    x=alt.X('Num Symptoms:Q', title='Number of Symptoms'),
-    y=alt.Y('Patient Count:Q', title='Patient Count'),
-    color=alt.Color('SMOKING:N', scale=color_scale),
-    column='SMOKING:N'
-).properties(
-    width=250,
-    height=400
-)
+    chart = alt.Chart(graph_data).mark_bar().encode(
+        x='Symptom Count:Q',
+        y='Number of People:Q',
+        color=alt.Color('SMOKING:N', scale=color_scale),
+        column=alt.Column('SMOKING:N', header=alt.Header(title='Smoking Status')),
+        tooltip=['SMOKING', 'Symptom Count', 'Number of People']
+    ).interactive()
 
-# Display the graph
-st.altair_chart(chart, use_container_width=True)
+    # Display the graph
+    st.altair_chart(chart, use_container_width=True)
