@@ -26,46 +26,34 @@ else:
     show_smoker = st.checkbox('Show Smoker Trend Line', value=True)
     show_non_smoker = st.checkbox('Show Non-Smoker Trend Line', value=True)
 
-    # Filter the data based on the checkboxes
-    filtered_data = graph_data[
-        (graph_data['SMOKING'] == 'Smoker') if show_smoker else (graph_data['SMOKING'] != 'Smoker')
-    ]
-
-    chart = alt.Chart(filtered_data).mark_circle().encode(
+    chart = alt.Chart(graph_data).mark_circle().encode(
         x='Age Group',
         y='Number of Cases',
         color='SMOKING:N',
-        tooltip=['Age Group', 'Number of Cases']
+        tooltip=['Age Group', 'Number of Cases'],
+        opacity=alt.condition(
+            alt.FieldOneOfPredicate(field='SMOKING', oneOf=['Smoker']) & show_smoker |
+            alt.FieldOneOfPredicate(field='SMOKING', oneOf=['Non-Smoker']) & show_non_smoker,
+            alt.value(1),
+            alt.value(0)
+        )
     ).interactive()
 
-    # Calculate the rolling mean for trend lines
-    rolling_mean_data = filtered_data.groupby('SMOKING')['Number of Cases'].transform(lambda x: x.rolling(window=5).mean())
-
-    trend_line_smoker = alt.Chart(filtered_data).mark_line(color='red').encode(
+    trend_line_smoker = alt.Chart(graph_data[graph_data['SMOKING'] == 'Smoker']).mark_line(color='red').encode(
         x='Age Group',
-        y=alt.Y('Number of Cases', title='Number of Cases', scale=alt.Scale(zero=False)),
-        opacity=alt.value(int(show_smoker)),
-        detail='SMOKING:N'
-    ).transform_filter(
-        alt.FieldOneOfPredicate(field='SMOKING', oneOf=['Smoker'])
-    ).transform_calculate(
-        rolling_mean='datum.Number of Cases - datum.Number of Cases % 2 + 1'
+        y='Number of Cases',
+        opacity=alt.value(1) if show_smoker else alt.value(0)
     ).transform_window(
-        rolling_mean='mean(rolling_mean)',
+        rolling_mean='mean(Number of Cases)',
         frame=[-2, 2]
     ).mark_line(color='red')
 
-    trend_line_non_smoker = alt.Chart(filtered_data).mark_line(color='blue').encode(
+    trend_line_non_smoker = alt.Chart(graph_data[graph_data['SMOKING'] == 'Non-Smoker']).mark_line(color='blue').encode(
         x='Age Group',
-        y=alt.Y('Number of Cases', title='Number of Cases', scale=alt.Scale(zero=False)),
-        opacity=alt.value(int(show_non_smoker)),
-        detail='SMOKING:N'
-    ).transform_filter(
-        alt.FieldOneOfPredicate(field='SMOKING', oneOf=['Non-Smoker'])
-    ).transform_calculate(
-        rolling_mean='datum.Number of Cases - datum.Number of Cases % 2 + 1'
+        y='Number of Cases',
+        opacity=alt.value(1) if show_non_smoker else alt.value(0)
     ).transform_window(
-        rolling_mean='mean(rolling_mean)',
+        rolling_mean='mean(Number of Cases)',
         frame=[-2, 2]
     ).mark_line(color='blue')
 
