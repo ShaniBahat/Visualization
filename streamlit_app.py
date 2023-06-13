@@ -25,12 +25,15 @@ else:
     st.title('Lung Cancer Cases')
     show_smoker = st.checkbox('Show Smoker Trend Line', value=True)
     show_non_smoker = st.checkbox('Show Non-Smoker Trend Line', value=True)
-    show_points = st.checkbox('Show Points', value=True)
 
     chart = alt.Chart(graph_data).mark_circle().encode(
         x='Age Group',
         y='Number of Cases',
-        color='SMOKING:N',
+        color=alt.condition(
+            alt.datum.SMOKING == 'Smoker',
+            alt.value('red'),
+            alt.value('blue')
+        ),
         tooltip=['Age Group', 'Number of Cases']
     ).interactive()
 
@@ -55,13 +58,10 @@ else:
     ).mark_line(color='blue')
 
     combined_chart = chart
-    if show_smoker:
-        combined_chart += trend_line_smoker
-    if show_non_smoker:
-        combined_chart += trend_line_non_smoker
-
-    if not show_points:
-        combined_chart = combined_chart.encode(size=alt.value(0))
+    if not show_smoker:
+        combined_chart -= trend_line_smoker
+    if not show_non_smoker:
+        combined_chart -= trend_line_non_smoker
 
     # Display the graph
     st.altair_chart(combined_chart, use_container_width=True)
