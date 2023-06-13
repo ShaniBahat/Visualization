@@ -67,8 +67,8 @@ else:
 
     
 
-# Load the data
-data = pd.read_csv('survey_lung_cancer.csv')
+
+data = pd.read_csv('survey lung cancer.csv')
 
 # Check if the symptom columns exist
 symptom_columns = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FATIGUE ',
@@ -76,40 +76,33 @@ symptom_columns = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEAS
                    'CHEST PAIN']
 missing_symptoms = [col for col in symptom_columns if col not in data.columns]
 
-if missing_symptoms:
-    st.error(f"The following symptom columns are missing in the dataset: {', '.join(missing_symptoms)}")
-else:
-    # Map symptom values to appropriate labels
-    symptom_labels = {
-        '1': 'No',
-        '2': 'Yes'
-    }
-    data[symptom_columns] = data[symptom_columns].replace(symptom_labels)
+data[symptom_columns] = data[symptom_columns].replace(symptom_labels)
 
-    # Calculate the symptom count for each patient
-    data['Symptom Count'] = data[symptom_columns].apply(lambda x: x.eq('Yes').sum(), axis=1)
+# Calculate the symptom count for each patient
+data['Symptom Count'] = data[symptom_columns].apply(lambda x: x.eq(2).sum(), axis=1)
+data['SMOKING'] = data['SMOKING'].map({1: 'Non-Smoker', 2: 'Smoker'})
 
-    # Prepare the data for the graph
-    graph_data = data.groupby(['Symptom Count', 'SMOKING']).size().reset_index(name='Number of People')
+# Prepare the data for the graph
+graph_data = data.groupby(['Symptom Count', 'SMOKING']).size().reset_index(name='Number of People')
 
-    # Create the interactive graph
-    st.title('Distribution of Symptom Counts by Smoking Status')
-    show_smoker = st.checkbox('Show Smoker', value=True)
-    show_non_smoker = st.checkbox('Show Non-Smoker', value=True)
+# Create the interactive graph
+st.title('Distribution of Symptom Counts by Smoking Status')
+show_smoker = st.checkbox('Show Smoker', value=True)
+show_non_smoker = st.checkbox('Show Non-Smoker', value=True)
 
-    color_scale = alt.Scale(domain=['Smoker', 'Non-Smoker'], range=['#678282', '#23D1D1'])
+color_scale = alt.Scale(domain=['Smoker', 'Non-Smoker'], range=['#678282', '#23D1D1'])
 
-    chart = alt.Chart(graph_data).mark_bar().encode(
-        x='Symptom Count:Q',
-        y='Number of People:Q',
-        color=alt.Color('SMOKING:N', scale=color_scale),
-        tooltip=['Symptom Count', 'Number of People'],
-        opacity=alt.condition(
-            alt.datum['SMOKING'] == 'Smoker',
-            alt.value(1) if show_smoker else alt.value(0),
-            alt.value(1) if show_non_smoker else alt.value(0)
-        )
-    ).interactive()
+chart = alt.Chart(graph_data).mark_bar().encode(
+x='Symptom Count:Q',
+y='Number of People:Q',
+color=alt.Color('SMOKING:N', scale=color_scale),
+tooltip=['Symptom Count', 'Number of People'],
+opacity=alt.condition(
+    alt.datum['SMOKING'] == 'Smoker',
+    alt.value(1) if show_smoker else alt.value(0),
+    alt.value(1) if show_non_smoker else alt.value(0)
+)
+).interactive()
 
     # Display the graph
     st.altair_chart(chart, use_container_width=True)
