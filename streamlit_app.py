@@ -30,7 +30,7 @@ else:
         tooltip=['Age Group', 'Number of Cases']
     ).interactive()
 
-    trend_line_smoker = alt.Chart(graph_data[graph_data['SMOKING'] == 'Smoker']).mark_line(color='red').encode(
+    trend_line_smoker = alt.Chart(graph_data[graph_data['SMOKING'] == 2]).mark_line(color='red').encode(
         x='Age Group',
         y='Number of Cases',
     ).transform_filter(
@@ -40,7 +40,7 @@ else:
         frame=[-2, 2]
     ).mark_line(color='red')
 
-    trend_line_non_smoker = alt.Chart(graph_data[graph_data['SMOKING'] == 'Non-Smoker']).mark_line(color='blue').encode(
+    trend_line_non_smoker = alt.Chart(graph_data[graph_data['SMOKING'] == 1]).mark_line(color='blue').encode(
         x='Age Group',
         y='Number of Cases',
     ).transform_filter(
