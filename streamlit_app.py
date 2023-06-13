@@ -102,7 +102,7 @@ st.title('Distribution of Symptom Counts by Smoking Status')
 color_scale = alt.Scale(domain=['Non-Smoker', 'Smoker'], range=['#23D1D1', '#678282'])
 
 chart = alt.Chart(graph_data).mark_bar().encode(
-    x='Num Symptoms:Q',
+    x='Num Symptoms:O',
     y='Count:Q',
     color=alt.Color('SMOKING:N', scale=color_scale)
 ).properties(
@@ -112,3 +112,4 @@ chart = alt.Chart(graph_data).mark_bar().encode(
 
 # Display the graph
 st.altair_chart(chart, use_container_width=True)
+
