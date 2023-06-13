@@ -67,10 +67,6 @@ else:
 
     
 
-import streamlit as st
-import pandas as pd
-import altair as alt
-
 # Load the data
 data = pd.read_csv('survey_lung_cancer.csv')
 
@@ -95,16 +91,17 @@ show_non_smoker = st.checkbox('Show Non-Smoker', value=True, key='non_smoker_che
 color_scale = alt.Scale(domain=['Smoker', 'Non-Smoker'], range=['#678282', '#23D1D1'])
 
 chart = alt.Chart(graph_data).mark_bar().encode(
-    x=alt.X('Symptom Count:O', axis=alt.Axis(title='Number of Symptoms'), scale=alt.Scale(paddingInner=0)),
+    x=alt.X('Symptom Count:O', axis=alt.Axis(title='Symptom Count'), sort=alt.EncodingSortField(field='Symptom Count', order='ascending')),
     y='Number of People:Q',
     color=alt.Color('SMOKING:N', scale=color_scale),
+    column=alt.Column('SMOKING:N', header=alt.Header(labelOrient='bottom', title=None)),
     tooltip=['Symptom Count', 'Number of People'],
     opacity=alt.condition(
         alt.datum['SMOKING'] == 'Smoker',
         alt.value(1) if show_smoker else alt.value(0),
         alt.value(1) if show_non_smoker else alt.value(0)
     )
-).properties(width=400)
+).interactive()
 
 # Display the graph
 st.altair_chart(chart, use_container_width=True)
