@@ -15,6 +15,9 @@ else:
     # Create a new column to categorize ages into bins
     data['Age Group'] = pd.cut(data['AGE'], bins=age_bins, labels=['31-40', '41-50', '51-60', '61-70', '71-80', '81-90'])
 
+    # Map smoking values to appropriate labels
+    data['SMOKING'] = data['SMOKING'].map({1: 'Non-Smoker', 2: 'Smoker'})
+
     # Prepare the data for the graph
     graph_data = data.groupby(['Age Group', 'SMOKING']).size().reset_index(name='Number of Cases')
 
@@ -30,7 +33,7 @@ else:
         tooltip=['Age Group', 'Number of Cases']
     ).interactive()
 
-    trend_line_smoker = alt.Chart(graph_data[graph_data['SMOKING'] == 2]).mark_line(color='red').encode(
+    trend_line_smoker = alt.Chart(graph_data[graph_data['SMOKING'] == 'Smoker']).mark_line(color='red').encode(
         x='Age Group',
         y='Number of Cases',
     ).transform_filter(
@@ -40,7 +43,7 @@ else:
         frame=[-2, 2]
     ).mark_line(color='red')
 
-    trend_line_non_smoker = alt.Chart(graph_data[graph_data['SMOKING'] == 1]).mark_line(color='blue').encode(
+    trend_line_non_smoker = alt.Chart(graph_data[graph_data['SMOKING'] == 'Non-Smoker']).mark_line(color='blue').encode(
         x='Age Group',
         y='Number of Cases',
     ).transform_filter(
@@ -53,17 +56,17 @@ else:
     combined_chart = chart + \
         alt.Chart(graph_data).transform_filter(
             alt.FieldOneOfPredicate(field='SMOKING', oneOf=['Smoker'])
-        ).mark_line().encode(
+        ).mark_line(opacity=alt.condition(show_smoker, 1, 0)).encode(
             x='Age Group',
             y='Number of Cases',
-            color=alt.condition(show_smoker, alt.value('red'), alt.value('red', opacity=0))
+            color='SMOKING:N'
         ) + \
         alt.Chart(graph_data).transform_filter(
             alt.FieldOneOfPredicate(field='SMOKING', oneOf=['Non-Smoker'])
-        ).mark_line().encode(
+        ).mark_line(opacity=alt.condition(show_non_smoker, 1, 0)).encode(
             x='Age Group',
             y='Number of Cases',
-            color=alt.condition(show_non_smoker, alt.value('blue'), alt.value('blue', opacity=0))
+            color='SMOKING:N'
         )
 
     # Display the graph
