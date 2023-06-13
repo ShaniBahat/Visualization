@@ -56,7 +56,7 @@ else:
     ).transform_window(
         rolling_mean='mean(Number of Cases)',
         frame=[-2, 2]
-    ).mark_line(color='23D1D1')
+    ).mark_line(color='#23D1D1')
 
     combined_chart = chart + trend_line_smoker + trend_line_non_smoker
 
