@@ -91,9 +91,10 @@ show_non_smoker = st.checkbox('Show Non-Smoker', value=True, key='non_smoker_che
 color_scale = alt.Scale(domain=['Smoker', 'Non-Smoker'], range=['#678282', '#23D1D1'])
 
 chart = alt.Chart(graph_data).mark_bar().encode(
-    x='Symptom Count:Q',
-    y='Number of People:Q',
+    x=alt.X('Symptom Count:Q', axis=alt.Axis(title='Number of Symptoms')),
+    y=alt.Y('Number of People:Q', axis=alt.Axis(title='Number of People')),
     color=alt.Color('SMOKING:N', scale=color_scale),
+    column=alt.Column('SMOKING:N', title='Smoking Status'),
     tooltip=['Symptom Count', 'Number of People'],
     opacity=alt.condition(
         alt.datum['SMOKING'] == 'Smoker',
