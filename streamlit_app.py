@@ -25,42 +25,40 @@ else:
 
     # Create the interactive graph
     st.title('Lung Cancer Cases')
-    show_smoker = st.checkbox('Show Smoker', value=True)
-    show_non_smoker = st.checkbox('Show Non-Smoker', value=True)
+    show_smoker = st.checkbox('Show Smoker')
+    show_non_smoker = st.checkbox('Show Non-Smoker')
 
     if show_smoker and show_non_smoker:
-        counts = smoker_counts + non_smoker_counts
+        counts = pd.concat([smoker_counts, non_smoker_counts], axis=1).fillna(0)
+        counts.columns = ['Smoker', 'Non-Smoker']
     elif show_smoker:
         counts = smoker_counts
     elif show_non_smoker:
         counts = non_smoker_counts
     else:
-        counts = pd.Series()
+        st.warning("Please select at least one category to display.")
 
-    # Prepare the data for the graph
-    graph_data = pd.DataFrame({'Age Group': counts.index, 'Number of Cases': counts.values})
+    if show_smoker or show_non_smoker:
+        # Prepare the data for the graph
+        graph_data = pd.DataFrame({'Age Group': counts.index, 'Number of Cases': counts.sum(axis=1)})
 
-    # Create the graph using Altair
-    chart = alt.Chart(graph_data).mark_circle().encode(
-        x='Age Group',
-        y='Number of Cases',
-        tooltip=['Age Group', 'Number of Cases']
-    ).interactive()
+        # Create the graph using Altair
+        chart = alt.Chart(graph_data).mark_circle().encode(
+            x='Age Group',
+            y='Number of Cases',
+            color=alt.condition(show_smoker, alt.value('blue'), alt.value('red')),
+            tooltip=['Age Group', 'Number of Cases']
+        ).interactive()
 
-    # Add trend lines
-    trend_data = pd.DataFrame({'x': range(len(counts)), 'y': counts.values})
-    trend_line = alt.Chart(trend_data).mark_line().encode(
-        x='x',
-        y='y',
-        opacity=alt.condition(
-            alt.datum.y > 0,
-            alt.value(1.0),
-            alt.value(0.0)
+        # Add trend lines
+        trend_data = pd.DataFrame({'x': range(len(counts)), 'y': counts.sum(axis=1)})
+        trend_line = alt.Chart(trend_data).mark_line(color='black').encode(
+            x='x',
+            y='y'
         )
-    )
 
-    # Combine the chart and trend line
-    combined_chart = chart + trend_line
+        # Combine the chart and trend line
+        combined_chart = chart + trend_line
 
-    # Display the graph
-    st.altair_chart(combined_chart, use_container_width=True)
+        # Display the graph
+        st.altair_chart(combined_chart, use_container_width=True)
