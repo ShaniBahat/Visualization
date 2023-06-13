@@ -87,8 +87,8 @@ graph_data = data.groupby(['Symptom Count', 'SMOKING']).size().reset_index(name=
 
 # Create the interactive graph
 st.title('Distribution of Symptom Counts by Smoking Status')
-show_smoker = st.checkbox('Show Smoker', value=True)
-show_non_smoker = st.checkbox('Show Non-Smoker', value=True)
+show_smoker = st.checkbox('Smoker', value=True)
+show_non_smoker = st.checkbox('Non-Smoker', value=True)
 
 color_scale = alt.Scale(domain=['Smoker', 'Non-Smoker'], range=['#678282', '#23D1D1'])
 
