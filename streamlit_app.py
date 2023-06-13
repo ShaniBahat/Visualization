@@ -23,10 +23,10 @@ else:
 
     # Create the interactive graph
     st.title('Lung Cancer Cases')
-    show_smoker = st.checkbox('Show Smoker Trend Line', value=True)
-    show_non_smoker = st.checkbox('Show Non-Smoker Trend Line', value=True)
+    show_smoker = st.checkbox('Smoker', value=True)
+    show_non_smoker = st.checkbox('Non-Smoker', value=True)
 
-    color_scale = alt.Scale(domain=['Smoker', 'Non-Smoker'], range=['red', 'blue'])
+    color_scale = alt.Scale(domain=['Smoker', 'Non-Smoker'], range=['1AAAA2', '87F6EF'])
 
     chart = alt.Chart(graph_data).mark_circle().encode(
         x='Age Group',
@@ -40,7 +40,7 @@ else:
         )
     ).interactive()
 
-    trend_line_smoker = alt.Chart(graph_data[graph_data['SMOKING'] == 'Smoker']).mark_line(color='red').encode(
+    trend_line_smoker = alt.Chart(graph_data[graph_data['SMOKING'] == 'Smoker']).mark_line(color='1AAAA2').encode(
         x='Age Group',
         y='Number of Cases',
         opacity=alt.value(1) if show_smoker else alt.value(0)
@@ -49,7 +49,7 @@ else:
         frame=[-2, 2]
     ).mark_line(color='red')
 
-    trend_line_non_smoker = alt.Chart(graph_data[graph_data['SMOKING'] == 'Non-Smoker']).mark_line(color='blue').encode(
+    trend_line_non_smoker = alt.Chart(graph_data[graph_data['SMOKING'] == 'Non-Smoker']).mark_line(color='87F6EF').encode(
         x='Age Group',
         y='Number of Cases',
         opacity=alt.value(1) if show_non_smoker else alt.value(0)
