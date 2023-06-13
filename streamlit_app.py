@@ -67,16 +67,12 @@ else:
 
     
 
-import streamlit as st
-import pandas as pd
-import altair as alt
-
 # Load the data
 data = pd.read_csv('survey_lung_cancer.csv')
 
 # Check if the symptom columns exist
-symptom_columns = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FATIGUE ',
-                   'ALLERGY ', 'WHEEZING', 'COUGHING', 'SHORTNESS OF BREATH', 'SWALLOWING DIFFICULTY',
+symptom_columns = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FATIGUE',
+                   'ALLERGY', 'WHEEZING', 'COUGHING', 'SHORTNESS OF BREATH', 'SWALLOWING DIFFICULTY',
                    'CHEST PAIN']
 missing_symptoms = [col for col in symptom_columns if col not in data.columns]
 
@@ -91,7 +87,7 @@ else:
     data[symptom_columns] = data[symptom_columns].replace(symptom_labels)
 
     # Calculate the symptom count for each patient
-    data['Symptom Count'] = data[symptom_columns].apply(lambda x: x.value_counts().get('Yes', 0), axis=1)
+    data['Symptom Count'] = data[symptom_columns].apply(lambda x: x.eq('Yes').sum(), axis=1)
 
     # Prepare the data for the graph
     graph_data = data.groupby(['Symptom Count', 'SMOKING']).size().reset_index(name='Number of People')
