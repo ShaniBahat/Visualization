@@ -26,10 +26,12 @@ else:
     show_smoker = st.checkbox('Show Smoker Trend Line', value=True)
     show_non_smoker = st.checkbox('Show Non-Smoker Trend Line', value=True)
 
+    color_scale = alt.Scale(domain=['Smoker', 'Non-Smoker'], range=['red', 'blue'])
+
     chart = alt.Chart(graph_data).mark_circle().encode(
         x='Age Group',
         y='Number of Cases',
-        color='SMOKING:N',
+        color=alt.Color('SMOKING:N', scale=color_scale),
         tooltip=['Age Group', 'Number of Cases'],
         opacity=alt.condition(
             alt.datum['SMOKING'] == 'Smoker',
