@@ -5,9 +5,9 @@ import altair as alt
 # Load the data
 data = pd.read_csv('survey_lung_cancer.csv')
 
-# Check if the 'AGE' column exists
+# Check if the 'Age' column exists
 if 'AGE' not in data.columns:
-    st.error("The 'AGE' column is not present in the dataset.")
+    st.error("The 'Age' column is not present in the dataset.")
 else:
     # Define the age bins
     age_bins = [30, 40, 50, 60, 70, 80, 90]
@@ -15,46 +15,45 @@ else:
     # Create a new column to categorize ages into bins
     data['Age Group'] = pd.cut(data['AGE'], bins=age_bins, labels=['31-40', '41-50', '51-60', '61-70', '71-80', '81-90'])
 
-    # Filter the data for smoker and non-smoker
-    smoker_data = data[data['SMOKING'] == 2]
-    non_smoker_data = data[data['SMOKING'] == 1]
-
-    # Count the number of cases for each age group and smoker category
-    smoker_counts = smoker_data['Age Group'].value_counts().sort_index()
-    non_smoker_counts = non_smoker_data['Age Group'].value_counts().sort_index()
+    # Map smoking values to appropriate labels
+    data['SMOKING'] = data['SMOKING'].map({1: 'Non-Smoker', 2: 'Smoker'})
 
     # Prepare the data for the graph
-    graph_data = pd.DataFrame({'Age Group': smoker_counts.index, 'Smoker Cases': smoker_counts.values, 'Non-Smoker Cases': non_smoker_counts.values})
+    graph_data = data.groupby(['Age Group', 'SMOKING']).size().reset_index(name='Number of Cases')
 
-    # Create the graph using Altair
-    chart = alt.Chart(graph_data).transform_fold(
-        fold=['Smoker Cases', 'Non-Smoker Cases'],
-        as_=['Category', 'Number of Cases']
-    ).mark_circle().encode(
+    # Create the interactive graph
+    st.title('Lung Cancer Cases')
+    show_smoker = st.checkbox('Show Smoker Trend Line', value=True)
+    show_non_smoker = st.checkbox('Show Non-Smoker Trend Line', value=True)
+
+    chart = alt.Chart(graph_data).mark_circle().encode(
         x='Age Group',
         y='Number of Cases',
-        color='Category',
+        color='SMOKING:N',
         tooltip=['Age Group', 'Number of Cases']
     ).interactive()
 
-    # Add trend lines
-    trend_data = pd.DataFrame({'x': range(len(smoker_counts)), 'y': smoker_counts.values})
-    trend_line = alt.Chart(trend_data).mark_line(color='red').encode(
-        x='x',
-        y='y'
-    )
+    trend_line_smoker = alt.Chart(graph_data[graph_data['SMOKING'] == 'Smoker']).mark_line(color='red').encode(
+        x='Age Group',
+        y='Number of Cases',
+    ).transform_filter(
+        alt.FieldOneOfPredicate(field='SMOKING', oneOf=['Smoker'])
+    ).transform_window(
+        rolling_mean='mean(Number of Cases)',
+        frame=[-2, 2]
+    ).mark_line(color='red').encode(opacity=alt.condition(show_smoker, alt.value(1), alt.value(0)))
 
-    # Combine the chart and trend line
-    combined_chart = chart + trend_line
+    trend_line_non_smoker = alt.Chart(graph_data[graph_data['SMOKING'] == 'Non-Smoker']).mark_line(color='blue').encode(
+        x='Age Group',
+        y='Number of Cases',
+    ).transform_filter(
+        alt.FieldOneOfPredicate(field='SMOKING', oneOf=['Non-Smoker'])
+    ).transform_window(
+        rolling_mean='mean(Number of Cases)',
+        frame=[-2, 2]
+    ).mark_line(color='blue').encode(opacity=alt.condition(show_non_smoker, alt.value(1), alt.value(0)))
+
+    combined_chart = chart + trend_line_smoker + trend_line_non_smoker
 
     # Display the graph
-    st.title('Lung Cancer Cases')
-    show_smoker = st.checkbox('Show Smoker')
-    show_non_smoker = st.checkbox('Show Non-Smoker')
-
-    if show_smoker and show_non_smoker:
-        st.altair_chart(combined_chart, use_container_width=True)
-    elif show_smoker:
-        st.altair_chart(chart.encode(opacity=alt.condition(alt.datum.Category == 'Smoker Cases', alt.value(1), alt.value(0))), use_container_width=True)
-    elif show_non_smoker:
-        st.altair_chart(chart.encode(opacity=alt.condition(alt.datum.Category == 'Non-Smoker Cases', alt.value(1), alt.value(0))), use_container_width=True)
+    st.altair_chart(combined_chart, use_container_width=True)
