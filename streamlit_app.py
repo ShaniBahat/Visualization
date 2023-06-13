@@ -6,7 +6,7 @@ import altair as alt
 data = pd.read_csv('survey_lung_cancer.csv')
 
 # Check if the 'Age' column exists
-if 'Age' not in data.columns:
+if 'AGE' not in data.columns:
     st.error("The 'Age' column is not present in the dataset.")
 else:
     # Define the age bins
