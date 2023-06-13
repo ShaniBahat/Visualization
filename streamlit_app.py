@@ -23,8 +23,8 @@ else:
 
     # Create the interactive graph
     st.title('Lung Cancer Cases')
-    show_smoker = st.checkbox('Show Smoker Trend Line', value=True)
-    show_non_smoker = st.checkbox('Show Non-Smoker Trend Line', value=True)
+    show_smoker = st.checkbox('Smoker', value=True)
+    show_non_smoker = st.checkbox('Non-Smoker', value=True)
 
     chart = alt.Chart(graph_data).mark_circle().encode(
         x='Age Group',
