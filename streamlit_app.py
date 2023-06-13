@@ -8,7 +8,7 @@ data = pd.read_csv('survey_lung_cancer.csv')
 age_bins = [30, 40, 50, 60, 70, 80, 90]
 
 # Create a new column to categorize ages into bins
-data['Age Group'] = pd.cut(data['Age'], bins=age_bins, labels=['31-40', '41-50', '51-60', '61-70', '71-80', '81-90'])
+data['Age Group'] = pd.cut(data['AGE'], bins=age_bins, labels=['31-40', '41-50', '51-60', '61-70', '71-80', '81-90'])
 
 # Filter the data for smoker and non-smoker
 smoker_data = data[data['Smoker'] == 'Yes']
