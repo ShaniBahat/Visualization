@@ -1,11 +1,10 @@
-import pandas as pd
 import streamlit as st
-import altair as alt
-
-st.title('Visualization of information - Final Project')
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
 
 # Load the data into a pandas DataFrame
-df = pd.read_csv('survey_lung_cancer.csv')
+df = pd.read_csv('/content/survey_lung_cancer.csv')
 
 # Filter data for lung cancer cases
 filtered_data = df[df['LUNG_CANCER'] == 'YES']
@@ -23,9 +22,6 @@ grouped_data = filtered_data.groupby(['AGE_GROUP', 'SMOKING']).size().unstack().
 
 # Create a new Streamlit app
 st.title('Count of Lung Cancer Cases by Age Group and Smoking Status')
-
-# Set the size of the figure
-plt.figure(figsize=(10, 4))  # Adjust the width and height as desired
 
 # Plot the line chart
 plt.plot(age_labels, grouped_data['Non-smoking'], marker='.', color='#267868', ms=10, label='Non-smoking')
