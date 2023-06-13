@@ -15,38 +15,35 @@ else:
     # Create a new column to categorize ages into bins
     data['Age Group'] = pd.cut(data['AGE'], bins=age_bins, labels=['31-40', '41-50', '51-60', '61-70', '71-80', '81-90'])
 
-    # Filter the data for smoker and non-smoker
-    smoker_data = data[data['SMOKING'] == 2]
-    non_smoker_data = data[data['SMOKING'] == 1]
-
-    # Count the number of cases for each age group and smoker category
-    smoker_counts = smoker_data['Age Group'].value_counts().sort_index()
-    non_smoker_counts = non_smoker_data['Age Group'].value_counts().sort_index()
+    # Prepare the data for the graph
+    graph_data = data.groupby(['Age Group', 'SMOKING']).size().reset_index(name='Number of Cases')
 
     # Create the interactive graph
     st.title('Lung Cancer Cases')
-    smoker_or_non_smoker = st.radio('Select Smoker or Non-Smoker:', ['Smoker', 'Non-Smoker'])
+    show_both = st.checkbox('Show Smoker and Non-Smoker')
 
-    if smoker_or_non_smoker == 'Smoker':
-        counts = smoker_counts
+    if show_both:
+        chart = alt.Chart(graph_data).mark_circle().encode(
+            x='Age Group',
+            y='Number of Cases',
+            color='SMOKING:N',
+            tooltip=['Age Group', 'Number of Cases']
+        ).interactive()
     else:
-        counts = non_smoker_counts
+        smoker_or_non_smoker = st.radio('Select Smoker or Non-Smoker:', ['Smoker', 'Non-Smoker'])
+        filtered_data = graph_data[graph_data['SMOKING'] == smoker_or_non_smoker]
 
-    # Prepare the data for the graph
-    graph_data = pd.DataFrame({'Age Group': counts.index, 'Number of Cases': counts.values})
-
-    # Create the graph using Altair
-    chart = alt.Chart(graph_data).mark_circle().encode(
-        x='Age Group',
-        y='Number of Cases',
-        tooltip=['Age Group', 'Number of Cases']
-    ).interactive()
+        chart = alt.Chart(filtered_data).mark_circle().encode(
+            x='Age Group',
+            y='Number of Cases',
+            tooltip=['Age Group', 'Number of Cases']
+        ).interactive()
 
     # Add trend lines
-    trend_data = pd.DataFrame({'x': range(len(counts)), 'y': counts.values})
-    trend_line = alt.Chart(trend_data).mark_line(color='red').encode(
-        x='x',
-        y='y'
+    trend_line = alt.Chart(graph_data).mark_line().encode(
+        x='Age Group',
+        y='Number of Cases',
+        color='SMOKING:N'
     )
 
     # Combine the chart and trend line
