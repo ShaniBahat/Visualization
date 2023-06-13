@@ -62,3 +62,40 @@ else:
 
     # Display the graph
     st.altair_chart(combined_chart, use_container_width=True)
+    
+    
+    
+    
+# Define the symptom columns
+symptom_columns = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FATIGUE ', 'ALLERGY ', 'WHEEZING',
+                   'COUGHING', 'SHORTNESS OF BREATH', 'SWALLOWING DIFFICULTY', 'CHEST PAIN']
+
+# Map symptom values to appropriate labels
+symptom_mapping = {1: 'No', 2: 'Yes'}
+data[symptom_columns] = data[symptom_columns].replace(symptom_mapping)
+
+# Prepare the data for the graph
+graph_data = data.melt(id_vars=['SMOKING'], value_vars=symptom_columns, var_name='Symptom', value_name='Count')
+
+# Create the interactive graph
+st.title('Distribution of Symptom Counts by Smoking Status')
+show_smoker = st.checkbox('Show Smoker', value=True)
+show_non_smoker = st.checkbox('Show Non-Smoker', value=True)
+
+color_scale = alt.Scale(domain=['Smoker', 'Non-Smoker'], range=['#678282', '#23D1D1'])
+
+chart = alt.Chart(graph_data).mark_bar().encode(
+    x='Symptom',
+    y='count()',
+    color=alt.Color('SMOKING:N', scale=color_scale),
+    opacity=alt.condition(
+        alt.datum['SMOKING'] == 'Smoker',
+        alt.value(1) if show_smoker else alt.value(0),
+        alt.value(1) if show_non_smoker else alt.value(0)
+    )
+).properties(
+    width=alt.Step(40)
+)
+
+# Display the graph
+st.altair_chart(chart, use_container_width=True)
