@@ -1,12 +1,6 @@
-import pandas as pd
 import streamlit as st
+import pandas as pd
 import altair as alt
-
-import streamlit as st
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 # Load the data
 data = pd.read_csv('lung_cancer_data.csv')
@@ -34,18 +28,25 @@ if smoker_or_non_smoker == 'Smoker':
 else:
     counts = non_smoker_counts
 
-# Plot the graph
-fig, ax = plt.subplots()
-ax.plot(counts.index, counts.values, marker='o')
-ax.set_xlabel('Age Group')
-ax.set_ylabel('Number of Cases')
+# Prepare the data for the graph
+graph_data = pd.DataFrame({'Age Group': counts.index, 'Number of Cases': counts.values})
+
+# Create the graph using Altair
+chart = alt.Chart(graph_data).mark_circle().encode(
+    x='Age Group',
+    y='Number of Cases',
+    tooltip=['Age Group', 'Number of Cases']
+).interactive()
 
 # Add trend lines
-z = np.polyfit(range(len(counts)), counts.values, 1)
-p = np.poly1d(z)
-ax.plot(counts.index, p(range(len(counts))), 'r--')
+trend_data = pd.DataFrame({'x': range(len(counts)), 'y': counts.values})
+trend_line = alt.Chart(trend_data).mark_line(color='red').encode(
+    x='x',
+    y='y'
+)
 
-# Customize the plot
-plt.xticks(rotation=45)
-ax.set_title(f'Lung Cancer Cases ({smoker_or_non_smoker})')
-st.pyplot(fig)
+# Combine the chart and trend line
+combined_chart = chart + trend_line
+
+# Display the graph
+st.altair_chart(combined_chart, use_container_width=True)
