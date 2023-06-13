@@ -16,8 +16,8 @@ else:
     data['Age Group'] = pd.cut(data['AGE'], bins=age_bins, labels=['31-40', '41-50', '51-60', '61-70', '71-80', '81-90'])
 
     # Filter the data for smoker and non-smoker
-    smoker_data = data[data['Smoker'] == 'Yes']
-    non_smoker_data = data[data['Smoker'] == 'No']
+    smoker_data = data[data['SMOKING'] == 2]
+    non_smoker_data = data[data['SMOKING'] == 1]
 
     # Count the number of cases for each age group and smoker category
     smoker_counts = smoker_data['Age Group'].value_counts().sort_index()
