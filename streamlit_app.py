@@ -96,6 +96,7 @@ chart = alt.Chart(graph_data).mark_bar().encode(
     x=alt.X('Symptom Count:O', axis=alt.Axis(title='Symptom Count'), sort=alt.EncodingSortField(field='Symptom Count', order='ascending')),
     y='Number of People:Q',
     color=alt.Color('SMOKING:N', scale=color_scale),
+    column='SMOKING:N',
     tooltip=['Symptom Count', 'Number of People'],
     opacity=alt.condition(
         alt.datum['SMOKING'] == 'Smoker',
