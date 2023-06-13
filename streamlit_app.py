@@ -36,22 +36,20 @@ else:
     trend_line_smoker = alt.Chart(graph_data[graph_data['SMOKING'] == 'Smoker']).mark_line(color='red').encode(
         x='Age Group',
         y='Number of Cases',
-    ).transform_filter(
-        alt.FieldOneOfPredicate(field='SMOKING', oneOf=['Smoker'])
+        opacity=alt.condition(show_smoker, alt.value(1), alt.value(0))
     ).transform_window(
         rolling_mean='mean(Number of Cases)',
         frame=[-2, 2]
-    ).mark_line(color='red').encode(opacity=alt.condition(show_smoker, alt.value(1), alt.value(0)))
+    ).mark_line(color='red')
 
     trend_line_non_smoker = alt.Chart(graph_data[graph_data['SMOKING'] == 'Non-Smoker']).mark_line(color='blue').encode(
         x='Age Group',
         y='Number of Cases',
-    ).transform_filter(
-        alt.FieldOneOfPredicate(field='SMOKING', oneOf=['Non-Smoker'])
+        opacity=alt.condition(show_non_smoker, alt.value(1), alt.value(0))
     ).transform_window(
         rolling_mean='mean(Number of Cases)',
         frame=[-2, 2]
-    ).mark_line(color='blue').encode(opacity=alt.condition(show_non_smoker, alt.value(1), alt.value(0)))
+    ).mark_line(color='blue')
 
     combined_chart = chart + trend_line_smoker + trend_line_non_smoker
 
