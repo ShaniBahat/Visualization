@@ -66,6 +66,8 @@ else:
 
 
     
+    
+    
 
 # Load the data
 data = pd.read_csv('survey_lung_cancer.csv')
@@ -94,7 +96,6 @@ chart = alt.Chart(graph_data).mark_bar().encode(
     x=alt.X('Symptom Count:O', axis=alt.Axis(title='Symptom Count'), sort=alt.EncodingSortField(field='Symptom Count', order='ascending')),
     y='Number of People:Q',
     color=alt.Color('SMOKING:N', scale=color_scale),
-    column=alt.Column('SMOKING:N', header=alt.Header(labelOrient='bottom', title=None)),
     tooltip=['Symptom Count', 'Number of People'],
     opacity=alt.condition(
         alt.datum['SMOKING'] == 'Smoker',
