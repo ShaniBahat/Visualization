@@ -2,42 +2,50 @@ import pandas as pd
 import streamlit as st
 import altair as alt
 
-# Load the data into a pandas DataFrame
-df = pd.read_csv('survey_lung_cancer.csv')
+import streamlit as st
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
+# Load the data
+data = pd.read_csv('lung_cancer_data.csv')
 
-
-# Filter data for lung cancer cases
-filtered_data = df[df['LUNG_CANCER'] == 'YES']
-
-# Replace the smoking labels
-filtered_data['SMOKING'] = filtered_data['SMOKING'].replace({2: 'Smoking', 1: 'Non-smoking'})
-
-# Create age groups
+# Define the age bins
 age_bins = [30, 40, 50, 60, 70, 80, 90]
-age_labels = ['31-40', '41-50', '51-60', '61-70', '71-80', '81-90']
-filtered_data['AGE_GROUP'] = pd.cut(filtered_data['AGE'], bins=age_bins, labels=age_labels)
 
-# Group the filtered data by age group and smoking status and calculate the count of lung cancer cases
-grouped_data = filtered_data.groupby(['AGE_GROUP', 'SMOKING']).size().unstack().fillna(0)
+# Create a new column to categorize ages into bins
+data['Age Group'] = pd.cut(data['Age'], bins=age_bins, labels=['31-40', '41-50', '51-60', '61-70', '71-80', '81-90'])
 
-# Create a new Streamlit app
-st.title('Count of Lung Cancer Cases by Age Group and Smoking Status')
+# Filter the data for smoker and non-smoker
+smoker_data = data[data['Smoker'] == 'Yes']
+non_smoker_data = data[data['Smoker'] == 'No']
 
-# Convert the DataFrame to an Altair chart
-chart = alt.Chart(grouped_data.reset_index()).mark_line().encode(
-    x='AGE_GROUP',
-    y='Non-smoking',
-    color=alt.value('#267868'),
-    tooltip=['AGE_GROUP', 'Non-smoking']
-).properties(
-    title='Count of Lung Cancer Cases by Age Group and Smoking Status',
-    width=600,
-    height=400
-)
+# Count the number of cases for each age group and smoker category
+smoker_counts = smoker_data['Age Group'].value_counts().sort_index()
+non_smoker_counts = non_smoker_data['Age Group'].value_counts().sort_index()
 
-# Display the chart in Streamlit
-st.altair_chart(chart)
+# Create the interactive graph
+st.title('Lung Cancer Cases')
+smoker_or_non_smoker = st.radio('Select Smoker or Non-Smoker:', ['Smoker', 'Non-Smoker'])
 
-# Display the DataFrame if desired
-st.write(grouped_data)
+if smoker_or_non_smoker == 'Smoker':
+    counts = smoker_counts
+else:
+    counts = non_smoker_counts
+
+# Plot the graph
+fig, ax = plt.subplots()
+ax.plot(counts.index, counts.values, marker='o')
+ax.set_xlabel('Age Group')
+ax.set_ylabel('Number of Cases')
+
+# Add trend lines
+z = np.polyfit(range(len(counts)), counts.values, 1)
+p = np.poly1d(z)
+ax.plot(counts.index, p(range(len(counts))), 'r--')
+
+# Customize the plot
+plt.xticks(rotation=45)
+ax.set_title(f'Lung Cancer Cases ({smoker_or_non_smoker})')
+st.pyplot(fig)
