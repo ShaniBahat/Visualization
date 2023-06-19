@@ -76,6 +76,8 @@ fig.update_layout(
 )
 
 # Display the plot using Streamlit
+st.plotly_chart(fig)
+
 # Load the data
 data_new = pd.read_csv('survey_lung_cancer.csv')
 data['SMOKING'] = data['SMOKING'].map({1: 'Non-Smoker', 2: 'Smoker'})
