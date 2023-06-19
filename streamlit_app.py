@@ -80,6 +80,7 @@ st.plotly_chart(fig)
 
 ############# Plot 3 
 
+
 # Load the data
 data = pd.read_csv('survey_lung_cancer.csv')
 
@@ -105,4 +106,4 @@ fig = go.Figure(data=[go.Pie(labels=['Cancer', 'Non-Cancer'],
 fig.update_layout(title='Division of Cancer and Non-Cancer Cases')
 
 # Display the plot using Streamlit
-st.plotly_chart(fig)
+st.plotly_chart(fig))
