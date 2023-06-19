@@ -63,7 +63,6 @@ data['Symptom Count'] = data[symptom_columns].apply(lambda x: x.eq(2).sum(), axi
 
 df = data.groupby(['Symptom Count', 'SMOKING','GENDER']).size().reset_index(name='Number of People')
 
-
 # Filter the data based on user selection
 smoking_filter = st.sidebar.selectbox("Filter by Smoking", ['All', 'Smoker', 'Non-Smoker'])
 gender_filter = st.sidebar.selectbox("Filter by Gender", ['All', 'M', 'F'])
@@ -76,8 +75,8 @@ if smoking_filter != 'All':
 if gender_filter != 'All':
     filtered_df = filtered_df[filtered_df['GENDER'] == gender_filter]
 
-# Group the filtered data by 'Symptom Count' and 'SMOKING' and calculate the count
-grouped_df = filtered_df.groupby(['Symptom Count', 'SMOKING']).count()['Number of People'].reset_index()
+# Group the filtered data by 'Symptom Count' and 'SMOKING' and calculate the count of people
+grouped_df = filtered_df.groupby(['Symptom Count', 'SMOKING'], as_index=False)['Number of People'].sum()
 
 # Create the Plotly figure
 fig = go.Figure()
