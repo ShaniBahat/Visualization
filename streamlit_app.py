@@ -79,7 +79,6 @@ fig.update_layout(
 st.plotly_chart(fig)
 
 ############# Plot 3 
-
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
@@ -98,8 +97,11 @@ selected_symptoms = st.multiselect("Select Symptoms", symptoms)
 # Filter the data based on selected symptoms
 filtered_data = data[data[symptoms].isin([2]).any(axis=1)]
 
+# Convert 'Cancer' column to numeric values
+filtered_data['Cancer'] = pd.to_numeric(filtered_data['Cancer'], errors='coerce')
+
 # Calculate the count of cancer patients and non-cancer patients
-cancer_count = filtered_data['LUNG_CANCER'].sum()
+cancer_count = filtered_data['Cancer'].sum()
 non_cancer_count = len(filtered_data) - cancer_count
 
 # Create the Plotly figure
@@ -112,3 +114,4 @@ fig.update_layout(title='Division of Cancer Patients and Non-Cancer Patients',
 
 # Display the plot using Streamlit
 st.plotly_chart(fig)
+
