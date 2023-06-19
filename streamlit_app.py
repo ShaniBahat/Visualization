@@ -94,32 +94,3 @@ st.plotly_chart(fig)
 
 
 
-with st.container():
-    # Filter the data based on the user selection
-    filtered_df = data[data['GENDER'] == gender_filter]
-    
-    # Group the filtered data by 'Symptom Count' and 'SMOKING' and calculate the count of people
-    grouped_df = filtered_df.groupby(['Symptom Count', 'SMOKING'], as_index=False)['Number of People'].sum()
-    
-    # Create the Plotly figure
-    fig = go.Figure()
-
-    for smoking_type in grouped_df['SMOKING'].unique():
-        temp_df = grouped_df[grouped_df['SMOKING'] == smoking_type]
-        
-        fig.add_trace(go.Bar(
-            x=temp_df['Symptom Count'],
-            y=temp_df['Number of People'],
-            name=smoking_type
-        ))
-
-    # Update the layout
-    fig.update_layout(
-        title='Sign Violators Count by Symptom Count',
-        xaxis_title='Number of Symptoms',
-        yaxis_title='Count of People',
-        barmode='group'
-    )
-
-    # Display the plot using Streamlit
-    st.plotly_chart(fig)
