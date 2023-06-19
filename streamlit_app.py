@@ -78,9 +78,9 @@ fig.update_layout(
 # Display the plot using Streamlit
 st.plotly_chart(fig)
 
-# Load the data
+####### plot 3 
+
 data_new = pd.read_csv('survey_lung_cancer.csv')
-data['SMOKING'] = data['SMOKING'].map({1: 'Non-Smoker', 2: 'Smoker'})
 
 # Pre-process data
 symptoms = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FATIGUE ',
@@ -110,14 +110,12 @@ non_smoker_non_cancer_count = non_smokers[non_smokers['LUNG_CANCER'] == 'NO'].sh
 
 # Create the Plotly figures for smokers and non-smokers
 fig_smokers = go.Figure(data=[go.Pie(labels=['Cancer', 'Non-Cancer'],
-                                     values=[smoker_cancer_count, smoker_non_cancer_count])])
+                                     values=[smoker_cancer_count, smoker_non_cancer_count],
+                                     title='Smokers')])
 
 fig_non_smokers = go.Figure(data=[go.Pie(labels=['Cancer', 'Non-Cancer'],
-                                         values=[non_smoker_cancer_count, non_smoker_non_cancer_count])])
-
-# Update the layout for both figures
-fig_smokers.update_layout(title='Division of Cancer and Non-Cancer Cases (Smokers)')
-fig_non_smokers.update_layout(title='Division of Cancer and Non-Cancer Cases (Non-Smokers)')
+                                         values=[non_smoker_cancer_count, non_smoker_non_cancer_count],
+                                         title='Non-Smokers')])
 
 # Display the figures using Streamlit
 st.plotly_chart(fig_smokers)
