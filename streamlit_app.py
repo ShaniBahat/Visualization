@@ -123,5 +123,8 @@ fig1.update_layout(title='Division of Cancer and Non-Cancer Cases - Smokers')
 fig2.update_layout(title='Division of Cancer and Non-Cancer Cases - Non-Smokers')
 
 # Display the pie charts side by side using Streamlit
-st.plotly_chart(fig1, use_container_width=True)
-st.plotly_chart(fig2, use_container_width=True)
+col1, col2 = st.beta_columns(2)
+with col1:
+    st.plotly_chart(fig1, use_container_width=True)
+with col2:
+    st.plotly_chart(fig2, use_container_width=True)
