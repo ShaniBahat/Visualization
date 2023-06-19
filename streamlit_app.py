@@ -21,9 +21,6 @@ st.subheader('Number of Symptoms by Count of Patients')
 # Create the Plotly figure
 fig = go.Figure()
 
-# Set the size of the filter
-st.set_config('sidebar', {'layout': 'wide', 'initial_sidebar_state': 'auto', 'sidebar_width': '50%'})
-
 # Filter by gender for the graph
 gender_filter = st.selectbox("Filter by Gender", ['All', 'M', 'F'])
 
@@ -46,9 +43,11 @@ fig.update_layout(
     barmode='group'
 )
 
+# Set x-axis tick labels for every number
+fig.update_xaxes(type='category')
+
 # Display the plot using Streamlit
 st.plotly_chart(fig)
-
 
 # Create the Plotly figure
 fig = go.Figure()
@@ -75,4 +74,5 @@ fig.update_layout(
 
 # Display the plot using Streamlit
 st.plotly_chart(fig)
+
 
