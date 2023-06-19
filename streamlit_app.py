@@ -81,7 +81,7 @@ st.plotly_chart(fig)
 ############# Plot 3 
 
 # Load the data
-data_new = pd.read_csv('survey lung cancer.csv')
+data_new = pd.read_csv('survey_lung_cancer.csv')
 
 # Pre-process data
 symptoms = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FATIGUE ',
