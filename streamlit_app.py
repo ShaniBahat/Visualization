@@ -43,6 +43,8 @@ fig.update_layout(
     barmode='group'
 )
 
+# Set x-axis tick labels for every number
+fig.update_xaxes(type='category')
+
 # Display the plot using Streamlit
 st.plotly_chart(fig)
-
