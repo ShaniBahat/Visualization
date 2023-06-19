@@ -123,7 +123,7 @@ fig.update_layout(
     title='Count of Lung Cancer Cases by Age Group and Smoking Status',
     xaxis_title='Age Group',
     yaxis_title='Number of Cases',
-    legend=dict(title='Smoking Status', loc='upper right')
+    legend=dict(title='Smoking Status')
 )
 
 # Display the plot using Streamlit
