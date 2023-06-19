@@ -95,7 +95,7 @@ selected_symptoms = st.multiselect('Select Symptoms', symptoms)
 data_new['symptom_count'] = data_new[selected_symptoms].sum(axis=1)
 
 # Filter the data to include only rows with a symptom count of 2
-filtered_data = data_new[data_new['symptom_count'] == 2]
+filtered_data = data_new[data_new['symptom_count'] == len(selected_symptoms)*2]
 
 # Calculate the count of cancer and non-cancer cases
 cancer_count = filtered_data[filtered_data['LUNG_CANCER'] == 'YES'].shape[0]
