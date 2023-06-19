@@ -14,47 +14,6 @@ data['SMOKING'] = data['SMOKING'].map({1: 'Non-Smoker', 2: 'Smoker'})
 
 graph_data = data.groupby(['Age Group', 'SMOKING']).size().reset_index(name='Number of Cases')
 
-
-st.title('Lung Cancer Cases')
-show_smoker = st.checkbox('Smoker', value=True)
-show_non_smoker = st.checkbox('Non-Smoker', value=True)
-
-color_scale = alt.Scale(domain=['Smoker', 'Non-Smoker'], range=['#678282', '#23D1D1'])
-
-chart = alt.Chart(graph_data).mark_circle().encode(
-    x='Age Group',
-    y='Number of Cases',
-    color=alt.Color('SMOKING:N', scale=color_scale),
-    tooltip=['Age Group', 'Number of Cases'],
-    opacity=alt.condition(
-        alt.datum['SMOKING'] == 'Smoker',
-        alt.value(1) if show_smoker else alt.value(0),
-        alt.value(1) if show_non_smoker else alt.value(0)
-    )).interactive()
-
-trend_line_smoker = alt.Chart(graph_data[graph_data['SMOKING'] == 'Smoker']).mark_line(color='#678282').encode(
-    x='Age Group',
-    y='Number of Cases',
-    opacity=alt.value(1) if show_smoker else alt.value(0)
-).transform_window(
-    rolling_mean='mean(Number of Cases)',
-    frame=[-2, 2]
-).mark_line(color='#678282')
-
-trend_line_non_smoker = alt.Chart(graph_data[graph_data['SMOKING'] == 'Non-Smoker']).mark_line(color='#23D1D1').encode(
-    x='Age Group',
-    y='Number of Cases',
-    opacity=alt.value(1) if show_non_smoker else alt.value(0)
-).transform_window(
-    rolling_mean='mean(Number of Cases)',
-    frame=[-2, 2]
-).mark_line(color='#23D1D1')
-
-combined_chart = chart + trend_line_smoker + trend_line_non_smoker
-
-# Display the graph
-st.altair_chart(combined_chart, use_container_width=True)
-
 symptom_columns = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FATIGUE ',
                    'ALLERGY ', 'WHEEZING', 'COUGHING', 'SHORTNESS OF BREATH', 'SWALLOWING DIFFICULTY',
                    'CHEST PAIN']
