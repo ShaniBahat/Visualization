@@ -14,6 +14,10 @@ data['Symptom Count'] = data.iloc[:, 3:14].apply(lambda x: x.eq(2).sum(), axis=1
 # Group the data by 'Symptom Count', 'SMOKING', and 'GENDER' and calculate the count of people
 grouped_df = data.groupby(['Symptom Count', 'SMOKING', 'GENDER']).size().reset_index(name='Number of People')
 
+############### plot 1 
+
+st.header('Number of Symptoms by Count of Patients')
+
 # Create the Plotly figure
 fig = go.Figure()
 
@@ -34,9 +38,8 @@ for smoking_type in grouped_df['SMOKING'].unique():
 
 # Update the layout
 fig.update_layout(
-    title='Sign Violators Count by Symptom Count',
     xaxis_title='Number of Symptoms',
-    yaxis_title='Count of People',
+    yaxis_title='Count of Patients',
     barmode='group'
 )
 
