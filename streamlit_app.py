@@ -106,24 +106,24 @@ st.plotly_chart(fig)
 # Create the Plotly figure
 fig = go.Figure()
 
-graph_data = data.groupby(['Age Group', 'SMOKING']).size().reset_index(name='Number of Cases')
+df = data.groupby(['Age Group', 'SMOKING']).size().reset_index(name='Number of Cases')
 
-
-for smoking_type in graph_data['SMOKING'].unique():
-    temp_df = graph_data[graph_data['SMOKING'] == smoking_type]
+for smoking_type in df['SMOKING'].unique():
+    temp_df = df[df['SMOKING'] == smoking_type]
     
-    fig.add_trace(go.Bar(
-        x=temp_df['Symptom Count'],
+    fig.add_trace(go.Scatter(
+        x=temp_df['Age Group'],
         y=temp_df['Number of Cases'],
+        mode='lines+markers',
         name=smoking_type
     ))
 
 # Update the layout
 fig.update_layout(
-    title='Count of Sign Violators by Symptom Count and Smoking Status',
-    xaxis_title='Symptom Count',
-    yaxis_title='Count of People',
-    barmode='group'
+    title='Count of Lung Cancer Cases by Age Group and Smoking Status',
+    xaxis_title='Age Group',
+    yaxis_title='Number of Cases',
+    legend=dict(title='Smoking Status', loc='upper right')
 )
 
 # Display the plot using Streamlit
