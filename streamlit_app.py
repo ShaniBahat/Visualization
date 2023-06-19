@@ -79,6 +79,8 @@ fig.update_layout(
 st.plotly_chart(fig)
 
 ####### plot 3 
+
+####### plot 3 
 # Load the data
 data_new = pd.read_csv('survey_lung_cancer.csv')
 data_new['SMOKING'] = data_new['SMOKING'].map({1: 'Non-Smoker', 2: 'Smoker'})
@@ -123,7 +125,7 @@ fig1.update_layout(title='Division of Cancer and Non-Cancer Cases - Smokers')
 fig2.update_layout(title='Division of Cancer and Non-Cancer Cases - Non-Smokers')
 
 # Display the pie charts side by side using Streamlit
-col1, col2 = st.beta_columns(2)
+col1, col2 = st.columns(2)
 with col1:
     st.plotly_chart(fig1, use_container_width=True)
 with col2:
