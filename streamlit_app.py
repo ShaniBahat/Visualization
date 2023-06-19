@@ -16,7 +16,7 @@ grouped_df = data.groupby(['Symptom Count', 'SMOKING', 'GENDER']).size().reset_i
 
 ############### plot 1 
 
-st.header('Number of Symptoms by Count of Patients')
+st.subheader('Number of Symptoms by Count of Patients')
 
 # Create the Plotly figure
 fig = go.Figure()
