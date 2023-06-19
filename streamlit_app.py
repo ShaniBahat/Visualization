@@ -108,7 +108,7 @@ fig = go.Figure()
 
 fig.add_trace(go.Scatter(
     x=data['Age Group'],
-    y=data['Non-smoking'],
+    y=data['Non-Smoker'],
     mode='lines+markers',
     name='Non-smoking',
     marker=dict(color='#267868', size=10)
@@ -116,7 +116,7 @@ fig.add_trace(go.Scatter(
 
 fig.add_trace(go.Scatter(
     x=data['Age Group'],
-    y=data['Smoking'],
+    y=data['Smoker'],
     mode='lines+markers',
     name='Smoking',
     marker=dict(color='#68C4AD', size=10)
