@@ -91,6 +91,44 @@ st.plotly_chart(fig)
 
 
 
+# Filter options
+gender_options = df['SMOKING'].unique()
+default_gender = gender_options[0]
+
+# User input - Gender filter
+gender_filter = st.sidebar.selectbox("Select Gender", gender_options, index=0)
+
+# Display the plot using Streamlit
+with st.container():
+    # Filter the data based on the user selection
+    filtered_df = df[df['SMOKING'] == gender_filter]
+    
+    # Group the filtered data by 'Age Group' and 'SMOKING' and calculate the count of cases
+    grouped_df = filtered_df.groupby(['Age Group', 'SMOKING'], as_index=False)['Number of Cases'].sum()
+    
+    # Create the Plotly figure
+    fig = go.Figure()
+
+    for smoking_type in grouped_df['SMOKING'].unique():
+        temp_df = grouped_df[grouped_df['SMOKING'] == smoking_type]
+        
+        fig.add_trace(go.Scatter(
+            x=temp_df['Age Group'],
+            y=temp_df['Number of Cases'],
+            mode='lines+markers',
+            name=smoking_type
+        ))
+
+    # Update the layout
+    fig.update_layout(
+        title='Count of Lung Cancer Cases by Age Group and Smoking Status',
+        xaxis_title='Age Group',
+        yaxis_title='Number of Cases',
+        legend=dict(title='Smoking Status', loc='upper right')
+    )
+
+    # Display the plot using Streamlit
+    st.plotly_chart(fig)
 
 
 
