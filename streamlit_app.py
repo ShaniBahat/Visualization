@@ -49,6 +49,7 @@ fig.update_xaxes(type='category')
 # Display the plot using Streamlit
 st.plotly_chart(fig)
 
+################# Plot 2
 # Create the Plotly figure
 fig = go.Figure()
 
