@@ -63,12 +63,10 @@ data['Symptom Count'] = data[symptom_columns].apply(lambda x: x.eq(2).sum(), axi
 
 grouped_data = data.groupby(['Symptom Count', 'SMOKING','GENDER']).size().reset_index(name='Number of People')
 
-grouped_df = data.groupby(['SMOKING', 'GENDER']).sum().reset_index()
-
 # Create a bar plot using Plotly
 fig = go.Figure()
 
-for i, row in grouped_df.iterrows():
+for i, row in grouped_data.iterrows():
     fig.add_trace(go.Bar(
         x=[row['SMOKING']],
         y=[row['Number of People']],
