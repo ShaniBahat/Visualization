@@ -79,6 +79,8 @@ fig.update_layout(
 st.plotly_chart(fig)
 
 ############# Plot 3 
+
+
 # Load the data
 data = pd.read_csv('survey_lung_cancer.csv')
 
