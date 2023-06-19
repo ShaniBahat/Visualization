@@ -107,7 +107,7 @@ st.plotly_chart(fig)
 fig = go.Figure()
 
 for smoking_type in graph_data['SMOKING'].unique():
-    temp_df = graph_data[grouped_df['SMOKING'] == smoking_type]
+    temp_df = graph_data[graph_data['SMOKING'] == smoking_type]
     
     fig.add_trace(go.Bar(
         x=temp_df['Symptom Count'],
