@@ -2,6 +2,12 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 
+import streamlit as st
+import numpy as np
+import plotly.figure_factory as ff
+
+
+
 # Load the data
 data = pd.read_csv('survey_lung_cancer.csv')
 
@@ -53,8 +59,35 @@ combined_chart = chart + trend_line_smoker + trend_line_non_smoker
 # Display the graph
 st.altair_chart(combined_chart, use_container_width=True)
 
+symptom_columns = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FATIGUE ',
+                   'ALLERGY ', 'WHEEZING', 'COUGHING', 'SHORTNESS OF BREATH', 'SWALLOWING DIFFICULTY',
+                   'CHEST PAIN']
 
+data['Symptom Count'] = data[symptom_columns].apply(lambda x: x.eq(2).sum(), axis=1)
 
+grouped_data = data.groupby(['Symptom Count', 'SMOKING','GENDER']).size().reset_index(name='Number of People')
+
+grouped_df = df.groupby(['SMOKING', 'GENDER']).sum().reset_index()
+
+# Create a bar plot using Plotly
+fig = go.Figure()
+
+for i, row in grouped_df.iterrows():
+    fig.add_trace(go.Bar(
+        x=[row['SMOKING']],
+        y=[row['Number of People']],
+        name=row['GENDER'],
+    ))
+
+fig.update_layout(
+    title='Number of People by Smoking and Gender',
+    xaxis_title='Smoking',
+    yaxis_title='Number of People',
+    barmode='group',
+)
+
+# Display the plot using Streamlit
+st.plotly_chart(fig)
     
     
     
