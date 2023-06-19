@@ -81,6 +81,7 @@ st.plotly_chart(fig)
 ####### plot 3 
 # Load the data
 data_new = pd.read_csv('survey_lung_cancer.csv')
+data_new['SMOKING'] = data_new['SMOKING'].map({1: 'Non-Smoker', 2: 'Smoker'})
 
 # Pre-process data
 symptoms = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FATIGUE ',
