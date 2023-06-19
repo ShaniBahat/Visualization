@@ -79,7 +79,7 @@ fig.update_layout(
 st.plotly_chart(fig)
 
 ####### plot 3 
-
+# Load the data
 data_new = pd.read_csv('survey_lung_cancer.csv')
 
 # Pre-process data
@@ -96,27 +96,31 @@ data_new['symptom_count'] = data_new[selected_symptoms].sum(axis=1)
 # Filter the data to include only rows with a symptom count of 2
 filtered_data = data_new[data_new['symptom_count'] == len(selected_symptoms)*2]
 
-# Split the data into smokers and non-smokers
-smokers = filtered_data[filtered_data['SMOKING'] == 'Smoker']
-non_smokers = filtered_data[filtered_data['SMOKING'] == 'Non-Smoker']
+# Separate data for smokers and non-smokers
+smokers_data = filtered_data[filtered_data['SMOKING'] == 'Smoker']
+non_smokers_data = filtered_data[filtered_data['SMOKING'] == 'Non-Smoker']
 
 # Calculate the count of cancer and non-cancer cases for smokers
-smoker_cancer_count = smokers[smokers['LUNG_CANCER'] == 'YES'].shape[0]
-smoker_non_cancer_count = smokers[smokers['LUNG_CANCER'] == 'NO'].shape[0]
+smoker_cancer_count = smokers_data[smokers_data['LUNG_CANCER'] == 'YES'].shape[0]
+smoker_non_cancer_count = smokers_data[smokers_data['LUNG_CANCER'] == 'NO'].shape[0]
 
 # Calculate the count of cancer and non-cancer cases for non-smokers
-non_smoker_cancer_count = non_smokers[non_smokers['LUNG_CANCER'] == 'YES'].shape[0]
-non_smoker_non_cancer_count = non_smokers[non_smokers['LUNG_CANCER'] == 'NO'].shape[0]
+non_smoker_cancer_count = non_smokers_data[non_smokers_data['LUNG_CANCER'] == 'YES'].shape[0]
+non_smoker_non_cancer_count = non_smokers_data[non_smokers_data['LUNG_CANCER'] == 'NO'].shape[0]
 
-# Create the Plotly figures for smokers and non-smokers
-fig_smokers = go.Figure(data=[go.Pie(labels=['Cancer', 'Non-Cancer'],
-                                     values=[smoker_cancer_count, smoker_non_cancer_count],
-                                     title='Smokers')])
+# Create the Plotly figures
+fig1 = go.Figure(data=[go.Pie(labels=['Cancer', 'Non-Cancer'],
+                              values=[smoker_cancer_count, smoker_non_cancer_count],
+                              title='Smokers')])
 
-fig_non_smokers = go.Figure(data=[go.Pie(labels=['Cancer', 'Non-Cancer'],
-                                         values=[non_smoker_cancer_count, non_smoker_non_cancer_count],
-                                         title='Non-Smokers')])
+fig2 = go.Figure(data=[go.Pie(labels=['Cancer', 'Non-Cancer'],
+                              values=[non_smoker_cancer_count, non_smoker_non_cancer_count],
+                              title='Non-Smokers')])
 
-# Display the figures using Streamlit
-st.plotly_chart(fig_smokers)
-st.plotly_chart(fig_non_smokers)
+# Update the layout for both figures
+fig1.update_layout(title='Division of Cancer and Non-Cancer Cases - Smokers')
+fig2.update_layout(title='Division of Cancer and Non-Cancer Cases - Non-Smokers')
+
+# Display the pie charts side by side using Streamlit
+st.plotly_chart(fig1, use_container_width=True)
+st.plotly_chart(fig2, use_container_width=True)
