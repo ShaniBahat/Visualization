@@ -48,3 +48,30 @@ fig.update_xaxes(type='category')
 
 # Display the plot using Streamlit
 st.plotly_chart(fig)
+
+# Create the Plotly figure
+fig = go.Figure()
+
+df = data.groupby(['Age Group', 'SMOKING']).size().reset_index(name='Number of Cases')
+
+for smoking_type in df['SMOKING'].unique():
+    temp_df = df[df['SMOKING'] == smoking_type]
+    
+    fig.add_trace(go.Scatter(
+        x=temp_df['Age Group'],
+        y=temp_df['Number of Cases'],
+        mode='lines+markers',
+        name=smoking_type
+    ))
+
+# Update the layout
+fig.update_layout(
+    title='Count of Lung Cancer Cases by Age Group and Smoking Status',
+    xaxis_title='Age Group',
+    yaxis_title='Number of Cases',
+    legend=dict(title='Smoking Status')
+)
+
+# Display the plot using Streamlit
+st.plotly_chart(fig)
+
