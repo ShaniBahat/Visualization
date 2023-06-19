@@ -105,4 +105,3 @@ fig.update_layout(title='Division of Cancer and Non-Cancer Cases')
 
 # Display the plot using Streamlit
 st.plotly_chart(fig)
-
