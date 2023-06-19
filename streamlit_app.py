@@ -49,6 +49,10 @@ fig.update_xaxes(type='category')
 # Display the plot using Streamlit
 st.plotly_chart(fig)
 
+
+########## Plot 2
+st.subheader('Count of Lung Cancer Cases by Age Group and Smoking Status')
+
 # Create the Plotly figure
 fig = go.Figure()
 
@@ -66,7 +70,6 @@ for smoking_type in df['SMOKING'].unique():
 
 # Update the layout
 fig.update_layout(
-    title='Count of Lung Cancer Cases by Age Group and Smoking Status',
     xaxis_title='Age Group',
     yaxis_title='Number of Cases',
     legend=dict(title='Smoking Status')
