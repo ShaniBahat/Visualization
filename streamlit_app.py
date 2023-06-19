@@ -11,9 +11,6 @@ data['Age Group'] = pd.cut(data['AGE'], bins=age_bins, labels=['31-40', '41-50',
 data['SMOKING'] = data['SMOKING'].map({1: 'Non-Smoker', 2: 'Smoker'})
 data['Symptom Count'] = data.iloc[:, 3:14].apply(lambda x: x.eq(2).sum(), axis=1)
 
-# Filter options
-smoking_filter = st.sidebar.selectbox("Filter by Smoking", ['All', 'Smoker', 'Non-Smoker'])
-
 # Group the filtered data by 'Symptom Count', 'SMOKING', and 'GENDER' and calculate the count of people
 filtered_df = data.copy()
 if smoking_filter != 'All':
