@@ -106,12 +106,15 @@ st.plotly_chart(fig)
 # Create the Plotly figure
 fig = go.Figure()
 
+graph_data = data.groupby(['Age Group', 'SMOKING']).size().reset_index(name='Number of Cases')
+
+
 for smoking_type in graph_data['SMOKING'].unique():
     temp_df = graph_data[graph_data['SMOKING'] == smoking_type]
     
     fig.add_trace(go.Bar(
         x=temp_df['Symptom Count'],
-        y=temp_df['Number of People'],
+        y=temp_df['Number of Cases'],
         name=smoking_type
     ))
 
