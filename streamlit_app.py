@@ -80,9 +80,8 @@ st.plotly_chart(fig)
 
 ############# Plot 3 
 
-
 # Load the data
-data = pd.read_csv('survey_lung_cancer.csv')
+data_new = pd.read_csv('survey lung cancer.csv')
 
 # Pre-process data
 symptoms = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FATIGUE ',
@@ -92,7 +91,11 @@ symptoms = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FA
 # Filter the data based on selected symptoms
 selected_symptoms = st.multiselect('Select Symptoms', symptoms)
 
-filtered_data = data[data[symptoms].isin(selected_symptoms).any(axis=1)]
+# Count the occurrences of selected symptoms in each row
+data_new['symptom_count'] = data_new[selected_symptoms].sum(axis=1)
+
+# Filter the data to include only rows with a symptom count of 2
+filtered_data = data_new[data_new['symptom_count'] == 2]
 
 # Calculate the count of cancer and non-cancer cases
 cancer_count = filtered_data[filtered_data['LUNG_CANCER'] == 'YES'].shape[0]
