@@ -24,18 +24,21 @@ df = data.groupby(['Symptom Count', 'SMOKING','GENDER']).size().reset_index(name
 
 # Filter the data based on user selection
 smoking_filter = st.sidebar.selectbox("Filter by Smoking", ['All', 'Smoker', 'Non-Smoker'])
-gender_filter = st.sidebar.selectbox("Filter by Gender", ['All', 'M', 'F'])
-
-filtered_df = df.copy()
-
-if smoking_filter != 'All':
-    filtered_df = filtered_df[filtered_df['SMOKING'] == smoking_filter]
-
-if gender_filter != 'All':
-    filtered_df = filtered_df[filtered_df['GENDER'] == gender_filter]
+gender_filter = None
 
 # Group the filtered data by 'Symptom Count' and 'SMOKING' and calculate the count of people
-grouped_df = filtered_df.groupby(['Symptom Count', 'SMOKING'], as_index=False)['Number of People'].sum()
+grouped_df = df.groupby(['Symptom Count', 'SMOKING'], as_index=False)['Number of People'].sum()
+
+# Filter the data based on user selection
+if smoking_filter != 'All':
+    grouped_df = grouped_df[grouped_df['SMOKING'] == smoking_filter]
+    # Get the gender options for the filtered data
+    gender_options = df[df['SMOKING'] == smoking_filter]['GENDER'].unique()
+    # User input - Gender filter
+    gender_filter = st.sidebar.selectbox("Filter by Gender", ['All'] + list(gender_options), index=0)
+
+    if gender_filter != 'All':
+        grouped_df = grouped_df[grouped_df['GENDER'] == gender_filter]
 
 # Create the Plotly figure
 fig = go.Figure()
@@ -59,13 +62,3 @@ fig.update_layout(
 
 # Display the plot using Streamlit
 st.plotly_chart(fig)
-
-
-
-
-
-
-
-
-
-
