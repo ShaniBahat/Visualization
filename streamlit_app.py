@@ -99,7 +99,7 @@ selected_symptoms = st.multiselect("Select Symptoms", symptoms)
 filtered_data = data[data[symptoms].isin([2]).any(axis=1)]
 
 # Calculate the count of cancer patients and non-cancer patients
-cancer_count = filtered_data['Cancer'].sum()
+cancer_count = filtered_data['LUNG_CANCER'].sum()
 non_cancer_count = len(filtered_data) - cancer_count
 
 # Create the Plotly figure
