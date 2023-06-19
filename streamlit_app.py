@@ -16,7 +16,7 @@ grouped_df = data.groupby(['Symptom Count', 'SMOKING', 'GENDER']).size().reset_i
 
 ############### plot 1 
 
-st.markdown('Number of Symptoms by Count of Patients')
+st.subheader('Number of Symptoms by Count of Patients')
 
 # Create the Plotly figure
 fig = go.Figure()
@@ -51,7 +51,7 @@ st.plotly_chart(fig)
 
 
 ########## Plot 2
-st.markdown('Count of Lung Cancer Cases by Age Group and Smoking Status')
+st.subheader('Lung Cancer Cases by Age Group')
 
 # Create the Plotly figure
 fig = go.Figure()
