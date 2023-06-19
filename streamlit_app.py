@@ -101,7 +101,7 @@ filtered_data = data[data[symptoms].isin([2]).any(axis=1)]
 filtered_data['LUNG_CANCER'] = pd.to_numeric(filtered_data['LUNG_CANCER'], errors='coerce')
 
 # Calculate the count of cancer patients and non-cancer patients
-cancer_count = filtered_data['LUNG_CANCER'].sum()
+cancer_count = filtered_data['LUNG_CANCER'].count()
 non_cancer_count = len(filtered_data) - cancer_count
 
 # Create the Plotly figure
