@@ -14,17 +14,20 @@ data['Symptom Count'] = data.iloc[:, 3:14].apply(lambda x: x.eq(2).sum(), axis=1
 # Group the data by 'Symptom Count', 'SMOKING', and 'GENDER' and calculate the count of people
 grouped_df = data.groupby(['Symptom Count', 'SMOKING', 'GENDER']).size().reset_index(name='Number of People')
 
+# Create a copy of the data for filtering
+filtered_df = grouped_df.copy()
+
 # Filter by gender for the graph
 gender_filter = st.sidebar.selectbox("Filter by Gender", ['All', 'M', 'F'])
 
 if gender_filter != 'All':
-    grouped_df = grouped_df[grouped_df['GENDER'] == gender_filter]
+    filtered_df = filtered_df[filtered_df['GENDER'] == gender_filter]
 
 # Create the Plotly figure
 fig = go.Figure()
 
-for smoking_type in grouped_df['SMOKING'].unique():
-    temp_df = grouped_df[grouped_df['SMOKING'] == smoking_type]
+for smoking_type in filtered_df['SMOKING'].unique():
+    temp_df = filtered_df[filtered_df['SMOKING'] == smoking_type]
 
     fig.add_trace(go.Bar(
         x=temp_df['Symptom Count'],
