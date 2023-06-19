@@ -61,28 +61,43 @@ symptom_columns = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEAS
 
 data['Symptom Count'] = data[symptom_columns].apply(lambda x: x.eq(2).sum(), axis=1)
 
-grouped_data = data.groupby(['Symptom Count', 'SMOKING','GENDER']).size().reset_index(name='Number of People')
+df = data.groupby(['Symptom Count', 'SMOKING','GENDER']).size().reset_index(name='Number of People')
 
-# Create a bar plot using Plotly
+
+# Filter the data based on user selection
+smoking_filter = st.sidebar.selectbox("Filter by Smoking", ['All', 'Smoker', 'Non-Smoker'])
+gender_filter = st.sidebar.selectbox("Filter by Gender", ['All', 'M', 'F'])
+
+filtered_df = df.copy()
+
+if smoking_filter != 'All':
+    filtered_df = filtered_df[filtered_df['SMOKING'] == smoking_filter]
+
+if gender_filter != 'All':
+    filtered_df = filtered_df[filtered_df['GENDER'] == gender_filter]
+
+# Group the filtered data by 'Symptom Count' and 'SMOKING' and calculate the count
+grouped_df = filtered_df.groupby(['Symptom Count', 'SMOKING']).count()['Number of People'].reset_index()
+
+# Create the Plotly figure
 fig = go.Figure()
 
-for i, row in grouped_data.iterrows():
+for smoking_type in grouped_df['SMOKING'].unique():
+    temp_df = grouped_df[grouped_df['SMOKING'] == smoking_type]
+    
     fig.add_trace(go.Bar(
-        x=[row['SMOKING']],
-        y=[row['Number of People']],
-        name=row['GENDER'],
+        x=temp_df['Symptom Count'],
+        y=temp_df['Number of People'],
+        name=smoking_type
     ))
 
+# Update the layout
 fig.update_layout(
-    title='Number of People by Smoking and Gender',
-    xaxis_title='Smoking',
-    yaxis_title='Number of People',
-    barmode='group',
+    title='Sign Violators Count by Symptom Count',
+    xaxis_title='Number of Symptoms',
+    yaxis_title='Count of People',
+    barmode='group'
 )
 
 # Display the plot using Streamlit
 st.plotly_chart(fig)
-    
-    
-    
-
