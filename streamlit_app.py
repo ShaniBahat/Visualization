@@ -78,3 +78,37 @@ fig.update_layout(
 # Display the plot using Streamlit
 st.plotly_chart(fig)
 
+############# Plot 3 
+
+import streamlit as st
+import pandas as pd
+import plotly.graph_objects as go
+
+# Load the data
+data = pd.read_csv('survey_lung_cancer.csv')
+
+# Pre-process data
+symptoms = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FATIGUE ',
+            'ALLERGY ', 'WHEEZING', 'COUGHING', 'SHORTNESS OF BREATH', 'SWALLOWING DIFFICULTY',
+            'CHEST PAIN']
+
+# Create a multiselect widget for symptom selection
+selected_symptoms = st.multiselect("Select Symptoms", symptoms)
+
+# Filter the data based on selected symptoms
+filtered_data = data[data[symptoms].isin([2]).any(axis=1)]
+
+# Calculate the count of cancer patients and non-cancer patients
+cancer_count = filtered_data['Cancer'].sum()
+non_cancer_count = len(filtered_data) - cancer_count
+
+# Create the Plotly figure
+fig = go.Figure(data=[go.Pie(labels=['Cancer Patients', 'Non-Cancer Patients'],
+                             values=[cancer_count, non_cancer_count])])
+
+# Update the layout
+fig.update_layout(title='Division of Cancer Patients and Non-Cancer Patients',
+                  showlegend=False)
+
+# Display the plot using Streamlit
+st.plotly_chart(fig)
