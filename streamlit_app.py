@@ -107,16 +107,16 @@ st.plotly_chart(fig)
 fig = go.Figure()
 
 fig.add_trace(go.Scatter(
-    x=df['Age Group'],
-    y=df['Non-smoking'],
+    x=data['Age Group'],
+    y=data['Non-smoking'],
     mode='lines+markers',
     name='Non-smoking',
     marker=dict(color='#267868', size=10)
 ))
 
 fig.add_trace(go.Scatter(
-    x=df['Age Group'],
-    y=df['Smoking'],
+    x=data['Age Group'],
+    y=data['Smoking'],
     mode='lines+markers',
     name='Smoking',
     marker=dict(color='#68C4AD', size=10)
