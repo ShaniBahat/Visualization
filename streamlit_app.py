@@ -100,3 +100,35 @@ fig.update_layout(
 
 # Display the plot using Streamlit
 st.plotly_chart(fig)
+
+
+
+# Create the Plotly figure
+fig = go.Figure()
+
+fig.add_trace(go.Scatter(
+    x=df['Age Group'],
+    y=df['Non-smoking'],
+    mode='lines+markers',
+    name='Non-smoking',
+    marker=dict(color='#267868', size=10)
+))
+
+fig.add_trace(go.Scatter(
+    x=df['Age Group'],
+    y=df['Smoking'],
+    mode='lines+markers',
+    name='Smoking',
+    marker=dict(color='#68C4AD', size=10)
+))
+
+# Update the layout
+fig.update_layout(
+    title='Count of Lung Cancer Cases by Age Group and Smoking Status',
+    xaxis_title='Age Group',
+    yaxis_title='Count',
+    legend=dict(title='Smoking Status', loc='upper right')
+)
+
+# Display the plot using Streamlit
+st.plotly_chart(fig)
