@@ -78,7 +78,6 @@ fig.update_layout(
 # Display the plot using Streamlit
 st.plotly_chart(fig)
 
-####### plot 3 
 
 ####### plot 3 
 # Load the data
@@ -113,18 +112,24 @@ non_smoker_non_cancer_count = non_smokers_data[non_smokers_data['LUNG_CANCER'] =
 
 # Create the Plotly figures
 fig1 = go.Figure(data=[go.Pie(labels=['Cancer', 'Non-Cancer'],
-                              values=[smoker_cancer_count, smoker_non_cancer_count])])
+                              values=[smoker_cancer_count, smoker_non_cancer_count],
+                              title='Smokers',
+                              hole=0.3)])
 
 fig2 = go.Figure(data=[go.Pie(labels=['Cancer', 'Non-Cancer'],
-                              values=[non_smoker_cancer_count, non_smoker_non_cancer_count])])
+                              values=[non_smoker_cancer_count, non_smoker_non_cancer_count],
+                              title='Non-Smokers',
+                              hole=0.3)])
+
+# Add lines to the pie charts
+fig1.add_trace(go.Scatter(x=[0.5, 0.5], y=[0, 1], mode='lines', line=dict(color='black')))
+fig2.add_trace(go.Scatter(x=[0.5, 0.5], y=[0, 1], mode='lines', line=dict(color='black')))
 
 # Update the layout for both figures
-fig1.update_layout(title='Smokers')
-fig2.update_layout(title='Non-Smokers')
+fig1.update_layout(title='Division of Cancer and Non-Cancer Cases - Smokers')
+fig2.update_layout(title='Division of Cancer and Non-Cancer Cases - Non-Smokers')
 
 # Display the pie charts side by side using Streamlit
-col1, col2 = st.columns(2)
-with col1:
-    st.plotly_chart(fig1, use_container_width=True)
-with col2:
-    st.plotly_chart(fig2, use_container_width=True)
+col1, col2 = st.beta_columns(2)
+col1.plotly_chart(fig1, use_container_width=True)
+col2.plotly_chart(fig2, use_container_width=True)
