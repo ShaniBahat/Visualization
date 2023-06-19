@@ -14,66 +14,76 @@ data['Symptom Count'] = data.iloc[:, 3:14].apply(lambda x: x.eq(2).sum(), axis=1
 # Group the data by 'Symptom Count', 'SMOKING', and 'GENDER' and calculate the count of people
 grouped_df = data.groupby(['Symptom Count', 'SMOKING', 'GENDER']).size().reset_index(name='Number of People')
 
-############### plot 1 
+# Create two columns for plot arrangement
+col1, col2 = st.beta_columns(2)
 
-st.subheader('Number of Symptoms by Count of Patients')
+############### plot 1
 
-# Create the Plotly figure
-fig = go.Figure()
-
-# Filter by gender for the graph
-gender_filter = st.selectbox("Filter by Gender", ['All', 'M', 'F'])
-
-for smoking_type in grouped_df['SMOKING'].unique():
-    temp_df = grouped_df[grouped_df['SMOKING'] == smoking_type]
+with col1:
+    st.subheader('Number of Symptoms by Count of Patients')
     
-    if gender_filter != 'All':
-        temp_df = temp_df[temp_df['GENDER'] == gender_filter]
-
-    fig.add_trace(go.Bar(
-        x=temp_df['Symptom Count'],
-        y=temp_df['Number of People'],
-        name=smoking_type
-    ))
-
-# Update the layout
-fig.update_layout(
-    xaxis_title='Number of Symptoms',
-    yaxis_title='Count of Patients',
-    barmode='group'
-)
-
-# Set x-axis tick labels for every number
-fig.update_xaxes(type='category')
-
-# Display the plot using Streamlit
-st.plotly_chart(fig)
+    # Create the Plotly figure
+    fig = go.Figure()
+    
+    # Filter by gender for the graph
+    gender_filter = st.selectbox("Filter by Gender", ['All', 'M', 'F'])
+    
+    for smoking_type in grouped_df['SMOKING'].unique():
+        temp_df = grouped_df[grouped_df['SMOKING'] == smoking_type]
+        
+        if gender_filter != 'All':
+            temp_df = temp_df[temp_df['GENDER'] == gender_filter]
+    
+        fig.add_trace(go.Bar(
+            x=temp_df['Symptom Count'],
+            y=temp_df['Number of People'],
+            name=smoking_type
+        ))
+    
+    # Update the layout
+    fig.update_layout(
+        xaxis_title='Number of Symptoms',
+        yaxis_title='Count of Patients',
+        barmode='group'
+    )
+    
+    # Set x-axis tick labels for every number
+    fig.update_xaxes(type='category')
+    
+    # Display the plot using Streamlit
+    st.plotly_chart(fig)
 
 ################# Plot 2
-# Create the Plotly figure
-fig = go.Figure()
 
-df = data.groupby(['Age Group', 'SMOKING']).size().reset_index(name='Number of Cases')
-
-for smoking_type in df['SMOKING'].unique():
-    temp_df = df[df['SMOKING'] == smoking_type]
+with col2:
+    # Create the Plotly figure
+    fig = go.Figure()
     
-    fig.add_trace(go.Scatter(
-        x=temp_df['Age Group'],
-        y=temp_df['Number of Cases'],
-        mode='lines+markers',
-        name=smoking_type
-    ))
+    df = data.groupby(['Age Group', 'SMOKING']).size().reset_index(name='Number of Cases')
+    
+    for smoking_type in df['SMOKING'].unique():
+        temp_df = df[df['SMOKING'] == smoking_type]
+        
+        fig.add_trace(go.Scatter(
+            x=temp_df['Age Group'],
+            y=temp_df['Number of Cases'],
+            mode='lines+markers',
+            name=smoking_type
+        ))
+    
+    # Update the layout
+    fig.update_layout(
+        title='Count of Lung Cancer Cases by Age Group and Smoking Status',
+        xaxis_title='Age Group',
+        yaxis_title='Number of Cases',
+        legend=dict(title='Smoking Status')
+    )
+    
+    # Display the plot using Streamlit
+    st.plotly_chart(fig)
 
-# Update the layout
-fig.update_layout(
-    title='Count of Lung Cancer Cases by Age Group and Smoking Status',
-    xaxis_title='Age Group',
-    yaxis_title='Number of Cases',
-    legend=dict(title='Smoking Status')
-)
 
-# Display the plot using Streamlit
-st.plotly_chart(fig)
+
+
 
 
