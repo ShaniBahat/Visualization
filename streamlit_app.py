@@ -96,7 +96,7 @@ st.plotly_chart(fig)
 
 with st.container():
     # Filter the data based on the user selection
-    filtered_df = df[df['GENDER'] == gender_filter]
+    filtered_df = data[data['GENDER'] == gender_filter]
     
     # Group the filtered data by 'Symptom Count' and 'SMOKING' and calculate the count of people
     grouped_df = filtered_df.groupby(['Symptom Count', 'SMOKING'], as_index=False)['Number of People'].sum()
