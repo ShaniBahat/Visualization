@@ -94,7 +94,7 @@ st.plotly_chart(fig)
 filtered_df = data[data['GENDER'] == 'F']  # Update the condition as per your requirement
 
 # Group the filtered data by 'Symptom Count' and 'SMOKING' and calculate the count of people
-grouped_df = filtered_df.groupby(['Symptom Count', 'SMOKING'], as_index=False)['Number of People'].sum()
+grouped_df = filtered_df.groupby(['Symptom Count', 'SMOKING'], as_index=False)['Number of Cases'].sum()
 
 # Create the Plotly figure
 fig = go.Figure()
