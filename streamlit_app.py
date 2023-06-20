@@ -167,27 +167,27 @@ selected_age = st.slider('Select Age', min_value=int(data['AGE'].min()), max_val
 selected_smoking = st.radio('Select Smoking Status', ['Smoker', 'Non-Smoker'])
 
 
-# # Add a point on the plot for the selected age and smoking status
-# if selected_smoking == 'Smoker':
-#     marker_color = 'red'
-# else:
-#     marker_color = 'blue'
+# Add a point on the plot for the selected age and smoking status
+if selected_smoking == 'Smoker':
+    marker_color = 'red'
+else:
+    marker_color = 'blue'
 
-# fig.add_trace(go.Scatter(
-#     x=[selected_age],
-#     y=[df[(df['Age Group'] == str(selected_age)) & (df['SMOKING'] == selected_smoking)]['Number of Cases']],
-#     mode='markers',
-#     marker=dict(color=marker_color, size=10),
-#     name=f'Selected ({selected_smoking})'
-# ))
+fig.add_trace(go.Scatter(
+    x=[selected_age],
+    y=[df[(df['Age Group'] == str(selected_age)) & (df['SMOKING'] == selected_smoking)]['Number of Cases']],
+    mode='markers',
+    marker=dict(color=marker_color, size=10),
+    name=f'Selected ({selected_smoking})'
+))
 
-# # Update the layout again to include the selected point
-# fig.update_layout(
-#     xaxis_title='Age Group',
-#     yaxis_title='Number of Cases',
-#     legend=dict(title='Smoking Status'),
-#     title='Lung Cancer Cases by Age Group (with Selection)'
-# )
+# Update the layout again to include the selected point
+fig.update_layout(
+    xaxis_title='Age Group',
+    yaxis_title='Number of Cases',
+    legend=dict(title='Smoking Status'),
+    title='Lung Cancer Cases by Age Group (with Selection)'
+)
 
 # Display the updated plot with the selected point
 st.plotly_chart(fig)
