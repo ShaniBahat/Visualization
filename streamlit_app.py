@@ -194,6 +194,9 @@ bubble_data = pd.DataFrame({
 pastel_colors = ['#FFC3A0', '#FFD1B3', '#FFDFC2', '#FFEBCD', '#FFE8D6', '#FFECDB',
                  '#FFF1E6', '#FFF5EE', '#FFFAF0', '#FFF8E7', '#FFF9EC', '#FFFDF3']
 
+# Create a categorical color mapping for each symptom
+color_mapping = {symptom: color for symptom, color in zip(bubble_data['Symptom'].unique(), pastel_colors)}
+
 # Create the Bubble Chart with custom colors
 fig = px.scatter(
     bubble_data,
@@ -201,7 +204,7 @@ fig = px.scatter(
     y='Occurrences',
     size='Cancer Cases',
     color='Symptom',
-    color_discrete_sequence=pastel_colors,
+    color_discrete_map=color_mapping,
     hover_data=['Symptom', 'Occurrences', 'Cancer Cases'],
     labels={'Occurrences': 'Number of Occurrences', 'Cancer Cases': 'Number of Cancer Cases'}
 )
@@ -223,5 +226,4 @@ fig.update_layout(
 
 # Display the chart using Streamlit
 st.plotly_chart(fig)
-
 
