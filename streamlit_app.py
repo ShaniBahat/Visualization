@@ -111,30 +111,30 @@ st.plotly_chart(fig)
 ########## Plot 2
 st.subheader('Lung Cancer Cases by Age Group')
 
-# Create the Plotly figure
-fig = go.Figure()
+# # Create the Plotly figure
+# fig = go.Figure()
 
-df = data.groupby(['Age Group', 'SMOKING']).size().reset_index(name='Number of Cases')
+# df = data.groupby(['Age Group', 'SMOKING']).size().reset_index(name='Number of Cases')
 
-for smoking_type in df['SMOKING'].unique():
-    temp_df = df[df['SMOKING'] == smoking_type]
+# for smoking_type in df['SMOKING'].unique():
+#     temp_df = df[df['SMOKING'] == smoking_type]
     
-    fig.add_trace(go.Scatter(
-        x=temp_df['Age Group'],
-        y=temp_df['Number of Cases'],
-        mode='lines+markers',
-        name=smoking_type
-    ))
+#     fig.add_trace(go.Scatter(
+#         x=temp_df['Age Group'],
+#         y=temp_df['Number of Cases'],
+#         mode='lines+markers',
+#         name=smoking_type
+#     ))
 
-# Update the layout
-fig.update_layout(
-    xaxis_title='Age Group',
-    yaxis_title='Number of Cases',
-    legend=dict(title='Smoking Status')
-)
+# # Update the layout
+# fig.update_layout(
+#     xaxis_title='Age Group',
+#     yaxis_title='Number of Cases',
+#     legend=dict(title='Smoking Status')
+# )
 
-# Display the plot using Streamlit
-st.plotly_chart(fig)
+# # Display the plot using Streamlit
+# st.plotly_chart(fig)
 
 
 ####### plot 3 
