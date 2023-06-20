@@ -83,7 +83,7 @@ fig = go.Figure()
 
 df = data.groupby(['Age Group', 'SMOKING']).size().reset_index(name='Number of Cases')
 
-colors = {'Non-Smoker': '#adc6c7', 'Smoker': '#0e979c'}
+colors = {'Non-Smoker': '#adc6c7', 'Smoker': '#1e696b'}
 
 for smoking_type in df['SMOKING'].unique():
     temp_df = df[df['SMOKING'] == smoking_type]
