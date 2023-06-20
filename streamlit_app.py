@@ -127,6 +127,8 @@ fig.add_trace(go.Scatter(
 st.plotly_chart(fig)
 
 ####### plot 3 
+
+st.subheader("Occurrences of Symptoms and Lung Cancer Cases")
 import plotly.graph_objects as go
 import plotly.express as px
 
