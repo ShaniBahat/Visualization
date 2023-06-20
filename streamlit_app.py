@@ -224,10 +224,10 @@ fig.update_layout(
     ),
     yaxis=dict(
         title='Number of Occurrences',
-        range=[0, 270]
+        range=[0, 250]
     )
 )
-st.plotly_chart(fig, use_container_width=True, height=600)
+st.plotly_chart(fig, use_container_width=True, height=700)
 # # Display the chart using Streamlit
 # st.plotly_chart(fig)
 
