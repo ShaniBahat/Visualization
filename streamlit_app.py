@@ -37,17 +37,18 @@ smoker_non_cancer_count = smokers_data[smokers_data['LUNG_CANCER'] == 'NO'].shap
 non_smoker_cancer_count = non_smokers_data[non_smokers_data['LUNG_CANCER'] == 'YES'].shape[0]
 non_smoker_non_cancer_count = non_smokers_data[non_smokers_data['LUNG_CANCER'] == 'NO'].shape[0]
 
-# Create the Plotly figures
 fig1 = go.Figure(data=[go.Pie(labels=['Cancer', 'Non-Cancer'],
                               values=[smoker_cancer_count, smoker_non_cancer_count],
                               title='Smokers',
-                              hole=0.5)])
+                              hole=0.5,
+                              textfont=dict(size=20, color='black', weight='bold'))])
 fig1.update_traces(marker=dict(line=dict(color='#000000', width=2)))
 
 fig2 = go.Figure(data=[go.Pie(labels=['Cancer', 'Non-Cancer'],
                               values=[non_smoker_cancer_count, non_smoker_non_cancer_count],
                               title='Non-Smokers',
-                              hole=0.5)])
+                              hole=0.5,
+                              textfont=dict(size=20, color='black', weight='bold'))])
 
 fig2.update_traces(marker=dict(line=dict(color='#000000', width=2)))
 
