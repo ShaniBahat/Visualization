@@ -170,7 +170,8 @@ st.plotly_chart(fig)
 ######### plot 4 
 
 
-import plotly.colors
+import plotly.express as px
+
 
 # Load the data
 data = pd.read_csv('survey_lung_cancer.csv')
@@ -185,48 +186,38 @@ lung_cancer_counts = data[data['LUNG_CANCER'] == 'YES'].iloc[:, 3:14].eq(2).sum(
 # Generate a unique numeric value for each symptom
 symptom_color_mapping = {symptom: index for index, symptom in enumerate(symptom_counts.index)}
 
-# Create the Bubble Chart
-fig = go.Figure(data=go.Scatter(
-    x=symptom_counts.index,
-    y=symptom_counts.values,
-    mode='markers',
-    marker=dict(
-        size=lung_cancer_counts.values,
-        sizemode='area',
-        sizeref=0.1,  # Adjust the size scaling factor as needed
-        color=[symptom_color_mapping[symptom] for symptom in symptom_counts.index],
-        colorscale='Viridis',
-        showscale=True,
-        colorbar=dict(title='Symptom')
-    ),
-    text=symptom_counts.values,  # Set the text displayed on hover
-    hovertemplate='<b>%{x}</b><br><br>' +
-                  'Symptom Count: %{y}<br>' +
-                  'Lung Cancer Cases: %{marker.size}<extra></extra>',
-))
+# Create a DataFrame for the bubble chart
+bubble_data = pd.DataFrame({
+    'Symptom': symptom_counts.index,
+    'Occurrences': symptom_counts.values,
+    'Cancer Cases': lung_cancer_counts.values
+})
 
-# Customize the color scale labels
-color_scale_labels = [dict(
-    label=symptom,
-    method='restyle',
-    args=['marker.color', [[symptom_color_mapping[symptom] for symptom in symptom_counts.index]]]
-) for symptom in symptom_counts.index]
+# Create the Bubble Chart
+fig = px.scatter(
+    bubble_data,
+    x='Symptom',
+    y='Occurrences',
+    size='Cancer Cases',
+    color='Symptom',
+    hover_data=['Symptom', 'Occurrences', 'Cancer Cases'],
+    labels={'Occurrences': 'Number of Occurrences', 'Cancer Cases': 'Number of Cancer Cases'},
+    title='Symptoms Bubble Chart'
+)
 
 # Customize the layout
 fig.update_layout(
-    title='Symptoms Bubble Chart',
-    xaxis_title='Symptom',
-    yaxis_title='Number of Occurrences',
-    updatemenus=[dict(
-        buttons=color_scale_labels,
-        direction='down',
-        pad=dict(r=10, t=10),
-        showactive=True,
-        x=0.1,
-        xanchor='left',
-        y=1.1,
-        yanchor='top'
-    )],
+    xaxis=dict(
+        tickangle=45,
+        tickfont=dict(size=10),
+        title='Symptom'
+    ),
+    yaxis=dict(
+        title='Number of Occurrences',
+        range=[0, max(symptom_counts.values) + 1]
+    ),
+    legend_title='Symptom',
+    hovermode='closest'
 )
 
 # Display the chart using Streamlit
