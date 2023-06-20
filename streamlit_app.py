@@ -92,6 +92,7 @@ for smoking_type in df['SMOKING'].unique():
         y=temp_df['Number of Cases'],
         mode='lines+markers',
         name=smoking_type,
+        opacity=0.8,
         line=dict(width=5, color=colors[smoking_type]),
         marker=dict(color=colors[smoking_type])
     ))
@@ -134,7 +135,7 @@ fig = go.Figure()
 # Filter by gender for the graph
 gender_filter = st.selectbox("Filter by Gender", ['All', 'M', 'F'])
 
-colors = {'Non-Smoker': '#b3baba', 'Smoker': '#39b3b8'}
+colors = {'Non-Smoker': '#b3baba', 'Smoker': '#008f94'}
 
 for smoking_type in grouped_df['SMOKING'].unique():
     temp_df = grouped_df[grouped_df['SMOKING'] == smoking_type]
