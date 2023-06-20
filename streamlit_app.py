@@ -199,8 +199,7 @@ fig = px.scatter(
     size='Cancer Cases',
     color='Symptom',
     hover_data=['Symptom', 'Occurrences', 'Cancer Cases'],
-    labels={'Occurrences': 'Number of Occurrences', 'Cancer Cases': 'Number of Cancer Cases'},
-    title='Symptoms Bubble Chart'
+    labels={'Occurrences': 'Number of Occurrences', 'Cancer Cases': 'Number of Cancer Cases'}
 )
 
 # Customize the layout
