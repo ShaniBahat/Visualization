@@ -114,7 +114,7 @@ st.subheader('Lung Cancer Cases by Age Group')
 # # Create the Plotly figure
 # fig = go.Figure()
 
-# df = data.groupby(['Age Group', 'SMOKING']).size().reset_index(name='Number of Cases')
+df = data.groupby(['Age Group', 'SMOKING']).size().reset_index(name='Number of Cases')
 
 # for smoking_type in df['SMOKING'].unique():
 #     temp_df = df[df['SMOKING'] == smoking_type]
