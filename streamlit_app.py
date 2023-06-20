@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 
-st.image("picture for app.png", caption='Photo Caption', width=300)
+st.image("picture for app.png")
 
 
 # Load the data
