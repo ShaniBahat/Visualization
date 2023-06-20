@@ -115,11 +115,12 @@ fig1 = go.Figure(data=[go.Pie(labels=['Cancer', 'Non-Cancer'],
                               values=[smoker_cancer_count, smoker_non_cancer_count],
                               title='Smokers',
                               hole=0.5)])
+fig1.update_traces(marker=dict(line=dict(color='#000000', width=2)))
 
 fig2 = go.Figure(data=[go.Pie(labels=['Cancer', 'Non-Cancer'],
                               values=[non_smoker_cancer_count, non_smoker_non_cancer_count],
                               title='Non-Smokers',
-                              hole=0.5, line = 'black')])
+                              hole=0.5)])
 
 # Update the layout for both figures
 # fig1.update_layout(title='Division of Cancer and Non-Cancer Cases - Smokers')
