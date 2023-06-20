@@ -224,7 +224,7 @@ fig.update_layout(
     ),
     yaxis=dict(
         title='Number of Occurrences',
-        range=[0, 250]
+        range=[0, 250], dtick=20
     )
 )
 st.plotly_chart(fig, use_container_width=True, height=800)
