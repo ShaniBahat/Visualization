@@ -121,7 +121,7 @@ fig.add_trace(go.Scatter(
     y=[y_value],
     mode='markers',
     name='Your Selection',
-    marker=dict(symbol='circle-open-dot', color='#bgc4c4', size=14, line=dict(width=3))
+    marker=dict(symbol='circle-open-dot', color='red', size=14, line=dict(width=3))
 ))
 
 st.plotly_chart(fig)
