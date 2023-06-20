@@ -169,55 +169,41 @@ st.plotly_chart(fig)
 
 ######### plot 4 
 
+# Filter the data to include only rows where the symptom appears (value equals 2)
+symptom_counts = data.iloc[:, 3:14].eq(2).sum()
+
+# Calculate the count of lung cancer cases
+lung_cancer_counts = data[data['LUNG_CANCER'] == 'YES'].iloc[:, 3:14].eq(2).sum()
+
 # Create the Bubble Chart
-fig = go.Figure()
-
-# Customize bubble color based on symptom category
-color_mapping = {
-    'respiratory': '#0099ff',
-    'pain': '#ff0000',
-    'digestive': '#ff9900',
-    'cardiovascular': '#ff66cc',
-    'fatigue': '#cc00cc',
-    'mental': '#00cc00',
-    'allergy': '#00cc99',
-    'other': '#999999',
-}
-
-# Add bubbles for each symptom
-for symptom in data.columns[3:14]:
-    category = get_category(symptom)  # Replace with your own function to get symptom category
-    color = color_mapping.get(category, '#000000')  # Default color if category not found
-    fig.add_trace(go.Scatter(
-        x=data[symptom],
-        y=data['Symptom Count'],
-        mode='markers',
-        name=symptom,
-        marker=dict(
-            size=data[symptom],
-            sizemode='diameter',
-            sizeref=0.05,  # Adjust the size scaling factor as needed
-            color=color,
-            opacity=0.7,
-        ),
-        text=data[symptom],  # Set the text displayed on hover
-        hovertemplate='<b>%{text}</b><br><br>' +
-                      'Symptom Count: %{y}<br>' +
-                      'Importance: %{x}<br>',
-    ))
+fig = go.Figure(data=go.Scatter(
+    x=symptom_counts.index,
+    y=symptom_counts.values,
+    mode='markers',
+    marker=dict(
+        size=lung_cancer_counts.values,
+        sizemode='area',
+        sizeref=0.1,  # Adjust the size scaling factor as needed
+        color=symptom_counts.index,
+        colorscale='Viridis',  # Adjust the colorscale as needed
+        showscale=True,
+        colorbar=dict(title='Symptom')
+    ),
+    text=symptom_counts.values,  # Set the text displayed on hover
+    hovertemplate='<b>%{x}</b><br><br>' +
+                  'Symptom Count: %{y}<br>' +
+                  'Lung Cancer Cases: %{marker.size}<extra></extra>',
+))
 
 # Customize the layout
 fig.update_layout(
     title='Symptoms Bubble Chart',
-    xaxis_title='Importance',
-    yaxis_title='Symptom Count',
-    showlegend=True,
-    legend_title='Symptoms',
+    xaxis_title='Symptom',
+    yaxis_title='Number of Occurrences',
 )
 
 # Display the chart using Streamlit
 st.plotly_chart(fig)
-
 
 
 
