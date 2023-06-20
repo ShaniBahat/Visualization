@@ -212,7 +212,7 @@ for i, symptom in enumerate(bubble_data['Symptom']):
         name=symptom,
         hovertemplate='<b>%{x}</b><br><br>' +
                       'Symptom Count: %{y}<br>' +
-                      'Lung Cancer Cases: %{marker.size}<extra></extra>',
+                      'Lung Cancer Cases: %{['Cancer Cases'][i]}<extra></extra>',
     ))
 
 # Customize the layout
