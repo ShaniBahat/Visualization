@@ -83,7 +83,8 @@ fig = go.Figure()
 
 df = data.groupby(['Age Group', 'SMOKING']).size().reset_index(name='Number of Cases')
 
-colors = {'Non-Smoker': '#adc6c7', 'Smoker': '# Create the Plotly figure
+colors = {'Non-Smoker': '#a3adad', 'Smoker': '#1d7c80'}
+# Create the Plotly figure
 fig = go.Figure()
 
 # Filter by gender for the graph
