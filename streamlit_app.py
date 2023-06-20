@@ -212,7 +212,7 @@ fig.update_layout(
     ),
     yaxis=dict(
         title='Number of Occurrences',
-        range=[0, 220]
+        range=[0, 250]
     ),
     legend_title='Symptom',
     hovermode='closest'
