@@ -92,7 +92,7 @@ for smoking_type in df['SMOKING'].unique():
         y=temp_df['Number of Cases'],
         mode='lines+markers',
         name=smoking_type,
-        line=dict(width=4.5)
+        line=dict(width=5)
     ))
 
 # Update the layout
