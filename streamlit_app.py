@@ -227,7 +227,4 @@ fig.update_layout(
         range=[0, 250]
     )
 )
-st.plotly_chart(fig, use_container_width=True, height=900)
-# # Display the chart using Streamlit
-# st.plotly_chart(fig)
-
+st.plotly_chart(fig, use_container_width=True, height=800)
