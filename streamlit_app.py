@@ -168,11 +168,10 @@ fig.update_xaxes(type='category')
 st.plotly_chart(fig)
 
 ######### plot 4 
-
 import plotly.graph_objects as go
 import plotly.express as px
 
-pastel_colors =  ['#B3BABA', '#C6CCCC', '#BADDDD', '#82C2C7', '#7DAEAE', '#5A9FA5',
+pastel_colors = ['#B3BABA', '#C6CCCC', '#BADDDD', '#82C2C7', '#7DAEAE', '#5A9FA5',
                  '#539DA2', '#008F94', '#29838D', '#1B5C5F', '#526769', '#6E7377']
 
 # Load the data
@@ -194,6 +193,7 @@ bubble_data = pd.DataFrame({
     'Cancer Cases': lung_cancer_counts.values
 })
 
+
 # Create the Bubble Chart with custom colors and size
 fig = go.Figure()
 
@@ -211,7 +211,8 @@ for i, symptom in enumerate(bubble_data['Symptom']):
         name=symptom,
         hovertemplate='<b>%{x}</b><br><br>' +
                       'Symptom Count: %{y}<br>' +
-                      'Lung Cancer Cases: %{marker.size}<br>',
+                      'Lung Cancer Cases: %{text}<br>',
+        text=bubble_data['Cancer Cases']  # Use the actual values for lung cancer cases in hovertemplate
     ))
 
 # Customize the layout
@@ -230,4 +231,3 @@ fig.update_layout(
 )
 
 st.plotly_chart(fig)
-
