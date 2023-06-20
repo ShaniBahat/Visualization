@@ -224,8 +224,7 @@ fig.update_layout(
     yaxis=dict(
         title='Number of Occurrences',
         range=[0, 270]
-    ),
-    title='Symptoms Bubble Chart'
+    )
 )
 
 # Display the chart using Streamlit
