@@ -3,7 +3,6 @@ import pandas as pd
 import plotly.graph_objects as go
 
 st.image("title for app.png")
-st.subheader("Exploring the Effects of Smoking and Lung Cancer")
 
 ########## Plot 1
 # Load the data
