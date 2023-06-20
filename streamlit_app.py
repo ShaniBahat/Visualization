@@ -169,11 +169,21 @@ st.plotly_chart(fig)
 
 ######### plot 4 
 
+
+import plotly.colors
+
+# Load the data
+data = pd.read_csv('survey lung cancer.csv')
+data['SMOKING'] = data['SMOKING'].map({1: 'Non-Smoker', 2: 'Smoker'})
+
 # Filter the data to include only rows where the symptom appears (value equals 2)
 symptom_counts = data.iloc[:, 3:14].eq(2).sum()
 
 # Calculate the count of lung cancer cases
 lung_cancer_counts = data[data['LUNG_CANCER'] == 'YES'].iloc[:, 3:14].eq(2).sum()
+
+# Generate a unique numeric value for each symptom
+symptom_color_mapping = {symptom: index for index, symptom in enumerate(symptom_counts.index)}
 
 # Create the Bubble Chart
 fig = go.Figure(data=go.Scatter(
@@ -184,8 +194,8 @@ fig = go.Figure(data=go.Scatter(
         size=lung_cancer_counts.values,
         sizemode='area',
         sizeref=0.1,  # Adjust the size scaling factor as needed
-        color=symptom_counts.index,
-        colorscale='Viridis',  # Adjust the colorscale as needed
+        color=[symptom_color_mapping[symptom] for symptom in symptom_counts.index],
+        colorscale='Viridis',
         showscale=True,
         colorbar=dict(title='Symptom')
     ),
@@ -195,17 +205,31 @@ fig = go.Figure(data=go.Scatter(
                   'Lung Cancer Cases: %{marker.size}<extra></extra>',
 ))
 
+# Customize the color scale labels
+color_scale_labels = [dict(
+    label=symptom,
+    method='restyle',
+    args=['marker.color', [[symptom_color_mapping[symptom] for symptom in symptom_counts.index]]]
+) for symptom in symptom_counts.index]
+
 # Customize the layout
 fig.update_layout(
     title='Symptoms Bubble Chart',
     xaxis_title='Symptom',
     yaxis_title='Number of Occurrences',
+    updatemenus=[dict(
+        buttons=color_scale_labels,
+        direction='down',
+        pad=dict(r=10, t=10),
+        showactive=True,
+        x=0.1,
+        xanchor='left',
+        y=1.1,
+        yanchor='top'
+    )],
 )
 
 # Display the chart using Streamlit
 st.plotly_chart(fig)
-
-
-
 
 
