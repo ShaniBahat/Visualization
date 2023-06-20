@@ -206,7 +206,7 @@ fig = px.scatter(
     size='Cancer Cases',
     color='Color',
     hover_data=['Symptom', 'Occurrences', 'Cancer Cases'],
-    labels={'Occurrences': 'Number of Occurrences', 'Cancer Cases': 'Number of Cancer Cases'}
+    labels={'Symptom': 'Symptom', 'Occurrences': 'Number of Occurrences', 'Cancer Cases': 'Number of Cancer Cases'}
 )
 
 # Customize the layout
@@ -226,4 +226,5 @@ fig.update_layout(
 
 # Display the chart using Streamlit
 st.plotly_chart(fig)
+
 
