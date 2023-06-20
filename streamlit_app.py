@@ -132,6 +132,7 @@ fig.update_layout(
     yaxis_title='Number of Cases',
     legend=dict(title='Smoking Status')
 )
+fig.update_traces(marker=dict(line=dict(width=2)))
 
 ##############################################################
 # Add selection options for age and smoking status
