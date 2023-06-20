@@ -175,13 +175,12 @@ import plotly.express as px
 
 # Load the data
 data = pd.read_csv('survey_lung_cancer.csv')
-data['SMOKING'] = data['SMOKING'].map({1: 'Non-Smoker', 2: 'Smoker'})
 
 # Filter the data to include only rows where the symptom appears (value equals 2)
-symptom_counts = data.iloc[:, 3:14].eq(2).sum()
+symptom_counts = data.iloc[:, 2:14].eq(2).sum()
 
 # Calculate the count of lung cancer cases
-lung_cancer_counts = data[data['LUNG_CANCER'] == 'YES'].iloc[:, 3:14].eq(2).sum()
+lung_cancer_counts = data[data['LUNG_CANCER'] == 'YES'].iloc[:, 2:14].eq(2).sum()
 
 # Generate a unique numeric value for each symptom
 symptom_color_mapping = {symptom: index for index, symptom in enumerate(symptom_counts.index)}
