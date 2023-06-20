@@ -169,7 +169,6 @@ st.plotly_chart(fig)
 
 ######### plot 4 
 
-
 import plotly.express as px
 
 # Load the data
@@ -195,17 +194,16 @@ bubble_data = pd.DataFrame({
 pastel_colors = ['#FFC3A0', '#FFD1B3', '#FFDFC2', '#FFEBCD', '#FFE8D6', '#FFECDB',
                  '#FFF1E6', '#FFF5EE', '#FFFAF0', '#FFF8E7', '#FFF9EC', '#FFFDF3']
 
-# Create the Bubble Chart
+# Create the Bubble Chart with pastel colors
 fig = px.scatter(
     bubble_data,
     x='Symptom',
     y='Occurrences',
     size='Cancer Cases',
     color='Symptom',
+    color_discrete_sequence=pastel_colors,
     hover_data=['Symptom', 'Occurrences', 'Cancer Cases'],
     labels={'Occurrences': 'Number of Occurrences', 'Cancer Cases': 'Number of Cancer Cases'},
-    title='Symptoms Bubble Chart',
-    color_discrete_sequence=pastel_colors
 )
 
 # Customize the layout
@@ -225,3 +223,4 @@ fig.update_layout(
 
 # Display the chart using Streamlit
 st.plotly_chart(fig)
+
