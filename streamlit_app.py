@@ -93,7 +93,7 @@ for smoking_type in df['SMOKING'].unique():
         y=temp_df['Number of Cases'],
         mode='lines+markers',
         name=smoking_type,
-        line=dict(width=5, color=colors[smoking_type]),
+        line=dict(width=4, color=colors[smoking_type]),
         marker=dict(color=colors[smoking_type])
     ))
 
@@ -121,7 +121,7 @@ fig.add_trace(go.Scatter(
     y=[y_value],
     mode='markers',
     name='Your Selection',
-    marker=dict(symbol='circle-open-dot', color='black', size=10, line=dict(width=3))
+    marker=dict(symbol='circle-open-dot', color='black', size=12, line=dict(width=2))
 ))
 
 st.plotly_chart(fig)
