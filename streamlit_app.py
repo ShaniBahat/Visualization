@@ -7,7 +7,7 @@ data = pd.read_csv('survey_lung_cancer.csv')
 
 # Pre-process data
 age_bins = [30,35, 40,45, 50,55, 60,65, 70,75, 80,85, 90]
-data['Age Group'] = pd.cut(data['AGE'], bins=age_bins, labels=['31-35','36-40', '41-45','56-50', '51-55', '56-60', '61-65',66-70', '71-75','76-80','81-85', '86-90'])
+data['Age Group'] = pd.cut(data['AGE'], bins=age_bins, labels=['31-35','36-40', '41-45','56-50', '51-55', '56-60', '61-65','66-70', '71-75','76-80','81-85', '86-90'])
 data['SMOKING'] = data['SMOKING'].map({1: 'Non-Smoker', 2: 'Smoker'})
 data['Symptom Count'] = data.iloc[:, 3:14].apply(lambda x: x.eq(2).sum(), axis=1)
 
