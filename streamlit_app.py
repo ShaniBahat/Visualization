@@ -151,7 +151,7 @@ fig.add_trace(go.Scatter(
     y=[y_value],
     mode='markers',
     name='Your Selection',
-    marker=dict(symbol='hexagon-open-dot', color='black', size=10, line=dict(width=2))
+    marker=dict(symbol='circle-open-dot', color='black', size=10, line=dict(width=2))
 ))
 ##############################################################
 
