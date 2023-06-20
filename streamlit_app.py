@@ -194,16 +194,21 @@ bubble_data = pd.DataFrame({
 pastel_colors = ['#FFC3A0', '#FFD1B3', '#FFDFC2', '#FFEBCD', '#FFE8D6', '#FFECDB',
                  '#FFF1E6', '#FFF5EE', '#FFFAF0', '#FFF8E7', '#FFF9EC', '#FFFDF3']
 
+# Create a color mapping dictionary for each symptom
+symptom_color_mapping = dict(zip(bubble_data['Symptom'].unique(), pastel_colors))
+
+# Map the colors to the Symptom column
+bubble_data['Color'] = bubble_data['Symptom'].map(symptom_color_mapping)
+
 # Create the Bubble Chart with pastel colors
 fig = px.scatter(
     bubble_data,
     x='Symptom',
     y='Occurrences',
     size='Cancer Cases',
-    color='Symptom',
-    color_discrete_sequence=pastel_colors,
+    color='Color',
     hover_data=['Symptom', 'Occurrences', 'Cancer Cases'],
-    labels={'Occurrences': 'Number of Occurrences', 'Cancer Cases': 'Number of Cancer Cases'},
+    labels={'Occurrences': 'Number of Occurrences', 'Cancer Cases': 'Number of Cancer Cases'}
 )
 
 # Customize the layout
