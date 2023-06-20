@@ -4,7 +4,7 @@ import plotly.graph_objects as go
 
 st.image("picture for app.png")
 
-
+########## Plot 1
 # Load the data
 data_new = pd.read_csv('survey_lung_cancer.csv')
 data_new['SMOKING'] = data_new['SMOKING'].map({1: 'Non-Smoker', 2: 'Smoker'})
@@ -59,7 +59,11 @@ fig2.update_traces(marker=dict(line=dict(color='#000000', width=2)))
 col1, col2 = st.columns(2)
 col1.plotly_chart(fig1, use_container_width=True)
 col2.plotly_chart(fig2, use_container_width=True)
+
 #####################################################
+
+###### Plot 2 
+
 # Load the data
 data = pd.read_csv('survey_lung_cancer.csv')
 
@@ -72,8 +76,54 @@ data['Symptom Count'] = data.iloc[:, 3:14].apply(lambda x: x.eq(2).sum(), axis=1
 # Group the data by 'Symptom Count', 'SMOKING', and 'GENDER' and calculate the count of people
 grouped_df = data.groupby(['Symptom Count', 'SMOKING', 'GENDER']).size().reset_index(name='Number of People')
 
-############### plot 1 
+st.subheader('Lung Cancer Cases by Age Group')
 
+# Create the Plotly figure
+fig = go.Figure()
+
+df = data.groupby(['Age Group', 'SMOKING']).size().reset_index(name='Number of Cases')
+
+for smoking_type in df['SMOKING'].unique():
+    temp_df = df[df['SMOKING'] == smoking_type]
+    
+    fig.add_trace(go.Scatter(
+        x=temp_df['Age Group'],
+        y=temp_df['Number of Cases'],
+        mode='lines+markers',
+        name=smoking_type,
+        line=dict(width=6)
+    ))
+
+# Update the layout
+fig.update_layout(
+    xaxis_title='Age Group',
+    yaxis_title='Number of Cases',
+    legend=dict(title='Smoking Status')
+)
+
+# Add selection options for age and smoking status
+selected_age_group = st.selectbox('Select Age Group', df['Age Group'].unique())
+selected_smoking_status = st.selectbox('Select Smoking Status', df['SMOKING'].unique())
+
+# Filter the data based on selected age group and smoking status
+filtered_df = df[(df['Age Group'] == selected_age_group) & (df['SMOKING'] == selected_smoking_status)]
+
+# Get the corresponding x and y values for the selected age group and smoking status
+x_value = filtered_df['Age Group'].values[0]
+y_value = filtered_df['Number of Cases'].values[0]
+
+# Update the layout to add a point for the selected data
+fig.add_trace(go.Scatter(
+    x=[x_value],
+    y=[y_value],
+    mode='markers',
+    name='Your Selection',
+    marker=dict(symbol='circle-open-dot', color='black', size=10, line=dict(width=2))
+))
+
+st.plotly_chart(fig)
+
+####### plot 3 
 st.subheader('Number of Symptoms by Count of Patients')
 
 # Create the Plotly figure
@@ -106,64 +156,5 @@ fig.update_xaxes(type='category')
 
 # Display the plot using Streamlit
 st.plotly_chart(fig)
-
-
-########## Plot 2
-st.subheader('Lung Cancer Cases by Age Group')
-
-# Create the Plotly figure
-fig = go.Figure()
-
-df = data.groupby(['Age Group', 'SMOKING']).size().reset_index(name='Number of Cases')
-
-for smoking_type in df['SMOKING'].unique():
-    temp_df = df[df['SMOKING'] == smoking_type]
-    
-    fig.add_trace(go.Scatter(
-        x=temp_df['Age Group'],
-        y=temp_df['Number of Cases'],
-        mode='lines+markers',
-        name=smoking_type,
-        line=dict(width=6)
-    ))
-
-# Update the layout
-fig.update_layout(
-    xaxis_title='Age Group',
-    yaxis_title='Number of Cases',
-    legend=dict(title='Smoking Status')
-)
-
-
-##############################################################
-# Add selection options for age and smoking status
-selected_age_group = st.selectbox('Select Age Group', df['Age Group'].unique())
-selected_smoking_status = st.selectbox('Select Smoking Status', df['SMOKING'].unique())
-
-# Filter the data based on selected age group and smoking status
-filtered_df = df[(df['Age Group'] == selected_age_group) & (df['SMOKING'] == selected_smoking_status)]
-
-# Get the corresponding x and y values for the selected age group and smoking status
-x_value = filtered_df['Age Group'].values[0]
-y_value = filtered_df['Number of Cases'].values[0]
-
-# Update the layout to add a point for the selected data
-fig.add_trace(go.Scatter(
-    x=[x_value],
-    y=[y_value],
-    mode='markers',
-    name='Your Selection',
-    marker=dict(symbol='circle-open-dot', color='black', size=10, line=dict(width=2))
-))
-##############################################################
-
-
-
-# Display the plot using Streamlit
-st.plotly_chart(fig)
-
-
-####### plot 3 
-
 
 ######### plot 4 
