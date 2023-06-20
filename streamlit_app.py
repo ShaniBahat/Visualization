@@ -169,3 +169,57 @@ st.plotly_chart(fig)
 
 ######### plot 4 
 
+# Create the Bubble Chart
+fig = go.Figure()
+
+# Customize bubble color based on symptom category
+color_mapping = {
+    'respiratory': '#0099ff',
+    'pain': '#ff0000',
+    'digestive': '#ff9900',
+    'cardiovascular': '#ff66cc',
+    'fatigue': '#cc00cc',
+    'mental': '#00cc00',
+    'allergy': '#00cc99',
+    'other': '#999999',
+}
+
+# Add bubbles for each symptom
+for symptom in data.columns[3:14]:
+    category = get_category(symptom)  # Replace with your own function to get symptom category
+    color = color_mapping.get(category, '#000000')  # Default color if category not found
+    fig.add_trace(go.Scatter(
+        x=data[symptom],
+        y=data['Symptom Count'],
+        mode='markers',
+        name=symptom,
+        marker=dict(
+            size=data[symptom],
+            sizemode='diameter',
+            sizeref=0.05,  # Adjust the size scaling factor as needed
+            color=color,
+            opacity=0.7,
+        ),
+        text=data[symptom],  # Set the text displayed on hover
+        hovertemplate='<b>%{text}</b><br><br>' +
+                      'Symptom Count: %{y}<br>' +
+                      'Importance: %{x}<br>',
+    ))
+
+# Customize the layout
+fig.update_layout(
+    title='Symptoms Bubble Chart',
+    xaxis_title='Importance',
+    yaxis_title='Symptom Count',
+    showlegend=True,
+    legend_title='Symptoms',
+)
+
+# Display the chart using Streamlit
+st.plotly_chart(fig)
+
+
+
+
+
+
