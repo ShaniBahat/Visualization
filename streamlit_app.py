@@ -173,7 +173,7 @@ st.plotly_chart(fig)
 import plotly.colors
 
 # Load the data
-data = pd.read_csv('survey lung cancer.csv')
+data = pd.read_csv('survey_lung_cancer.csv')
 data['SMOKING'] = data['SMOKING'].map({1: 'Non-Smoker', 2: 'Smoker'})
 
 # Filter the data to include only rows where the symptom appears (value equals 2)
