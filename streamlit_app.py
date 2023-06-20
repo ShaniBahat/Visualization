@@ -190,13 +190,9 @@ bubble_data = pd.DataFrame({
     'Cancer Cases': lung_cancer_counts.values
 })
 
-# Define the pastel colors
+# Define the custom pastel colors
 pastel_colors = ['#FFC3A0', '#FFD1B3', '#FFDFC2', '#FFEBCD', '#FFE8D6', '#FFECDB',
                  '#FFF1E6', '#FFF5EE', '#FFFAF0', '#FFF8E7', '#FFF9EC', '#FFFDF3']
-
-# Assign a color from the pastel colors list to each symptom
-color_mapping = {symptom: pastel_colors[i % len(pastel_colors)] for i, symptom in enumerate(symptom_counts.index)}
-bubble_data['Color'] = bubble_data['Symptom'].map(color_mapping)
 
 # Create the Bubble Chart with custom colors
 fig = px.scatter(
@@ -204,9 +200,10 @@ fig = px.scatter(
     x='Symptom',
     y='Occurrences',
     size='Cancer Cases',
-    color='Color',
+    color='Symptom',
+    color_discrete_sequence=pastel_colors,
     hover_data=['Symptom', 'Occurrences', 'Cancer Cases'],
-    labels={'Symptom': 'Symptom', 'Occurrences': 'Number of Occurrences', 'Cancer Cases': 'Number of Cancer Cases'}
+    labels={'Occurrences': 'Number of Occurrences', 'Cancer Cases': 'Number of Cancer Cases'}
 )
 
 # Customize the layout
