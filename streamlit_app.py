@@ -12,6 +12,8 @@ symptoms = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FA
             'ALLERGY ', 'WHEEZING', 'COUGHING', 'SHORTNESS OF BREATH', 'SWALLOWING DIFFICULTY',
             'CHEST PAIN']
 
+st.subheader("Cancer Cases for Smokers and Non-Smokers")
+
 # Filter the data based on selected symptoms
 selected_symptoms = st.multiselect('Select Symptoms', symptoms)
 
@@ -32,8 +34,6 @@ smoker_non_cancer_count = smokers_data[smokers_data['LUNG_CANCER'] == 'NO'].shap
 # Calculate the count of cancer and non-cancer cases for non-smokers
 non_smoker_cancer_count = non_smokers_data[non_smokers_data['LUNG_CANCER'] == 'YES'].shape[0]
 non_smoker_non_cancer_count = non_smokers_data[non_smokers_data['LUNG_CANCER'] == 'NO'].shape[0]
-
-st.subheader("Cancer Cases for Smokers and Non-Smokers")
 
 # Create the Plotly figures
 fig1 = go.Figure(data=[go.Pie(labels=['Cancer', 'Non-Cancer'],
