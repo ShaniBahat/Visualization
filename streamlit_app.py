@@ -135,28 +135,3 @@ col2.plotly_chart(fig2, use_container_width=True)
 
 
 ######### plot 4 
-
-dff = data.copy(deep=True)
-
-# Select relevant columns
-selected_columns = ['AGE', 'COUGHING', 'SHORTNESS OF BREATH', 'CHEST PAIN']
-
-# Filter out missing values
-filtered_dataf = dff[selected_columns].dropna()
-
-# Calculate the total count of symptoms reported
-filtered_dataf['Total Symptoms'] = filtered_dataf.drop('AGE', axis=1).sum(axis=1)
-
-# Create the scatter plot
-fig = px.scatter(filtered_dataf, x='AGE', y='Total Symptoms',
-                 title='Relationship between Age and Number of Symptoms')
-
-# Add interactivity for selecting symptoms
-selected_symptoms = st.multiselect('Select Symptoms', selected_columns[1:])
-filtered_dataf['Selected Symptoms'] = filtered_dataf[selected_symptoms].sum(axis=1)
-
-# Update the scatter plot based on the selected symptoms
-fig.data[0].y = filtered_data['Selected Symptoms']
-
-# Display the scatter plot
-st.plotly_chart(fig)
