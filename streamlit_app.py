@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
+import plotly.express as px
+
 
 st.image("title for app.png")
 st.text('The following visualization aims to highlight the impact of smoking on lung cancer\n\nThe graphs presented below describes the correlation between smoking and different\nsymptoms, as well as how this relationship varies based on age and gender.')
@@ -15,7 +17,7 @@ symptoms = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FA
             'ALLERGY ', 'WHEEZING', 'COUGHING', 'SHORTNESS OF BREATH', 'SWALLOWING DIFFICULTY',
             'CHEST PAIN']
 
-st.subheader("Cancer Cases for Smokers and Non-Smokers")
+st.subheader("Symptom-Based Analysis of Lung Cancer: Comparing Smokers and Non-Smokers")
 
 # Filter the data based on selected symptoms
 selected_symptoms = st.multiselect('Select Symptoms', symptoms)
@@ -79,7 +81,7 @@ data['Symptom Count'] = data.iloc[:, 3:14].apply(lambda x: x.eq(2).sum(), axis=1
 # Group the data by 'Symptom Count', 'SMOKING', and 'GENDER' and calculate the count of people
 grouped_df = data.groupby(['Symptom Count', 'SMOKING', 'GENDER']).size().reset_index(name='Number of People')
 
-st.subheader('Lung Cancer Cases by Age Group')
+st.subheader('Lung Cancer Cases by Age Group: Comparison of Smoking Status')
 
 # Create the Plotly figure
 fig = go.Figure()
@@ -132,9 +134,8 @@ st.plotly_chart(fig)
 
 ####### plot 3 
 
-st.subheader("Occurrences of Symptoms and Lung Cancer Cases")
-import plotly.graph_objects as go
-import plotly.express as px
+st.subheader("Exploring Symptom Occurrences and Lung Cancer Cases")
+st.caption('Select the symptoms that you are interested in from the legend provided')
 
 pastel_colors = ['#B3BABA', '#C6CCCC', '#BADDDD', '#82C2C7', '#7DAEAE', '#5A9FA5',
                  '#539DA2', '#008F94', '#29838D', '#1B5C5F', '#526769', '#6E7377']
@@ -199,7 +200,7 @@ st.plotly_chart(fig)
 
 
 ####### plot 4
-st.subheader('Number of Symptoms by Count of Patients')
+st.subheader('Distribution of Patients Based on Number of Symptoms')
 
 # Create the Plotly figure
 fig = go.Figure()
