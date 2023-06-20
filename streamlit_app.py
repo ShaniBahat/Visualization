@@ -193,17 +193,26 @@ bubble_data = pd.DataFrame({
     'Cancer Cases': lung_cancer_counts.values
 })
 
-# Create the Bubble Chart
-fig = px.scatter(
-    bubble_data,
-    x='Symptom',
-    y='Occurrences',
-    size='Cancer Cases',
-    color='Symptom',
-    color_discrete_sequence=pastel_colors,  # Use the pastel colors here
-    hover_data=['Symptom', 'Occurrences', 'Cancer Cases'],
-    labels={'Occurrences': 'Number of Occurrences', 'Cancer Cases': 'Number of Cancer Cases'}
-)
+
+# Create the Bubble Chart with custom colors and size
+fig = go.Figure()
+
+for i, symptom in enumerate(bubble_data['Symptom']):
+    fig.add_trace(go.Scatter(
+        x=[symptom],
+        y=[bubble_data['Occurrences'][i]],
+        mode='markers',
+        marker=dict(
+            size=bubble_data['Cancer Cases'][i],  # Size based on the number of lung cancer cases
+            sizemode='area',
+            sizeref=0.1,
+            color=pastel_colors[i % len(pastel_colors)]  # Assign a different color for each symptom
+        ),
+        name=symptom,
+        hovertemplate='<b>%{x}</b><br><br>' +
+                      'Symptom Count: %{y}<br>' +
+                      'Lung Cancer Cases: %{marker.size}<extra></extra>',
+    ))
 
 # Customize the layout
 fig.update_layout(
@@ -214,11 +223,11 @@ fig.update_layout(
     ),
     yaxis=dict(
         title='Number of Occurrences',
-        range=[0, 250]
+        range=[0, 220]
     ),
-    legend_title='Symptom',
-    hovermode='closest'
+    title='Symptoms Bubble Chart'
 )
 
 # Display the chart using Streamlit
 st.plotly_chart(fig)
+
