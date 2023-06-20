@@ -139,13 +139,6 @@ st.plotly_chart(fig)
 
 ####### plot 3 
 
-# Load the data
-data = pd.read_csv('survey_lung_cancer.csv')
-data['SMOKING'] = data['SMOKING'].map({1: 'Non-Smoker', 2: 'Smoker'})
-
-# Group the data by age group and smoking status
-df = data.groupby(['Age Group', 'SMOKING']).size().reset_index(name='Number of Cases')
-
 # Create the Plotly figure
 fig = go.Figure()
 
