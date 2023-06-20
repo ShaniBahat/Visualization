@@ -196,6 +196,7 @@ bubble_data = pd.DataFrame({
 
 # Create the Bubble Chart with custom colors and size
 fig = go.Figure()
+st.set_page_config(width=800, height=600)
 
 for i, symptom in enumerate(bubble_data['Symptom']):
     fig.add_trace(go.Scatter(
