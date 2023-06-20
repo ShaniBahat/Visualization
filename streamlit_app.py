@@ -140,6 +140,11 @@ df = data.groupby(['Age Group', 'SMOKING']).size().reset_index(name='Number of C
 ####### plot 3 
 
 
+# Add user selection
+selected_age = st.slider('Select Age', min_value=int(data['AGE'].min()), max_value=int(data['AGE'].max()), step=1)
+selected_smoking = st.radio('Select Smoking Status', ['Smoker', 'Non-Smoker'])
+
+# Create the Plotly figure
 fig = go.Figure()
 
 for smoking_type in df['SMOKING'].unique():
@@ -162,9 +167,7 @@ fig.update_layout(
 # Display the plot using Streamlit
 st.plotly_chart(fig)
 
-# Add user selection
-selected_age = st.slider('Select Age', min_value=int(data['AGE'].min()), max_value=int(data['AGE'].max()), step=1)
-selected_smoking = st.radio('Select Smoking Status', ['Smoker', 'Non-Smoker'])
+
 
 # Add a point on the plot for the selected age and smoking status
 if selected_smoking == 'Smoker':
@@ -172,9 +175,11 @@ if selected_smoking == 'Smoker':
 else:
     marker_color = 'blue'
 
+selected_cases = df.loc[(df['Age Group'] == str(selected_age)) & (df['SMOKING'] == selected_smoking), 'Number of Cases']
+
 fig.add_trace(go.Scatter(
     x=[selected_age],
-    y=[df[(df['Age Group'] == str(selected_age)) & (df['SMOKING'] == selected_smoking)]['Number of Cases']],
+    y=[selected_cases.iloc[0]],
     mode='markers',
     marker=dict(color=marker_color, size=10),
     name=f'Selected ({selected_smoking})'
