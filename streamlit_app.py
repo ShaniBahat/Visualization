@@ -203,7 +203,7 @@ for i, symptom in enumerate(bubble_data['Symptom']):
         y=[bubble_data['Occurrences'][i]],
         mode='markers',
         marker=dict(
-            size=bubble_data['Cancer Cases'][i] * 0.1,  # Adjusted size based on the number of lung cancer cases
+            size=bubble_data['Cancer Cases'][i] * 0.17,  # Adjusted size based on the number of lung cancer cases
             sizemode='area',
             sizeref=0.1,
             color=pastel_colors[i % len(pastel_colors)]  # Assign a different color for each symptom
@@ -227,7 +227,7 @@ fig.update_layout(
         range=[0, 250],
         dtick=50  # Increase the distance between ticks on the Y-axis
     ),
-    height=450  # Increase the height of the graph
+    height=550  # Increase the height of the graph
 )
 
 st.plotly_chart(fig)
