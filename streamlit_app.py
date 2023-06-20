@@ -171,7 +171,8 @@ st.plotly_chart(fig)
 import plotly.graph_objects as go
 import plotly.express as px
 
-pastel_colors = ['#b3baba', '#FFD1B3', '#FFDFC2', '#b3baba', '#FFE8D6', '#FFECDB', '#FFF1E6', '#FFF5EE', '#FFFAF0', '#FFF8E7', '#FFF9EC', '#008f94']
+pastel_colors = ['#C6CCCC', '#BADDDD', '#B3BABA', '#008F94', '#6E7377', '#82C2C7', '#7DAEAE',
+                 '#1B5C5F', '#526769', '#5A9FA5', '#539DA2', '#29838D']
 
 # Load the data
 data = pd.read_csv('survey_lung_cancer.csv')
