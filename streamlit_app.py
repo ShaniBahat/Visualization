@@ -83,7 +83,7 @@ fig = go.Figure()
 
 df = data.groupby(['Age Group', 'SMOKING']).size().reset_index(name='Number of Cases')
 
-colors = {'Non-Smoker': '#82B8BA', 'Smoker': '#8a9899'}
+colors = {'Non-Smoker': '#a4e8eb', 'Smoker': '#8a9899'}
 
 for smoking_type in df['SMOKING'].unique():
     temp_df = df[df['SMOKING'] == smoking_type]
@@ -121,7 +121,7 @@ fig.add_trace(go.Scatter(
     y=[y_value],
     mode='markers',
     name='Your Selection',
-    marker=dict(symbol='circle-open-dot', color='black', size=12, line=dict(width=2))
+    marker=dict(symbol='circle-open-dot', color='black', size=14, line=dict(width=3))
 ))
 
 st.plotly_chart(fig)
