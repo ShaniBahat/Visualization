@@ -83,7 +83,39 @@ fig = go.Figure()
 
 df = data.groupby(['Age Group', 'SMOKING']).size().reset_index(name='Number of Cases')
 
-colors = {'Non-Smoker': '#adc6c7', 'Smoker': '#1e696b'}
+colors = {'Non-Smoker': '#adc6c7', 'Smoker': '# Create the Plotly figure
+fig = go.Figure()
+
+# Filter by gender for the graph
+gender_filter = st.selectbox("Filter by Gender", ['All', 'M', 'F'])
+
+colors = {'Non-Smoker': '#a3adad', 'Smoker': '#1d7c80'}
+
+for smoking_type in grouped_df['SMOKING'].unique():
+    temp_df = grouped_df[grouped_df['SMOKING'] == smoking_type]
+    
+    if gender_filter != 'All':
+        temp_df = temp_df[temp_df['GENDER'] == gender_filter]
+
+    fig.add_trace(go.Bar(
+        x=temp_df['Symptom Count'],
+        y=temp_df['Number of People'],
+        name=smoking_type,
+        marker=dict(color=colors[smoking_type])
+    ))
+
+# Update the layout
+fig.update_layout(
+    xaxis_title='Number of Symptoms',
+    yaxis_title='Count of Patients',
+    barmode='group'
+)
+
+# Set x-axis tick labels for every number
+fig.update_xaxes(type='category')
+
+# Display the plot using Streamlit
+st.plotly_chart(fig)'}
 
 for smoking_type in df['SMOKING'].unique():
     temp_df = df[df['SMOKING'] == smoking_type]
