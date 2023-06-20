@@ -145,7 +145,7 @@ for smoking_type in grouped_df['SMOKING'].unique():
     fig.add_trace(go.Bar(
         x=temp_df['Symptom Count'],
         y=temp_df['Number of People'],
-        name=smoking_type, opacity=0.6,
+        name=smoking_type, opacity=0.8,
         marker=dict(color=colors[smoking_type])
     ))
 
