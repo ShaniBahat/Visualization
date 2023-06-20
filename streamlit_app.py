@@ -237,3 +237,5 @@ fig.update_xaxes(type='category')
 
 # Display the plot using Streamlit
 st.plotly_chart(fig)
+
+st.image("end photo.png")
