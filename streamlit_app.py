@@ -135,6 +135,8 @@ fig = go.Figure()
 # Filter by gender for the graph
 gender_filter = st.selectbox("Filter by Gender", ['All', 'M', 'F'])
 
+colors = {'Non-Smoker': '#adc6c7', 'Smoker': '#1d7c80'}
+
 for smoking_type in grouped_df['SMOKING'].unique():
     temp_df = grouped_df[grouped_df['SMOKING'] == smoking_type]
     
@@ -144,7 +146,8 @@ for smoking_type in grouped_df['SMOKING'].unique():
     fig.add_trace(go.Bar(
         x=temp_df['Symptom Count'],
         y=temp_df['Number of People'],
-        name=smoking_type
+        name=smoking_type,
+        marker=dict(color=colors[smoking_type])
     ))
 
 # Update the layout
