@@ -196,7 +196,7 @@ fig = px.scatter(
     bubble_data,
     x='Symptom',
     y='Occurrences',
-    size='Cancer Cases'*1.5,
+    size='Cancer Cases',
     color='Symptom',
     hover_data=['Symptom', 'Occurrences', 'Cancer Cases'],
     labels={'Occurrences': 'Number of Occurrences', 'Cancer Cases': 'Number of Cancer Cases'}
