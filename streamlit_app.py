@@ -194,13 +194,11 @@ bubble_data = pd.DataFrame({
 pastel_colors = ['#FFC3A0', '#FFD1B3', '#FFDFC2', '#FFEBCD', '#FFE8D6', '#FFECDB',
                  '#FFF1E6', '#FFF5EE', '#FFFAF0', '#FFF8E7', '#FFF9EC', '#FFFDF3']
 
-# Create a color mapping dictionary for each symptom
-symptom_color_mapping = {symptom: pastel_colors[i % len(pastel_colors)] for i, symptom in enumerate(bubble_data['Symptom'].unique())}
+# Assign a color from the pastel colors list to each symptom
+color_mapping = {symptom: pastel_colors[i % len(pastel_colors)] for i, symptom in enumerate(symptom_counts.index)}
+bubble_data['Color'] = bubble_data['Symptom'].map(color_mapping)
 
-# Map the colors to the Symptom column
-bubble_data['Color'] = bubble_data['Symptom'].map(symptom_color_mapping)
-
-# Create the Bubble Chart with pastel colors
+# Create the Bubble Chart with custom colors
 fig = px.scatter(
     bubble_data,
     x='Symptom',
@@ -228,3 +226,4 @@ fig.update_layout(
 
 # Display the chart using Streamlit
 st.plotly_chart(fig)
+
