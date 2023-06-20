@@ -117,7 +117,7 @@ fig.update_layout(
 fig.update_xaxes(type='category')
 
 # Display the plot using Streamlit
-st.plotly_chart(fig)'}
+st.plotly_chart(fig)'
 
 for smoking_type in df['SMOKING'].unique():
     temp_df = df[df['SMOKING'] == smoking_type]
