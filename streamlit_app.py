@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.graph_objects as go
 
 st.image("title for app.png")
-st.text('The following visualization aims to highlight the impact of smoking on lung cancer\n\nThe graphs  presented below  depict the correlation  between smoking  and different\nsymptoms, as well as how this relationship varies based on age and gender.')
+st.text('The following visualization aims to highlight the impact of smoking on lung cancer\n\nThe graphs  presented below  depict the correlation  between smoking and different\nsymptoms, as well as how this relationship varies based on age and gender.')
         
 ########## Plot 1
 # Load the data
