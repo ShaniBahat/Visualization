@@ -52,8 +52,8 @@ fig2 = go.Figure(data=[go.Pie(labels=['Cancer', 'Non-Cancer'],
 fig2.update_traces(marker=dict(line=dict(color='#000000', width=2)))
 
 # Update the colors for the pie charts
-fig1.update_traces(marker=dict(colors=['#2e4f4e', '#508a8c']))
-fig2.update_traces(marker=dict(colors=['#2e4f4e', '#508a8c']))
+fig1.update_traces(marker=dict(colors=['#8dafb0', '#508a8c']))
+fig2.update_traces(marker=dict(colors=['#8dafb0', '#508a8c']))
 
 # Display the pie charts side by side using Streamlit
 col1, col2 = st.columns(2)
