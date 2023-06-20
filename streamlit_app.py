@@ -121,7 +121,7 @@ fig.add_trace(go.Scatter(
     y=[y_value],
     mode='markers',
     name='Your Selection',
-    marker=dict(symbol='x-open-dot', color='black', size=10, line=dict(width=3))
+    marker=dict(symbol='x-thin', color='black', size=14, line=dict(width=3))
 ))
 
 st.plotly_chart(fig)
