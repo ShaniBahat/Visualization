@@ -203,7 +203,7 @@ for i, symptom in enumerate(bubble_data['Symptom']):
         y=[bubble_data['Occurrences'][i]],
         mode='markers',
         marker=dict(
-            size=bubble_data['Cancer Cases'][i]*0.15,  # Size based on the number of lung cancer cases
+            size=bubble_data['Cancer Cases'][i]*0.25,  # Size based on the number of lung cancer cases
             sizemode='area',
             sizeref=0.1,
             color=pastel_colors[i % len(pastel_colors)]  # Assign a different color for each symptom
