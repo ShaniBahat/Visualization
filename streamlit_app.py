@@ -195,7 +195,7 @@ pastel_colors = ['#FFC3A0', '#FFD1B3', '#FFDFC2', '#FFEBCD', '#FFE8D6', '#FFECDB
                  '#FFF1E6', '#FFF5EE', '#FFFAF0', '#FFF8E7', '#FFF9EC', '#FFFDF3']
 
 # Create a color mapping dictionary for each symptom
-symptom_color_mapping = dict(zip(bubble_data['Symptom'].unique(), pastel_colors))
+symptom_color_mapping = {symptom: pastel_colors[i % len(pastel_colors)] for i, symptom in enumerate(bubble_data['Symptom'].unique())}
 
 # Map the colors to the Symptom column
 bubble_data['Color'] = bubble_data['Symptom'].map(symptom_color_mapping)
@@ -220,7 +220,7 @@ fig.update_layout(
     ),
     yaxis=dict(
         title='Number of Occurrences',
-        range=[0, 220]
+        range=[0, 250]
     ),
     legend_title='Symptom',
     hovermode='closest'
@@ -228,4 +228,3 @@ fig.update_layout(
 
 # Display the chart using Streamlit
 st.plotly_chart(fig)
-
