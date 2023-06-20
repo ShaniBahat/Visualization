@@ -82,7 +82,7 @@ fig = go.Figure()
 
 df = data.groupby(['Age Group', 'SMOKING']).size().reset_index(name='Number of Cases')
 
-colors = {'Non-Smoker': '#b3baba', 'Smoker': '#5a9c9e'}
+colors = {'Non-Smoker': '#b3baba', 'Smoker': '#008f94'}
 
 for smoking_type in df['SMOKING'].unique():
     temp_df = df[df['SMOKING'] == smoking_type]
@@ -134,7 +134,7 @@ fig = go.Figure()
 # Filter by gender for the graph
 gender_filter = st.selectbox("Filter by Gender", ['All', 'M', 'F'])
 
-colors = {'Non-Smoker': '#b3baba', 'Smoker': '#5a9c9e'}
+colors = {'Non-Smoker': '#b3baba', 'Smoker': '#008f94'}
 
 for smoking_type in grouped_df['SMOKING'].unique():
     temp_df = grouped_df[grouped_df['SMOKING'] == smoking_type]
