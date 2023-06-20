@@ -127,47 +127,6 @@ fig.add_trace(go.Scatter(
 st.plotly_chart(fig)
 
 ####### plot 3 
-st.subheader('Number of Symptoms by Count of Patients')
-
-# Create the Plotly figure
-fig = go.Figure()
-
-# Filter by gender for the graph
-gender_filter = st.selectbox("Filter by Gender", ['All', 'M', 'F'])
-
-colors = {'Non-Smoker': '#b3baba', 'Smoker': '#008f94'}
-
-for smoking_type in grouped_df['SMOKING'].unique():
-    temp_df = grouped_df[grouped_df['SMOKING'] == smoking_type]
-    
-    if gender_filter != 'All':
-        temp_df = temp_df[temp_df['GENDER'] == gender_filter]
-
-    fig.add_trace(go.Bar(
-        x=temp_df['Symptom Count'],
-        y=temp_df['Number of People'],
-        name=smoking_type, opacity=0.8,
-        marker=dict(color=colors[smoking_type])
-    ))
-
-
-
-# Update the layout
-fig.update_layout(
-    xaxis_title='Number of Symptoms',
-    yaxis_title='Count of Patients',
-    barmode='group',
-    bargap=0.2,
-    bargroupgap=0.1 
-)
-
-# Set x-axis tick labels for every number
-fig.update_xaxes(type='category')
-
-# Display the plot using Streamlit
-st.plotly_chart(fig)
-
-######### plot 4 
 import plotly.graph_objects as go
 import plotly.express as px
 
@@ -230,4 +189,46 @@ fig.update_layout(
     height=550  # Increase the height of the graph
 )
 
+st.plotly_chart(fig)
+
+
+####### plot 4
+st.subheader('Number of Symptoms by Count of Patients')
+
+# Create the Plotly figure
+fig = go.Figure()
+
+# Filter by gender for the graph
+gender_filter = st.selectbox("Filter by Gender", ['All', 'M', 'F'])
+
+colors = {'Non-Smoker': '#b3baba', 'Smoker': '#008f94'}
+
+for smoking_type in grouped_df['SMOKING'].unique():
+    temp_df = grouped_df[grouped_df['SMOKING'] == smoking_type]
+    
+    if gender_filter != 'All':
+        temp_df = temp_df[temp_df['GENDER'] == gender_filter]
+
+    fig.add_trace(go.Bar(
+        x=temp_df['Symptom Count'],
+        y=temp_df['Number of People'],
+        name=smoking_type, opacity=0.8,
+        marker=dict(color=colors[smoking_type])
+    ))
+
+
+
+# Update the layout
+fig.update_layout(
+    xaxis_title='Number of Symptoms',
+    yaxis_title='Count of Patients',
+    barmode='group',
+    bargap=0.2,
+    bargroupgap=0.1 
+)
+
+# Set x-axis tick labels for every number
+fig.update_xaxes(type='category')
+
+# Display the plot using Streamlit
 st.plotly_chart(fig)
