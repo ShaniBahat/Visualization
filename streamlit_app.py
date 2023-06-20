@@ -123,7 +123,8 @@ for smoking_type in df['SMOKING'].unique():
         x=temp_df['Age Group'],
         y=temp_df['Number of Cases'],
         mode='lines+markers',
-        name=smoking_type
+        name=smoking_type,
+        line=dict(width=2)
     ))
 
 # Update the layout
@@ -132,7 +133,7 @@ fig.update_layout(
     yaxis_title='Number of Cases',
     legend=dict(title='Smoking Status')
 )
-fig.update_traces(marker=dict(line=dict(width=2)))
+
 
 ##############################################################
 # Add selection options for age and smoking status
