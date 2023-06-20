@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 
+st.image("picture for app.png", caption='Photo Caption', width=300)
+
 
 # Load the data
 data_new = pd.read_csv('survey_lung_cancer.csv')
