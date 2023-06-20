@@ -169,5 +169,3 @@ st.plotly_chart(fig)
 
 ######### plot 4 
 
-
-st.image("ending picture.jpg")
