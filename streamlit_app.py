@@ -172,7 +172,6 @@ st.plotly_chart(fig)
 
 import plotly.express as px
 
-
 # Load the data
 data = pd.read_csv('survey_lung_cancer.csv')
 
@@ -213,7 +212,7 @@ fig.update_layout(
     ),
     yaxis=dict(
         title='Number of Occurrences',
-        range=[0, max(symptom_counts.values) + 1]
+        range=[0, 220]
     ),
     legend_title='Symptom',
     hovermode='closest'
@@ -221,5 +220,4 @@ fig.update_layout(
 
 # Display the chart using Streamlit
 st.plotly_chart(fig)
-
 
