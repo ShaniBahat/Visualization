@@ -149,13 +149,15 @@ for smoking_type in grouped_df['SMOKING'].unique():
         marker=dict(color=colors[smoking_type])
     ))
 
-fig.update_traces(texttemplate='%{text:.2s}', textposition='outside')
+
 
 # Update the layout
 fig.update_layout(
     xaxis_title='Number of Symptoms',
     yaxis_title='Count of Patients',
-    barmode='group'
+    barmode='group',
+    bargap=0.2
+    bargroupgap=0.1 
 )
 
 # Set x-axis tick labels for every number
