@@ -33,6 +33,8 @@ smoker_non_cancer_count = smokers_data[smokers_data['LUNG_CANCER'] == 'NO'].shap
 non_smoker_cancer_count = non_smokers_data[non_smokers_data['LUNG_CANCER'] == 'YES'].shape[0]
 non_smoker_non_cancer_count = non_smokers_data[non_smokers_data['LUNG_CANCER'] == 'NO'].shape[0]
 
+st.subheader("Cancer Cases for Smokers and Non-Smokers")
+
 # Create the Plotly figures
 fig1 = go.Figure(data=[go.Pie(labels=['Cancer', 'Non-Cancer'],
                               values=[smoker_cancer_count, smoker_non_cancer_count],
