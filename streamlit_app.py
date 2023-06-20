@@ -122,8 +122,8 @@ fig2 = go.Figure(data=[go.Pie(labels=['Cancer', 'Non-Cancer'],
                               hole=0.5)])
 
 # Update the layout for both figures
-fig1.update_layout(title='Division of Cancer and Non-Cancer Cases - Smokers')
-fig2.update_layout(title='Division of Cancer and Non-Cancer Cases - Non-Smokers')
+# fig1.update_layout(title='Division of Cancer and Non-Cancer Cases - Smokers')
+# fig2.update_layout(title='Division of Cancer and Non-Cancer Cases - Non-Smokers')
 
 # Display the pie charts side by side using Streamlit
 col1, col2 = st.columns(2)
