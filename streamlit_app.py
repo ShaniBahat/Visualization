@@ -121,10 +121,6 @@ fig2 = go.Figure(data=[go.Pie(labels=['Cancer', 'Non-Cancer'],
                               title='Non-Smokers',
                               hole=0.3)])
 
-# Add lines to the pie charts
-fig1.add_trace(go.Scatter(x=[0.5, 0.5], y=[0, 1], mode='lines', line=dict(color='black')))
-fig2.add_trace(go.Scatter(x=[0.5, 0.5], y=[0, 1], mode='lines', line=dict(color='black')))
-
 # Update the layout for both figures
 fig1.update_layout(title='Division of Cancer and Non-Cancer Cases - Smokers')
 fig2.update_layout(title='Division of Cancer and Non-Cancer Cases - Non-Smokers')
