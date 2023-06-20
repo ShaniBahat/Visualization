@@ -225,9 +225,9 @@ fig.update_layout(
     yaxis=dict(
         title='Number of Occurrences',
         range=[0, 250],
-        dtick=20  # Increase the distance between ticks on the Y-axis
+        dtick=50  # Increase the distance between ticks on the Y-axis
     ),
-    height=600  # Increase the height of the graph
+    height=450  # Increase the height of the graph
 )
 
 st.plotly_chart(fig)
