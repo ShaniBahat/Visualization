@@ -167,7 +167,7 @@ fig = go.Figure()
 # Filter by gender for the graph
 gender_filter = st.selectbox("Filter by Gender", ['All', 'M', 'F'])
 
-colors = {'Non-Smoker': '#adc6c7', 'Smoker': '#1d7c80'}
+colors = {'Non-Smoker': '#a3adad', 'Smoker': '#1d7c80'}
 
 for smoking_type in grouped_df['SMOKING'].unique():
     temp_df = grouped_df[grouped_df['SMOKING'] == smoking_type]
