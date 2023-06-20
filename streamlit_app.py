@@ -156,7 +156,7 @@ fig.update_layout(
     xaxis_title='Number of Symptoms',
     yaxis_title='Count of Patients',
     barmode='group',
-    bargap=0.2
+    bargap=0.2,
     bargroupgap=0.1 
 )
 
