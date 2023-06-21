@@ -19,7 +19,7 @@ symptoms = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FA
 st.subheader("Symptom-Based Analysis of Lung Cancer: Comparing Smokers and Non-Smokers")
 
 # Filter the data based on selected symptoms
-selected_symptoms = st.multiselect('Select Symptoms', symptoms)
+selected_symptoms = st.multiselect('Select Symptoms', symptoms, key='symptom_multiselect')
 
 # Count the occurrences of selected symptoms in each row
 data_new['symptom_count'] = data_new[selected_symptoms].sum(axis=1)
@@ -58,7 +58,7 @@ symptoms = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FA
             'CHEST PAIN']
 
 # Allow the user to select the symptoms
-selected_symptoms = st.multiselect('Select Symptoms', symptoms, key='symptom_multiselect')
+# selected_symptoms = st.multiselect('Select Symptoms', symptoms, key='symptom_multiselect')
 
 # Append 'SMOKING' to the selected symptoms list
 selected_symptoms2 = selected_symptoms
@@ -108,8 +108,8 @@ fig2.update_layout(
         title='Number of Occurrences',
         range=[0, 250],
         dtick=50  # Increase the distance between ticks on the Y-axis
-    ),
-    height=550  # Increase the height of the graph
+    ) #,
+     # height=550  # Increase the height of the graph
 )
 
 # fig2 = go.Figure(data=[go.Pie(labels=['Cancer', 'Non-Cancer'],
