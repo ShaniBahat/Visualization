@@ -82,7 +82,7 @@ bubble_data = pd.DataFrame({
 fig2 = go.Figure()
 
 for i, symptom in enumerate(bubble_data['Symptom']):
-    fig.add_trace(go.Scatter(
+    fig2.add_trace(go.Scatter(
         x=[symptom],
         y=[bubble_data['Occurrences'][i]],
         mode='markers',
