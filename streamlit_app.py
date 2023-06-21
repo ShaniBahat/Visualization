@@ -143,7 +143,7 @@ symptoms = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FA
             'CHEST PAIN']
 
 # Allow the user to select the symptoms
-selected_symptoms = st.multiselect('Select Symptoms', symptoms) # , default=symptoms
+selected_symptoms = st.multiselect('Select Symptoms', symptoms, default =[]) # , =symptoms
 selected_symptoms.append('SMOKING')
 # Filter the data to include only the selected symptoms
 filtered_data = data[selected_symptoms]
