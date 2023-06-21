@@ -37,7 +37,7 @@ smoker__cancer_count = cancer_data[cancer_data['SMOKING'] == 'Smoker'].shape[0]
 
 fig1 = go.Figure(data=[go.Pie(labels=['Smoker', 'Non-Smoker'],
                               values=[smoker__cancer_count, non_smoker_cancer_count],
-                              title='Cncer Cases',
+                              title='Cancer Cases',
                               hole=0.5,
                               title_font=dict(size=16),
                               textfont=dict(size=12, color='black'))])
@@ -128,9 +128,12 @@ fig.add_trace(go.Scatter(
 st.plotly_chart(fig)
 
 ####### plot 3 
+import pandas as pd
+import plotly.graph_objects as go
+import streamlit as st
 
 st.subheader("Exploring Symptom Occurrences and Lung Cancer Cases")
-st.caption('Select the symptoms that you are interested in from the legend provided')
+# st.caption('Select the symptoms that you are interested in from the legend provided')
 
 pastel_colors = ['#B3BABA', '#C6CCCC', '#BADDDD', '#82C2C7', '#7DAEAE', '#5A9FA5',
                  '#539DA2', '#008F94', '#29838D', '#1B5C5F', '#526769', '#6E7377']
@@ -138,14 +141,20 @@ pastel_colors = ['#B3BABA', '#C6CCCC', '#BADDDD', '#82C2C7', '#7DAEAE', '#5A9FA5
 # Load the data
 data = pd.read_csv('survey_lung_cancer.csv')
 
-# Filter the data to include only rows where the symptom appears (value equals 2)
-symptom_counts = data.iloc[:, 2:14].eq(2).sum()
+# Define the list of symptoms
+symptoms = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FATIGUE ',
+            'ALLERGY ', 'WHEEZING', 'COUGHING', 'SHORTNESS OF BREATH', 'SWALLOWING DIFFICULTY',
+            'CHEST PAIN']
 
-# Calculate the count of lung cancer cases
-lung_cancer_counts = data[data['LUNG_CANCER'] == 'YES'].iloc[:, 2:14].eq(2).sum()
+# Allow the user to select the symptoms
+selected_symptoms = st.multiselect('Select Symptoms', symptoms)
 
-# Generate a unique numeric value for each symptom
-symptom_color_mapping = {symptom: index for index, symptom in enumerate(symptom_counts.index)}
+# Filter the data to include only the selected symptoms
+filtered_data = data[selected_symptoms]
+
+# Calculate the count of symptom occurrences and lung cancer cases
+symptom_counts = filtered_data.eq(2).sum()
+lung_cancer_counts = filtered_data[data['LUNG_CANCER'] == 'YES'].eq(2).sum()
 
 # Create a DataFrame for the bubble chart
 bubble_data = pd.DataFrame({
@@ -153,7 +162,6 @@ bubble_data = pd.DataFrame({
     'Occurrences': symptom_counts.values,
     'Cancer Cases': lung_cancer_counts.values
 })
-
 
 # Create the Bubble Chart with custom colors and size
 fig = go.Figure()
@@ -173,7 +181,7 @@ for i, symptom in enumerate(bubble_data['Symptom']):
         hovertemplate='<b>%{x}</b><br><br>' +
                       'Symptom Count: %{y}<br>' +
                       'Lung Cancer Cases: %{text}<br>',
-        text=bubble_data['Cancer Cases'][i]  # Use the actual values for lung cancer cases in hovertemplate
+        text=bubble_data['Cancer Cases']  # Use the actual values for lung cancer cases in hovertemplate
     ))
 
 # Customize the layout
