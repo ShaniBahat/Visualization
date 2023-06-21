@@ -35,6 +35,7 @@ non_smoker_cancer_count = cancer_data[cancer_data['SMOKING'] == 'Non-Smoker'].sh
 smoker__cancer_count = cancer_data[cancer_data['SMOKING'] == 'Smoker'].shape[0]
 
 
+## fig 1
 fig1 = go.Figure(data=[go.Pie(labels=['Smoker', 'Non-Smoker'],
                               values=[smoker__cancer_count, non_smoker_cancer_count],
                               title='Cancer Cases',
@@ -60,10 +61,11 @@ symptoms = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FA
 selected_symptoms = st.multiselect('Select Symptoms', symptoms, key='symptom_multiselect')
 
 # Append 'SMOKING' to the selected symptoms list
-selected_symptoms.append('SMOKING')
+selected_symptoms2 = selected_symptoms
+selected_symptoms2.append('SMOKING')
 
 # Filter the data to include only the selected symptoms
-filtered_data = data[selected_symptoms]
+filtered_data = data[selected_symptoms2]
 
 # Calculate the count of symptom occurrences and lung cancer cases
 symptom_counts = filtered_data.eq(2).sum()
@@ -109,12 +111,6 @@ fig2.update_layout(
     ),
     height=550  # Increase the height of the graph
 )
-
-st.plotly_chart(fig)
-
-
-
-
 
 # fig2 = go.Figure(data=[go.Pie(labels=['Cancer', 'Non-Cancer'],
 #                               values=[non_smoker_cancer_count, non_smoker_non_cancer_count],
