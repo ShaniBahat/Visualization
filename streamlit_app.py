@@ -130,6 +130,7 @@ st.plotly_chart(fig)
 ####### plot 3 
 
 st.subheader("Exploring Symptom Occurrences and Lung Cancer Cases")
+st.caption('Select the symptoms that you are interested in from the legend provided')
 
 pastel_colors = ['#B3BABA', '#C6CCCC', '#BADDDD', '#82C2C7', '#7DAEAE', '#5A9FA5',
                  '#539DA2', '#008F94', '#29838D', '#1B5C5F', '#526769', '#6E7377']
@@ -143,13 +144,13 @@ symptoms = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FA
             'CHEST PAIN']
 
 # Allow the user to select the symptoms
-selected_symptoms2 = st.multiselect('Select Symptoms', symptoms)
+selected_symptoms = st.multiselect('Select Symptoms', symptoms, key='symptom_multiselect')
 
 # Append 'SMOKING' to the selected symptoms list
-selected_symptoms2.append('SMOKING')
+selected_symptoms.append('SMOKING')
 
 # Filter the data to include only the selected symptoms
-filtered_data = data[selected_symptoms2]
+filtered_data = data[selected_symptoms]
 
 # Calculate the count of symptom occurrences and lung cancer cases
 symptom_counts = filtered_data.eq(2).sum()
