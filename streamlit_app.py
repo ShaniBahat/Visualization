@@ -45,6 +45,16 @@ fig1 = go.Figure(data=[go.Pie(labels=['Smoker', 'Non-Smoker'],
 fig1.update_traces(marker=dict(line=dict(color='#000000', width=2)))
 fig1.update_traces(marker=dict(colors=['#008f94', '#b3baba']))
 
+# Update the layout to position the pie plot in the middle
+fig1.update_layout(
+    legend=dict(
+        orientation="h",  # Set the orientation to horizontal
+        yanchor="bottom",  # Set the anchor point to the bottom
+        y=1.02,  # Adjust the y position
+        xanchor="center",  # Set the anchor point to the center
+        x=0.5  # Adjust the x position
+    )
+)
 
 ##### plot 1 - B
 
