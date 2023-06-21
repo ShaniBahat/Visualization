@@ -99,7 +99,7 @@ for i, symptom in enumerate(bubble_data['Symptom']):
         y=[bubble_data['Occurrences'][i]],
         mode='markers',
         marker=dict(
-            size=bubble_data['Cancer Cases'][i],  # Adjusted size based on the number of lung cancer cases
+            size=bubble_data['Cancer Cases'][i]*0.1,  # Adjusted size based on the number of lung cancer cases
             sizemode='area',
             sizeref=0.1,
             color=pastel_colors[i % len(pastel_colors)]  # Assign a different color for each symptom
@@ -107,7 +107,7 @@ for i, symptom in enumerate(bubble_data['Symptom']):
         name=symptom,
         hovertemplate='<b>%{x}</b><br><br>' +
                       'Total Symptom Count: %{y}<br>'+
-                      'Cancer Cases: %{marker.size}'
+                       'Number of Cancer Cases: ' + str(bubble_data['Cancer Cases'][i]
     ))
 
 # Customize the layout
