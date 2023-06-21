@@ -107,7 +107,8 @@ fig2.update_layout(
         title='Number of Occurrences',
         range=[0, 250],
         dtick=50  # Increase the distance between ticks on the Y-axis
-    ) #,
+    ),
+     showlegend=False  # Remove the legend
      # height=550  # Increase the height of the graph
 )
 
