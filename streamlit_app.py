@@ -43,6 +43,8 @@ fig1 = go.Figure(data=[go.Pie(labels=['Smoker', 'Non-Smoker'],
                               title_font=dict(size=16),
                               textfont=dict(size=12, color='black'))])
 fig1.update_traces(marker=dict(line=dict(color='#000000', width=2)))
+fig1.update_traces(marker=dict(colors=['#b3baba', '#008f94']))
+
 
 ##### plot 1 - B
 
@@ -112,18 +114,7 @@ fig2.update_layout(
      # height=550  # Increase the height of the graph
 )
 
-# fig2 = go.Figure(data=[go.Pie(labels=['Cancer', 'Non-Cancer'],
-#                               values=[non_smoker_cancer_count, non_smoker_non_cancer_count],
-#                               title='Non-Smokers',
-#                               hole=0.5,
-#                               title_font=dict(size=16),
-#                               textfont=dict(size=12, color='black'))])
 
-# fig2.update_traces(marker=dict(line=dict(color='#000000', width=2)))
-
-# Update the colors for the pie charts
-fig1.update_traces(marker=dict(colors=['#c6cccc', '#baddde']))
-# fig2.update_traces(marker=dict(colors=['#c6cccc', '#baddde']))
 
 # Display the pie charts side by side using Streamlit
 col1, col2 = st.columns(2)
@@ -206,7 +197,7 @@ fig = go.Figure()
 # Filter by gender for the graph
 gender_filter = st.selectbox("Filter by Gender", ['All', 'M', 'F'])
 
-colors = {'Non-Smoker': '#c6cccc', 'Smoker': '#baddde'}
+colors = {'Non-Smoker': '#b3baba', 'Smoker': '#008f94'}
 
 for smoking_type in grouped_df['SMOKING'].unique():
     temp_df = grouped_df[grouped_df['SMOKING'] == smoking_type]
