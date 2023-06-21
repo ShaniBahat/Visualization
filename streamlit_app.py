@@ -128,12 +128,8 @@ fig.add_trace(go.Scatter(
 st.plotly_chart(fig)
 
 ####### plot 3 
-import pandas as pd
-import plotly.graph_objects as go
-import streamlit as st
 
 st.subheader("Exploring Symptom Occurrences and Lung Cancer Cases")
-# st.caption('Select the symptoms that you are interested in from the legend provided')
 
 pastel_colors = ['#B3BABA', '#C6CCCC', '#BADDDD', '#82C2C7', '#7DAEAE', '#5A9FA5',
                  '#539DA2', '#008F94', '#29838D', '#1B5C5F', '#526769', '#6E7377']
@@ -147,7 +143,7 @@ symptoms = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FA
             'CHEST PAIN']
 
 # Allow the user to select the symptoms
-selected_symptoms = st.multiselect('Select Symptoms', symptoms)
+selected_symptoms = st.multiselect('Select Symptoms', symptoms, default=symptoms)
 
 # Filter the data to include only the selected symptoms
 filtered_data = data[selected_symptoms]
@@ -200,8 +196,6 @@ fig.update_layout(
 )
 
 st.plotly_chart(fig)
-
-
 ####### plot 4
 st.subheader('Distribution of Patients Based on Number of Symptoms')
 
