@@ -6,7 +6,7 @@ import plotly.express as px
 
 st.image("title for app.png")
 
-########## Plot 1
+########## Plot 1 - A
 # Load the data
 data_new = pd.read_csv('survey_lung_cancer.csv')
 data_new['SMOKING'] = data_new['SMOKING'].map({1: 'Non-Smoker', 2: 'Smoker'})
@@ -43,6 +43,79 @@ fig1 = go.Figure(data=[go.Pie(labels=['Smoker', 'Non-Smoker'],
                               textfont=dict(size=12, color='black'))])
 fig1.update_traces(marker=dict(line=dict(color='#000000', width=2)))
 
+##### plot 1 - B
+
+pastel_colors = ['#B3BABA', '#C6CCCC', '#BADDDD', '#82C2C7', '#7DAEAE', '#5A9FA5',
+                 '#539DA2', '#008F94', '#29838D', '#1B5C5F', '#526769', '#6E7377']
+
+# Load the data
+data = pd.read_csv('survey_lung_cancer.csv')
+
+# Define the list of symptoms
+symptoms = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FATIGUE ',
+            'ALLERGY ', 'WHEEZING', 'COUGHING', 'SHORTNESS OF BREATH', 'SWALLOWING DIFFICULTY',
+            'CHEST PAIN']
+
+# Allow the user to select the symptoms
+selected_symptoms = st.multiselect('Select Symptoms', symptoms, key='symptom_multiselect')
+
+# Append 'SMOKING' to the selected symptoms list
+selected_symptoms.append('SMOKING')
+
+# Filter the data to include only the selected symptoms
+filtered_data = data[selected_symptoms]
+
+# Calculate the count of symptom occurrences and lung cancer cases
+symptom_counts = filtered_data.eq(2).sum()
+lung_cancer_counts = filtered_data[data['LUNG_CANCER'] == 'YES'].eq(2).sum()
+
+# Create a DataFrame for the bubble chart
+bubble_data = pd.DataFrame({
+    'Symptom': symptom_counts.index,
+    'Occurrences': symptom_counts.values,
+    'Cancer Cases': lung_cancer_counts.values
+})
+
+# Create the Bubble Chart with custom colors and size
+fig2 = go.Figure()
+
+for i, symptom in enumerate(bubble_data['Symptom']):
+    fig.add_trace(go.Scatter(
+        x=[symptom],
+        y=[bubble_data['Occurrences'][i]],
+        mode='markers',
+        marker=dict(
+            size=bubble_data['Cancer Cases'][i] * 0.17,  # Adjusted size based on the number of lung cancer cases
+            sizemode='area',
+            sizeref=0.1,
+            color=pastel_colors[i % len(pastel_colors)]  # Assign a different color for each symptom
+        ),
+        name=symptom,
+        hovertemplate='<b>%{x}</b><br><br>' +
+                      'Total Symptom Count: %{y}<br>'
+    ))
+
+# Customize the layout
+fig2.update_layout(
+    xaxis=dict(
+        tickangle=45,
+        tickfont=dict(size=10),
+        title='Symptom'
+    ),
+    yaxis=dict(
+        title='Number of Occurrences',
+        range=[0, 250],
+        dtick=50  # Increase the distance between ticks on the Y-axis
+    ),
+    height=550  # Increase the height of the graph
+)
+
+st.plotly_chart(fig)
+
+
+
+
+
 # fig2 = go.Figure(data=[go.Pie(labels=['Cancer', 'Non-Cancer'],
 #                               values=[non_smoker_cancer_count, non_smoker_non_cancer_count],
 #                               title='Non-Smokers',
@@ -57,9 +130,9 @@ fig1.update_traces(marker=dict(colors=['#c6cccc', '#baddde']))
 # fig2.update_traces(marker=dict(colors=['#c6cccc', '#baddde']))
 
 # Display the pie charts side by side using Streamlit
-# col1, col2 = st.columns(2)
-st.plotly_chart(fig1, use_container_width=True)
-# col2.plotly_chart(fig2, use_container_width=True)
+col1, col2 = st.columns(2)
+col1.plotly_chart(fig1, use_container_width=True)
+col2.plotly_chart(fig2, use_container_width=True)
 
 #####################################################
 
