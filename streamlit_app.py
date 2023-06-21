@@ -128,7 +128,7 @@ fig2.update_layout(
 
 
 # Display the pie charts side by side using Streamlit
-col1, col2,col3 = st.columns([1,0.1,1])
+col1, col2,col3 = st.columns([1,0.1,0.8])
 col1.plotly_chart(fig2, use_container_width=True)
 col3.plotly_chart(fig1, use_container_width=True)
 
