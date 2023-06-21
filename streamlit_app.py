@@ -106,13 +106,14 @@ for i, symptom in enumerate(bubble_data['Symptom']):
         ),
         name=symptom,
         hovertemplate='<b>%{x}</b><br><br>' +
-                      'Total Symptom Count: %{y}<br>'
+                      'Total Symptom Count: %{y}<br>'+
+                      'Cancer Cases: %{marker.size}'
     ))
 
 # Customize the layout
 fig2.update_layout(
     xaxis=dict(
-        tickangle=90,
+        tickangle=50,
         tickfont=dict(size=10),
         title='Symptom'
     ),
