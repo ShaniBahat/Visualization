@@ -5,8 +5,7 @@ import plotly.express as px
 
 
 st.image("title for app.png")
-st.text('The following visualization aims to highlight the impact of smoking on lung cancer\n\nThe graphs presented below describes the correlation between smoking and different\nsymptoms, as well as how this relationship varies based on age and gender.')
-        
+
 ########## Plot 1
 # Load the data
 data_new = pd.read_csv('survey_lung_cancer.csv')
@@ -28,43 +27,39 @@ data_new['symptom_count'] = data_new[selected_symptoms].sum(axis=1)
 # Filter the data to include only rows with a symptom count of 2
 filtered_data = data_new[data_new['symptom_count'] == len(selected_symptoms)*2]
 
-# Separate data for smokers and non-smokers
-smokers_data = filtered_data[filtered_data['SMOKING'] == 'Smoker']
-non_smokers_data = filtered_data[filtered_data['SMOKING'] == 'Non-Smoker']
+# Separate data for cancer and non-cancer
+cancer_data = filtered_data[filtered_data['LUNG_CANCER'] == 'YES']
 
 # Calculate the count of cancer and non-cancer cases for smokers
-smoker_cancer_count = smokers_data[smokers_data['LUNG_CANCER'] == 'YES'].shape[0]
-smoker_non_cancer_count = smokers_data[smokers_data['LUNG_CANCER'] == 'NO'].shape[0]
+non_smoker_cancer_count = cancer_data[cancer_data['LUNG_CANCER'] == 'Non-Smoker'].shape[0]
+smoker__cancer_count = cancer_data[cancer_data['LUNG_CANCER'] == 'Smoker'].shape[0]
 
-# Calculate the count of cancer and non-cancer cases for non-smokers
-non_smoker_cancer_count = non_smokers_data[non_smokers_data['LUNG_CANCER'] == 'YES'].shape[0]
-non_smoker_non_cancer_count = non_smokers_data[non_smokers_data['LUNG_CANCER'] == 'NO'].shape[0]
 
-fig1 = go.Figure(data=[go.Pie(labels=['Cancer', 'Non-Cancer'],
-                              values=[smoker_cancer_count, smoker_non_cancer_count],
-                              title='Smokers',
+fig1 = go.Figure(data=[go.Pie(labels=['Smoker', 'Non-Smoker'],
+                              values=[smoker__cancer_count, non_smoker_cancer_count],
+                              title='Cncer Cases',
                               hole=0.5,
                               title_font=dict(size=16),
                               textfont=dict(size=12, color='black'))])
 fig1.update_traces(marker=dict(line=dict(color='#000000', width=2)))
 
-fig2 = go.Figure(data=[go.Pie(labels=['Cancer', 'Non-Cancer'],
-                              values=[non_smoker_cancer_count, non_smoker_non_cancer_count],
-                              title='Non-Smokers',
-                              hole=0.5,
-                              title_font=dict(size=16),
-                              textfont=dict(size=12, color='black'))])
+# fig2 = go.Figure(data=[go.Pie(labels=['Cancer', 'Non-Cancer'],
+#                               values=[non_smoker_cancer_count, non_smoker_non_cancer_count],
+#                               title='Non-Smokers',
+#                               hole=0.5,
+#                               title_font=dict(size=16),
+#                               textfont=dict(size=12, color='black'))])
 
-fig2.update_traces(marker=dict(line=dict(color='#000000', width=2)))
+# fig2.update_traces(marker=dict(line=dict(color='#000000', width=2)))
 
 # Update the colors for the pie charts
 fig1.update_traces(marker=dict(colors=['#c6cccc', '#baddde']))
-fig2.update_traces(marker=dict(colors=['#c6cccc', '#baddde']))
+# fig2.update_traces(marker=dict(colors=['#c6cccc', '#baddde']))
 
 # Display the pie charts side by side using Streamlit
 col1, col2 = st.columns(2)
 col1.plotly_chart(fig1, use_container_width=True)
-col2.plotly_chart(fig2, use_container_width=True)
+# col2.plotly_chart(fig2, use_container_width=True)
 
 #####################################################
 
