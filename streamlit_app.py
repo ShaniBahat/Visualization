@@ -144,9 +144,9 @@ symptoms = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FA
 
 # Allow the user to select the symptoms
 selected_symptoms = st.multiselect('Select Symptoms', symptoms) # , default=symptoms
-
+selected_symptoms.append('SMOKING')
 # Filter the data to include only the selected symptoms
-filtered_data = data[selected_symptoms+'SMOKING']
+filtered_data = data[selected_symptoms]
 
 # Calculate the count of symptom occurrences and lung cancer cases
 symptom_counts = filtered_data.eq(2).sum()
