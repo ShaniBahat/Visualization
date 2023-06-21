@@ -31,8 +31,8 @@ filtered_data = data_new[data_new['symptom_count'] == len(selected_symptoms)*2]
 cancer_data = filtered_data[filtered_data['LUNG_CANCER'] == 'YES']
 
 # Calculate the count of cancer and non-cancer cases for smokers
-non_smoker_cancer_count = cancer_data[cancer_data['LUNG_CANCER'] == 'Non-Smoker'].shape[0]
-smoker__cancer_count = cancer_data[cancer_data['LUNG_CANCER'] == 'Smoker'].shape[0]
+non_smoker_cancer_count = cancer_data[cancer_data['SMOKING'] == 'Non-Smoker'].shape[0]
+smoker__cancer_count = cancer_data[cancer_data['SMOKING'] == 'Smoker'].shape[0]
 
 
 fig1 = go.Figure(data=[go.Pie(labels=['Smoker', 'Non-Smoker'],
