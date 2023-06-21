@@ -91,7 +91,7 @@ for i, symptom in enumerate(bubble_data['Symptom']):
             sizemode='area',
             sizeref=0.1,
             color=pastel_colors[i % len(pastel_colors)]  # Assign a different color for each symptom
-        )
+        ),
         hovertemplate='<b>%{x}</b><br><br>' +
                       'Total Symptom Count: %{y}<br>'
     ))
