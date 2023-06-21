@@ -17,6 +17,8 @@ symptoms = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FA
             'CHEST PAIN']
 
 st.subheader("Symptom-Based Analysis of Lung Cancer")
+st.subheader("Exploring the Effects of Smoking on Lung Cancer")
+
 
 # Filter the data based on selected symptoms
 selected_symptoms = st.multiselect('Select Symptoms', symptoms, key='symptom_multiselect')
