@@ -64,7 +64,7 @@ symptoms = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FA
 
 # Append 'SMOKING' to the selected symptoms list
 selected_symptoms2 = selected_symptoms
-selected_symptoms2.append('SMOKING')
+# selected_symptoms2.append('SMOKING')
 
 # Filter the data to include only the selected symptoms
 filtered_data = data[selected_symptoms2]
