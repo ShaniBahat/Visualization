@@ -16,7 +16,7 @@ symptoms = ['YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC DISEASE', 'FA
             'ALLERGY ', 'WHEEZING', 'COUGHING', 'SHORTNESS OF BREATH', 'SWALLOWING DIFFICULTY',
             'CHEST PAIN']
 
-st.subheader("Symptom-Based Analysis of Lung Cancer: Comparing Smokers and Non-Smokers")
+st.subheader("Symptom-Based Analysis of Lung Cancer")
 
 # Filter the data based on selected symptoms
 selected_symptoms = st.multiselect('Select Symptoms', symptoms, key='symptom_multiselect')
@@ -46,7 +46,7 @@ fig1.update_traces(marker=dict(line=dict(color='#000000', width=2)))
 fig1.update_traces(marker=dict(colors=['#008f94', '#b3baba']))
 
 # Update the layout to position the pie plot in the middle
-fig1.update_layout(
+fig1.update_layout(title="Comparing Smokers and Non-Smokers",
     legend=dict(
         orientation="h",  # Set the orientation to horizontal
         yanchor="bottom",  # Set the anchor point to the bottom
@@ -112,6 +112,7 @@ for i, symptom in enumerate(bubble_data['Symptom']):
 
 # Customize the layout
 fig2.update_layout(
+    title="Symptom Occurrences and Lung Cancer Cases",
     xaxis=dict(
         tickangle=50,
         tickfont=dict(size=10),
