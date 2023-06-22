@@ -147,7 +147,6 @@ data['SMOKING'] = data['SMOKING'].map({1: 'Non-Smoker', 2: 'Smoker'})
 data['Symptom Count'] = data.iloc[:, 3:14].apply(lambda x: x.eq(2).sum(), axis=1)
 
 # Group the data by 'Symptom Count', 'SMOKING', and 'GENDER' and calculate the count of people
-data = data[data['LUNG_CANCER'] == 'YES']
 grouped_df = data.groupby(['Symptom Count', 'SMOKING', 'GENDER']).size().reset_index(name='Number of People')
 
 st.subheader('Lung Cancer Cases by Age Group: Comparison of Smoking Status')
