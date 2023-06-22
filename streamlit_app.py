@@ -165,7 +165,7 @@ for smoking_type in df['SMOKING'].unique():
     
     fig.add_trace(go.Scatter(
         x=temp_df['Age Group'],
-        y=temp_df['Number of Cases'],
+        y=temp_df['Number of Lung Cancer Cases'],
         mode='lines+markers',
         name=smoking_type,
         opacity=0.8,
