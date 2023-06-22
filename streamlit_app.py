@@ -155,7 +155,7 @@ st.subheader('Lung Cancer Cases by Age Group: Comparison of Smoking Status')
 fig = go.Figure()
 
 data1 = data[data['LUNG_CANCER'] == 'YES']
-df = data1.groupby(['Age Group', 'SMOKING']).size().reset_index(name='Number of Lung Cancer Cases')
+df = data1.groupby(['Age Group', 'SMOKING']).size().reset_index(name='Number of Cases')
 
 
 colors = {'Non-Smoker': '#b3baba', 'Smoker': '#008f94'}
@@ -165,7 +165,7 @@ for smoking_type in df['SMOKING'].unique():
     
     fig.add_trace(go.Scatter(
         x=temp_df['Age Group'],
-        y=temp_df['Number of Lung Cancer Cases'],
+        y=temp_df['Number of Cases'],
         mode='lines+markers',
         name=smoking_type,
         opacity=0.8,
@@ -176,7 +176,7 @@ for smoking_type in df['SMOKING'].unique():
 # Update the layout
 fig.update_layout(
     xaxis_title='Age Group',
-    yaxis_title='Number of Cases',
+    yaxis_title='Number of Lung Cancer Cases',
     legend=dict(title='Smoking Status')
 )
 
