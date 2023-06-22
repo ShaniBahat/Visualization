@@ -154,7 +154,9 @@ st.subheader('Lung Cancer Cases by Age Group: Comparison of Smoking Status')
 # Create the Plotly figure
 fig = go.Figure()
 
-df = data.groupby(['Age Group', 'SMOKING']).size().reset_index(name='Number of Cases')
+data1 = data[data['LUNG_CANCER'] == 'YES']
+df = data1.groupby(['Age Group', 'SMOKING']).size().reset_index(name='Number of Cases')
+
 
 colors = {'Non-Smoker': '#b3baba', 'Smoker': '#008f94'}
 
